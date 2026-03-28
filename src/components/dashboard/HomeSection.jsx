@@ -1,50 +1,44 @@
 import React, { useEffect, useRef, useState } from "react";
 import Choices from "choices.js";
 import "choices.js/public/assets/styles/choices.min.css";
-import api from "../../services/api";
+import { useBuses } from "../../../src/hooks/useBuses";
+import { useRoutes } from "../../../src/hooks/useRoutes";
 
 const HomeSection = () => {
 	const desktopFromRef = useRef(null);
 	const desktopToRef = useRef(null);
 	const mobileFromRef = useRef(null);
 	const mobileToRef = useRef(null);
-
 	const choicesInstances = useRef({});
 
-	const [buses, setBuses] = useState(null);
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState("");
+	const {
+		buses,
+		loading: busesLoading,
+		error: busesError,
+		searchBuses,
+	} = useBuses();
+	const {
+		stations,
+		loading: stationsLoading,
+		error: stationsError,
+		loadAllDependencies,
+	} = useRoutes();
+
+	useEffect(() => {
+		loadAllDependencies();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	useEffect(() => {
 		let isMounted = true;
 
-		const fetchStations = async () => {
-			try {
-				const res = await api.get("/stations");
-				const routesArray = Array.isArray(res) ? res : res.data || [];
-
-				const choicesOptions = routesArray.map((r) => ({
-					value: String(r.id || r.code),
-					label: `<span class="badge bg-primary">${String(r.code)
-						.substring(0, 3)
-						.toUpperCase()}</span> ${r.name || r.code} <small class="text-muted"></small>`,
-				}));
-
-				if (isMounted) {
-					initAllChoices(choicesOptions);
-				}
-			} catch (err) {
-				console.error("Failed to load stations", err);
-				if (isMounted) {
-					initAllChoices([]);
-					setError("Failed to fetch stations. Showing offline layout.");
-				}
-			}
-		};
-
 		const initAllChoices = (data) => {
 			const initChoices = (ref, id) => {
 				if (ref.current) {
+					// re-init prevention
+					if (choicesInstances.current[id]) {
+						choicesInstances.current[id].destroy();
+					}
 					const instance = new Choices(ref.current, {
 						searchEnabled: true,
 						shouldSort: false,
@@ -64,10 +58,26 @@ const HomeSection = () => {
 			initChoices(mobileToRef, "to-mobile");
 		};
 
-		fetchStations();
+		if (stations && stations.length > 0 && isMounted) {
+			const choicesOptions = stations.map((r) => ({
+				value: String(r.id || r.code),
+				label: `<span class="badge bg-primary">${String(r.code)
+					.substring(0, 3)
+					.toUpperCase()}</span> ${r.name || r.code} <small class="text-muted"></small>`,
+			}));
+			initAllChoices(choicesOptions);
+		} else if (stationsError) {
+			initAllChoices([]);
+		}
 
 		return () => {
 			isMounted = false;
+		};
+	}, [stations, stationsError]);
+
+	// Cleanup choices separately
+	useEffect(() => {
+		return () => {
 			Object.values(choicesInstances.current).forEach((instance) => {
 				if (instance) instance.destroy();
 			});
@@ -118,18 +128,7 @@ const HomeSection = () => {
 		const from = fromChoice ? fromChoice.value : "";
 		const to = toChoice ? toChoice.value : "";
 
-		setLoading(true);
-		setError("");
-		try {
-			const res = await api.get("/buses", { params: { from, to } });
-			setBuses(Array.isArray(res) ? res : res.data || []);
-		} catch (err) {
-			console.error("Failed to search buses", err);
-			setError(err.message || "Failed to search buses.");
-			setBuses([]);
-		} finally {
-			setLoading(false);
-		}
+		await searchBuses(from, to);
 	};
 
 	return (
@@ -147,18 +146,21 @@ const HomeSection = () => {
 				<div className="search-section-wrapper">
 					<div className="card search-card mb-4">
 						<div className="card-body p-3 p-md-4">
-							{error && (
+							{(busesError || stationsError) && (
 								<div className="alert alert-danger py-2 small mb-3">
-									{error}
+									{busesError || stationsError}
 								</div>
 							)}
 							<div className="d-none d-md-flex row g-3 align-items-center">
 								<div className="col">
-									<label className="small fw-bold text-muted mb-1">From</label>
+									<label className="small fw-bold text-muted mb-1">
+										{stationsLoading ? "Loading Stations..." : "From"}
+									</label>
 									<select
 										id="from-desktop"
 										className="choice-select"
 										ref={desktopFromRef}
+										disabled={stationsLoading}
 									></select>
 								</div>
 								<div className="col-auto pt-4">
@@ -167,6 +169,7 @@ const HomeSection = () => {
 										className="btn btn-swap-creative shadow-sm"
 										data-view="desktop"
 										onClick={() => handleSwap("desktop")}
+										disabled={stationsLoading}
 									>
 										<i className="bi bi-arrow-left-right"></i>
 									</button>
@@ -177,6 +180,7 @@ const HomeSection = () => {
 										id="to-desktop"
 										className="choice-select"
 										ref={desktopToRef}
+										disabled={stationsLoading}
 									></select>
 								</div>
 								<div className="col-auto pt-4">
@@ -184,15 +188,20 @@ const HomeSection = () => {
 										type="button"
 										className="btn btn-primary px-5 fw-bold h-100 rounded-3"
 										onClick={() => handleSearch("desktop")}
-										disabled={loading}
+										disabled={busesLoading || stationsLoading}
 									>
-										{loading ? "..." : "SEARCH"}
+										{busesLoading ? "..." : "SEARCH"}
 									</button>
 								</div>
 							</div>
 
 							<div className="d-block d-md-none" id="mobile-inputs">
 								<div className="journey-inputs-container">
+									{stationsLoading && (
+										<div className="small text-muted mb-2 text-center">
+											Loading stations...
+										</div>
+									)}
 									<div className="d-flex flex-column gap-2">
 										<div className="position-relative">
 											<span className="stop-dot start"></span>
@@ -217,6 +226,7 @@ const HomeSection = () => {
 										className="btn btn-swap-floating shadow-sm"
 										data-view="mobile"
 										onClick={() => handleSwap("mobile")}
+										disabled={stationsLoading}
 									>
 										<i className="bi bi-arrow-down-up"></i>
 									</button>
@@ -225,9 +235,9 @@ const HomeSection = () => {
 									type="button"
 									className="btn btn-primary w-100 py-3 mt-3 fw-bold shadow-sm"
 									onClick={() => handleSearch("mobile")}
-									disabled={loading}
+									disabled={busesLoading || stationsLoading}
 								>
-									{loading ? "SEARCHING..." : "FIND BUS"}
+									{busesLoading ? "SEARCHING..." : "FIND BUS"}
 								</button>
 							</div>
 						</div>
@@ -237,7 +247,7 @@ const HomeSection = () => {
 				<div className="results-section py-2 pb-4 mb-5">
 					<div className="row g-3">
 						<div className="col-12">
-							{loading && (
+							{busesLoading && (
 								<div className="text-center py-5">
 									<div className="spinner-border text-primary" role="status">
 										<span className="visually-hidden">Loading...</span>
@@ -245,14 +255,14 @@ const HomeSection = () => {
 								</div>
 							)}
 
-							{!loading && buses !== null && buses.length === 0 && (
+							{!busesLoading && buses !== null && buses.length === 0 && (
 								<div className="text-center py-5">
 									<i className="bi bi-bus-front text-muted fs-1"></i>
 									<p className="text-muted mt-2 fw-bold">No buses found</p>
 								</div>
 							)}
 
-							{!loading &&
+							{!busesLoading &&
 								buses?.map((bus, idx) => (
 									<div key={idx} className="bus-card card shadow-sm">
 										<div className="card-body p-3 p-md-4">
@@ -310,7 +320,7 @@ const HomeSection = () => {
 									</div>
 								))}
 
-							{buses === null && !loading && (
+							{buses === null && !busesLoading && (
 								<div className="text-center py-5">
 									<p className="text-muted opacity-50 small fw-bold">
 										Select destinations to explore bus timings

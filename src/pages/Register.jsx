@@ -4,16 +4,21 @@ import { useAuth } from "../context/AuthContext";
 
 const Register = ({ navigateTo }) => {
 	const { register } = useAuth();
-	const [name, setName] = useState("safvan");
-	const [phone, setPhone] = useState("7560838394");
-	const [pin, setPin] = useState("123456");
-	const [cpin, setCpin] = useState("123456");
+	const [name, setName] = useState("");
+	const [phone, setPhone] = useState("");
+	const [pin, setPin] = useState("");
+	const [cpin, setCpin] = useState("");
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState("");
+	const [success, setSuccess] = useState("");
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setError("");
+		setSuccess("");
+
 		if (pin !== cpin) {
-			alert("PINs do not match!");
+			setError("PINs do not match!");
 			return;
 		}
 
@@ -21,10 +26,12 @@ const Register = ({ navigateTo }) => {
 
 		try {
 			await register({ name, phone, pin, confirm_pin: cpin });
-			alert("Account created! Please login.");
-			navigateTo("login");
-		} catch (error) {
-			alert(error.message);
+			setSuccess("Account created successfully!");
+			setTimeout(() => {
+				navigateTo("login");
+			}, 2000);
+		} catch (err) {
+			setError(err.message || "Failed to create account.");
 		} finally {
 			setLoading(false);
 		}
@@ -33,6 +40,12 @@ const Register = ({ navigateTo }) => {
 	return (
 		<AuthLayout titleText="Create Account" subText="Join as a new partner">
 			<div className="login-card">
+				{error && (
+					<div className="alert alert-danger py-2 small mb-3">{error}</div>
+				)}
+				{success && (
+					<div className="alert alert-success py-2 small mb-3">{success}</div>
+				)}
 				<form onSubmit={handleSubmit}>
 					<div className="mb-3">
 						<label className="form-label">Full Name</label>
@@ -43,6 +56,7 @@ const Register = ({ navigateTo }) => {
 							required
 							value={name}
 							onChange={(e) => setName(e.target.value)}
+							disabled={loading}
 						/>
 					</div>
 					<div className="mb-3">
@@ -62,6 +76,7 @@ const Register = ({ navigateTo }) => {
 								required
 								value={phone}
 								onChange={(e) => setPhone(e.target.value)}
+								disabled={loading}
 							/>
 						</div>
 					</div>
@@ -76,6 +91,7 @@ const Register = ({ navigateTo }) => {
 								required
 								value={pin}
 								onChange={(e) => setPin(e.target.value)}
+								disabled={loading}
 							/>
 						</div>
 						<div className="col-6">
@@ -88,6 +104,7 @@ const Register = ({ navigateTo }) => {
 								required
 								value={cpin}
 								onChange={(e) => setCpin(e.target.value)}
+								disabled={loading}
 							/>
 						</div>
 					</div>
@@ -108,7 +125,7 @@ const Register = ({ navigateTo }) => {
 								href="#"
 								onClick={(e) => {
 									e.preventDefault();
-									navigateTo("login");
+									if (!loading) navigateTo("login");
 								}}
 								className="text-primary text-decoration-none fw-bold"
 							>

@@ -1,29 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import api from "../../services/api";
+import { useProfile } from "../../../src/hooks/useProfile";
 
 const ProfileSection = ({ navigateTo }) => {
 	const { logout } = useAuth();
-	const [profile, setProfile] = useState(null);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState("");
+	const { profile, loading, error, fetchProfile } = useProfile();
 
 	useEffect(() => {
-		const fetchProfile = async () => {
-			setLoading(true);
-			setError("");
-			try {
-				const res = await api.get("/user/me");
-				setProfile(res.data || res || {});
-			} catch (err) {
-				console.error("Failed to load profile", err);
-				setError(err.message || "Failed to load profile.");
-			} finally {
-				setLoading(false);
-			}
-		};
-
 		fetchProfile();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const handleLogout = () => {
@@ -32,9 +17,9 @@ const ProfileSection = ({ navigateTo }) => {
 	};
 
 	const getTrustStyle = (level) => {
-		if (level == "high") return { color: "#198754" };
-		if (level == "medium") return { color: "#0d6efd" };
-		if (level == "low") return { color: "#dc3545" };
+		if (level === "high") return { color: "#198754" };
+		if (level === "medium") return { color: "#0d6efd" };
+		if (level === "low") return { color: "#dc3545" };
 		return { color: "#ffc107" };
 	};
 

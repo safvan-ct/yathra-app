@@ -1,32 +1,17 @@
-import React, { useState, useEffect } from "react";
-import api from "../../services/api";
+import React, { useEffect } from "react";
+import { useContributions } from "../../../src/hooks/useContributions";
 
 const HistorySection = ({ setActiveSection }) => {
-	const [history, setHistory] = useState([]);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState("");
+	const { history, loading, error, fetchHistory } = useContributions();
 
 	useEffect(() => {
-		const fetchHistory = async () => {
-			setLoading(true);
-			setError("");
-			try {
-				const res = await api.get("/contributions");
-				setHistory(Array.isArray(res) ? res : res.data || []);
-			} catch (err) {
-				console.error("Failed to load history", err);
-				setError(err.message || "Failed to log history.");
-			} finally {
-				setLoading(false);
-			}
-		};
-
 		fetchHistory();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
 		<div id="section-history" className="app-section active">
-			<div className="dashboard-container py-4">
+			<div className="dashboard-container py-4 mb-5">
 				<div className="row">
 					<div className="col-lg-8 mx-auto">
 						<div className="card border-0 shadow-sm rounded-4 overflow-hidden">

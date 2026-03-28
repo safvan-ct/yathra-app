@@ -1,38 +1,27 @@
 import React, { useState, useEffect } from "react";
-import api from "../../services/api";
+import { useRoutes } from "../../../src/hooks/useRoutes";
+import { useBuses } from "../../../src/hooks/useBuses";
+import { useContributions } from "../../../src/hooks/useContributions";
 
 const ContributeSection = () => {
 	const [type, setType] = useState(null); // 'bus', 'station', 'route', 'stop', 'trip'
 	const [form, setForm] = useState({});
-	const [loading, setLoading] = useState(false);
-	const [success, setSuccess] = useState(false);
-	const [error, setError] = useState("");
 
-	// Data stores for dropdowns
-	const [routes, setRoutes] = useState([]);
-	const [buses, setBuses] = useState([]);
-	const [stations, setStations] = useState([]);
+	const { routes, stations, loadAllDependencies } = useRoutes();
+	const { buses, getAllBuses } = useBuses();
+	const {
+		submitLoading: loading,
+		error,
+		success,
+		setSuccess,
+		setError,
+		submitContribution,
+	} = useContributions();
 
 	useEffect(() => {
-		const loadDependencies = async () => {
-			try {
-				const [resRoutes, resBuses, resStations] = await Promise.all([
-					api.get("/routes").catch(() => []),
-					api.get("/buses").catch(() => []),
-					api.get("/stations").catch(() => []),
-				]);
-
-				setRoutes(Array.isArray(resRoutes) ? resRoutes : resRoutes?.data || []);
-				setBuses(Array.isArray(resBuses) ? resBuses : resBuses?.data || []);
-				setStations(
-					Array.isArray(resStations) ? resStations : resStations?.data || [],
-				);
-			} catch (err) {
-				console.error("Failed to load form dependencies:", err);
-			}
-		};
-
-		loadDependencies();
+		loadAllDependencies();
+		getAllBuses();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const switchContribution = (selectedType) => {
@@ -51,9 +40,9 @@ const ContributeSection = () => {
 	};
 
 	const handleChange = (e) => {
-		const { name, value, type, checked } = e.target;
+		const { name, value, type: inputType, checked } = e.target;
 
-		if (type === "checkbox") {
+		if (inputType === "checkbox") {
 			setForm((prev) => {
 				const currentArr = prev[name] || [];
 				if (checked) {
@@ -72,22 +61,12 @@ const ContributeSection = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setError("");
-		setSuccess(false);
-		setLoading(true);
-
-		try {
-			await api.post(`/contribute/${type}`, form);
-			setSuccess(true);
+		const saved = await submitContribution(type, form);
+		if (saved) {
 			setForm({});
 			setTimeout(() => {
 				goBackToMenu();
 			}, 2000);
-		} catch (err) {
-			console.error(`Failed to submit ${type}:`, err);
-			setError(err.message || "Failed to submit contribution.");
-		} finally {
-			setLoading(false);
 		}
 	};
 
@@ -398,7 +377,7 @@ const ContributeSection = () => {
 										disabled={loading}
 									>
 										<option value="">Choose existing route...</option>
-										{routes.map((r, i) => (
+										{routes?.map((r, i) => (
 											<option key={i} value={r.id || r.name}>
 												{r.name || r.label || `Route ${r.id}`}
 											</option>
@@ -477,7 +456,7 @@ const ContributeSection = () => {
 											disabled={loading}
 										>
 											<option value="">Choose bus...</option>
-											{buses.map((b, i) => (
+											{buses?.map((b, i) => (
 												<option key={i} value={b.id || b.name}>
 													{b.name || b.bus_name || `Bus ${b.id}`}
 												</option>
@@ -495,7 +474,7 @@ const ContributeSection = () => {
 											disabled={loading}
 										>
 											<option value="">Choose route...</option>
-											{routes.map((r, i) => (
+											{routes?.map((r, i) => (
 												<option key={i} value={r.id || r.name}>
 													{r.name || r.label || `Route ${r.id}`}
 												</option>
@@ -593,7 +572,9 @@ const ContributeSection = () => {
 			<div className="dashboard-container py-3 pb-5 mb-5">
 				<div className="text-center">
 					<h2 className="fw-800 mb-1">Contribute Hub</h2>
-					<p className="text-muted mb-1">Select a category to share information</p>
+					<p className="text-muted mb-1">
+						Select a category to share information
+					</p>
 				</div>
 
 				{success && (

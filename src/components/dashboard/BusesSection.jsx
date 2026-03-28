@@ -1,32 +1,17 @@
-import React, { useState, useEffect } from "react";
-import api from "../../services/api";
+import React, { useEffect } from "react";
+import { useRoutes } from "../../../src/hooks/useRoutes";
 
 const BusesSection = () => {
-	const [routes, setRoutes] = useState([]);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState("");
+	const { routes, loading, error, getRoutes } = useRoutes();
 
 	useEffect(() => {
-		const fetchRoutes = async () => {
-			setLoading(true);
-			setError("");
-			try {
-				const res = await api.get("/routes");
-				setRoutes(Array.isArray(res) ? res : res.data || []);
-			} catch (err) {
-				console.error("Failed to load routes", err);
-				setError(err.message || "Failed to load routes.");
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		fetchRoutes();
+		getRoutes();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
 		<div id="section-buses" className="app-section active">
-			<div className="dashboard-container py-4">
+			<div className="dashboard-container py-4 mb-5">
 				<div className="d-flex justify-content-between align-items-center mb-4">
 					<h3 className="fw-800 mb-0">Explore Routes</h3>
 					<span className="badge bg-white text-primary shadow-sm px-3 py-2 rounded-pill">

@@ -1,134 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import AuthLayout from "../components/AuthLayout";
 import { useAuth } from "../context/AuthContext";
-import OTPInput from "../components/OTPInput";
 
 const ForgotPin = ({ navigateTo }) => {
-	const { sendOtp, verifyOtp, setOtpData } = useAuth();
-	const [phone, setPhone] = useState("7560838394");
+	const { sendOtp, setOtpData } = useAuth();
+	const [phone, setPhone] = useState("");
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState("");
 
-	// UI States: 'request' | 'otp'
-	const [step, setStep] = useState("request");
-	const [timeLeft, setTimeLeft] = useState(30);
-
-	useEffect(() => {
-		if (step === "otp") {
-			setTimeLeft(30);
-			const interval = setInterval(() => {
-				setTimeLeft((prev) => {
-					if (prev <= 1) {
-						clearInterval(interval);
-						return 0;
-					}
-					return prev - 1;
-				});
-			}, 1000);
-			return () => clearInterval(interval);
-		}
-	}, [step]);
-
-	const handleForgotRequest = async (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
+		setError("");
+
 		try {
 			await sendOtp(phone);
-			setStep("otp");
-		} catch (error) {
-			alert(error.message);
-		} finally {
-			setLoading(false);
-		}
-	};
-
-	const handleOTPComplete = async (code) => {
-		setLoading(true);
-		try {
-			await verifyOtp({ phone, otp: code });
-			setOtpData({ phone, otp: code });
+			setOtpData({ phone, otp: null });
+			// We just push phone to state. ResetPin will ask for OTP.
 			navigateTo("resetPin");
-		} catch (error) {
-			alert(error);
+		} catch (err) {
+			setError(err.message || "Failed to send OTP.");
 		} finally {
 			setLoading(false);
 		}
 	};
-
-	const handleResend = async (e) => {
-		e.preventDefault();
-		if (timeLeft > 0) return;
-		setLoading(true);
-		try {
-			await sendOtp(phone);
-			setTimeLeft(30);
-		} catch (error) {
-			alert(error.message);
-		} finally {
-			setLoading(false);
-		}
-	};
-
-	if (step === "otp") {
-		return (
-			<AuthLayout titleText="Verification" subText="Enter the 6-digit code">
-				<div className="login-card">
-					<div className="text-center mb-3">
-						<span className="badge bg-light text-primary p-2">
-							OTP sent to your mobile
-						</span>
-					</div>
-					{loading && (
-						<div className="text-center mb-2">
-							<span className="spinner-border spinner-border-sm text-primary"></span>
-						</div>
-					)}
-					<OTPInput length={6} onComplete={handleOTPComplete} />
-
-					<button
-						className="btn btn-primary-custom mt-4"
-						disabled={loading}
-						onClick={() =>
-							alert("Please type the 6-digit OTP above to continue")
-						}
-					>
-						Verify & Continue
-					</button>
-
-					<div className="text-center mt-3">
-						<p className="small text-muted mb-0">
-							Didn't receive code?{" "}
-							{timeLeft > 0 ? (
-								<span className="fw-bold small">
-									Resend in <span id="timer">{timeLeft}</span>s
-								</span>
-							) : (
-								<a
-									href="#"
-									onClick={handleResend}
-									className="text-primary text-decoration-none fw-bold small"
-								>
-									Resend Now
-								</a>
-							)}
-						</p>
-					</div>
-					<button
-						type="button"
-						className="btn btn-link btn-sm w-100 mt-1 text-secondary text-decoration-none"
-						onClick={() => navigateTo("login")}
-						disabled={loading}
-					>
-						Cancel
-					</button>
-				</div>
-			</AuthLayout>
-		);
-	}
 
 	return (
-		<AuthLayout titleText="Reset PIN" subText="Enter mobile to receive OTP">
+		<AuthLayout titleText="Forgot PIN" subText="Enter mobile number to verify.">
 			<div className="login-card">
-				<form onSubmit={handleForgotRequest}>
+				{error && (
+					<div className="alert alert-danger py-2 small mb-3">{error}</div>
+				)}
+				<form onSubmit={handleSubmit}>
 					<div className="mb-4">
 						<label className="form-label">Registered Mobile</label>
 						<div className="input-group">
@@ -146,6 +49,7 @@ const ForgotPin = ({ navigateTo }) => {
 								required
 								value={phone}
 								onChange={(e) => setPhone(e.target.value)}
+								disabled={loading}
 							/>
 						</div>
 					</div>
@@ -156,16 +60,22 @@ const ForgotPin = ({ navigateTo }) => {
 								Please wait...
 							</>
 						) : (
-							"Send OTP"
+							"Get OTP"
 						)}
 					</button>
-					<button
-						type="button"
-						className="btn btn-link btn-sm w-100 mt-2 text-secondary text-decoration-none"
-						onClick={() => navigateTo("login")}
-					>
-						Back to Login
-					</button>
+
+					<div className="text-center mt-3">
+						<a
+							href="#"
+							onClick={(e) => {
+								e.preventDefault();
+								if (!loading) navigateTo("login");
+							}}
+							className="text-muted text-decoration-none small fw-bold"
+						>
+							<i className="bi bi-arrow-left me-1"></i> Back to Login
+						</a>
+					</div>
 				</form>
 			</div>
 		</AuthLayout>

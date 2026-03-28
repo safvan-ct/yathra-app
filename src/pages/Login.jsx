@@ -4,19 +4,21 @@ import { useAuth } from "../context/AuthContext";
 
 const Login = ({ navigateTo }) => {
 	const { login } = useAuth();
-	const [phone, setPhone] = useState("7560838394");
-	const [pin, setPin] = useState("123456");
+	const [phone, setPhone] = useState("");
+	const [pin, setPin] = useState("");
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState("");
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
+		setError("");
 
 		try {
 			await login(phone, pin);
 			navigateTo("dashboard");
-		} catch (error) {
-			alert(error.message);
+		} catch (err) {
+			setError(err.message || "Failed to login. Check credentials.");
 		} finally {
 			setLoading(false);
 		}
@@ -25,6 +27,9 @@ const Login = ({ navigateTo }) => {
 	return (
 		<AuthLayout titleText="Welcome Back" subText="Sign in to continue.">
 			<div className="login-card">
+				{error && (
+					<div className="alert alert-danger py-2 small mb-3">{error}</div>
+				)}
 				<form onSubmit={handleSubmit}>
 					<div className="mb-3">
 						<label className="form-label">Mobile Number</label>
@@ -43,6 +48,7 @@ const Login = ({ navigateTo }) => {
 								required
 								value={phone}
 								onChange={(e) => setPhone(e.target.value)}
+								disabled={loading}
 							/>
 						</div>
 					</div>
@@ -54,7 +60,7 @@ const Login = ({ navigateTo }) => {
 								href="#"
 								onClick={(e) => {
 									e.preventDefault();
-									navigateTo("forgotPin");
+									if (!loading) navigateTo("forgotPin");
 								}}
 								className="otp-link small"
 							>
@@ -69,6 +75,7 @@ const Login = ({ navigateTo }) => {
 							required
 							value={pin}
 							onChange={(e) => setPin(e.target.value)}
+							disabled={loading}
 						/>
 					</div>
 
@@ -89,7 +96,7 @@ const Login = ({ navigateTo }) => {
 								href="#"
 								onClick={(e) => {
 									e.preventDefault();
-									navigateTo("register");
+									if (!loading) navigateTo("register");
 								}}
 								className="text-primary text-decoration-none fw-bold"
 							>
