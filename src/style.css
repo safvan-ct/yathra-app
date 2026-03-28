@@ -70,6 +70,6 @@ body {
 }
 
 /* Fix for mobile modal depth */
-.choices {
+/* .choices {
     z-index: 1051 !important;
-}
+} */
