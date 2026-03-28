@@ -1,0 +1,75 @@
+:root {
+    --primary-gradient: linear-gradient(135deg, #0d6efd 0%, #0043a8 100%);
+    --glass-bg: rgba(255, 255, 255, 0.95);
+}
+
+body {
+    /* background-color: #f0f2f5; */
+    background-color: #f4f7f6;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    /* font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; */
+}
+
+.top-nav-tabs {
+    background: white;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* Navigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 0;
+    border-top: 1px solid #eee;
+    z-index: 1000;
+}
+
+.nav-item {
+    text-align: center;
+    color: #adb5bd;
+    text-decoration: none;
+    font-size: 0.75rem;
+}
+
+.nav-item.active {
+    color: #0d6efd;
+}
+
+.nav-item i {
+    font-size: 1.4rem;
+    display: block;
+}
+
+/* Customizing Choices.js to match your brand */
+.choices__inner {
+    border: 2px solid #f1f3f5 !important;
+    border-radius: 12px !important;
+    background-color: #f8f9fa !important;
+    min-height: 50px !important;
+    padding: 8px !important;
+}
+
+.choices__list--dropdown .choices__item--selectable.is-highlighted {
+    background: var(--primary-gradient) !important;
+    color: white !important;
+}
+
+.choices__list--single {
+    padding: 4px 16px 4px 4px !important;
+    font-size: 16px !important;
+    /* Prevents iOS Zoom */
+}
+
+/* Fix for mobile modal depth */
+.choices {
+    z-index: 1051 !important;
+}
