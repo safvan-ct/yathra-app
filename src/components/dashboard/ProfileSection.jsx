@@ -40,7 +40,7 @@ const ProfileSection = ({ navigateTo }) => {
 
 	return (
 		<div id="section-profile" className="app-section active">
-			<div className="dashboard-container py-5 mb-5">
+			<div className="dashboard-container py-2 mb-5">
 				<div className="row g-4">
 					<div className="col-md-4">
 						<div className="card border-0 rounded-4 shadow-sm p-4 text-center">
