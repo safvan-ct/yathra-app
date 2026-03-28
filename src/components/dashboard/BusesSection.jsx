@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { useRoutes } from "../../../src/hooks/useRoutes";
+import { useStations } from "../../hooks/useStations";
 
 const BusesSection = () => {
-	const { routes, loading, error, getRoutes } = useRoutes();
+	const { routes, loading, error, getRoutes } = useStations();
 
 	useEffect(() => {
 		getRoutes();

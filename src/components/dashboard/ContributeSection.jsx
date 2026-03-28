@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRoutes } from "../../../src/hooks/useRoutes";
+import { useStations } from "../../hooks/useStations";
 import { useBuses } from "../../../src/hooks/useBuses";
 import { useContributions } from "../../../src/hooks/useContributions";
 
@@ -7,7 +7,7 @@ const ContributeSection = () => {
 	const [type, setType] = useState(null); // 'bus', 'station', 'route', 'stop', 'trip'
 	const [form, setForm] = useState({});
 
-	const { routes, stations, loadAllDependencies } = useRoutes();
+	const { routes, stations, loadAllDependencies } = useStations();
 	const { buses, getAllBuses } = useBuses();
 	const {
 		submitLoading: loading,
