@@ -135,6 +135,17 @@ const HomeSection = () => {
 		}
 	};
 
+	const formatTime = (time) => {
+		if (!time) return "";
+
+		const [h, m] = time.split("h ");
+		const hours = parseInt(h);
+		const mins = parseInt(m);
+
+		if (hours === 0) return `${mins}m`;
+		return `${hours}h ${mins}m`;
+	};
+
 	return (
 		<div id="section-home" className="app-section active">
 			<div className="search-header text-center">
@@ -157,9 +168,7 @@ const HomeSection = () => {
 							)}
 							<div className="d-none d-md-flex row g-3 align-items-center">
 								<div className="col">
-									<label className="small fw-bold text-muted mb-1">
-										{stationsLoading ? "Loading Stations..." : "From"}
-									</label>
+									<label className="small fw-bold text-muted mb-1">From</label>
 									<select
 										id="from-desktop"
 										className="choice-select"
@@ -172,7 +181,7 @@ const HomeSection = () => {
 										className="btn btn-swap-creative shadow-sm"
 										data-view="desktop"
 										onClick={() => handleSwap("desktop")}
-										disabled={stationsLoading}
+										// disabled={stationsLoading}
 									>
 										<i className="bi bi-arrow-left-right"></i>
 									</button>
@@ -199,11 +208,6 @@ const HomeSection = () => {
 
 							<div className="d-block d-md-none" id="mobile-inputs">
 								<div className="journey-inputs-container">
-									{stationsLoading && (
-										<div className="small text-muted mb-2 text-center">
-											Loading stations...
-										</div>
-									)}
 									<div className="d-flex flex-column gap-2">
 										<div className="position-relative">
 											<span className="stop-dot start"></span>
@@ -228,7 +232,7 @@ const HomeSection = () => {
 										className="btn btn-swap-floating shadow-sm"
 										data-view="mobile"
 										onClick={() => handleSwap("mobile")}
-										disabled={stationsLoading}
+										// disabled={stationsLoading}
 									>
 										<i className="bi bi-arrow-down-up"></i>
 									</button>
@@ -265,131 +269,242 @@ const HomeSection = () => {
 							)}
 
 							{!busesLoading &&
-								buses?.map((bus, idx) => (
-									<div
-										className="bus-card card border-0 shadow-sm mb-3 position-relative overflow-hidden"
-										style={{ borderRadius: "1.25rem", background: "#ffffff" }}
-									>
-										{/* Subtle side accent instead of top bar */}
+								buses?.map((bus, idx) => {
+									const isRunningToday = bus.is_running_today == 1;
+									const items = [];
+
+									// 1. Push the standard Bus Card
+									items.push(
 										<div
-											className="position-absolute start-0 top-0 bottom-0 bg-primary"
-											style={{ width: "4px", opacity: 0.6 }}
-										></div>
+											key={`bus-${idx}`}
+											className={`bus-card card border-0 shadow-sm mb-3 position-relative overflow-hidden ${!isRunningToday ? "opacity-75 grayscale" : ""}`}
+											style={{
+												borderRadius: "0rem",
+												background: isRunningToday ? "#ffffff" : "#f8f9fa",
+												filter: isRunningToday
+													? "none"
+													: "grayscale(100%) brightness(0.85)",
+											}}
+										>
+											<div
+												className={`position-absolute start-0 top-0 bottom-0 ${isRunningToday ? "bg-primary" : "bg-secondary"}`}
+												style={{ width: "4px", opacity: 0.6 }}
+											></div>
 
-										<div className="card-body p-3">
-											<div className="row align-items-center g-0">
-												{/* 1. Brand Section: Minimalist & Clean */}
-												<div className="col-12 col-md-4 mb-3 mb-md-0">
-													<div className="d-flex align-items-center ps-2">
-														<div
-															className="d-flex align-items-center justify-content-center"
-															style={{
-																color:
-																	bus.bus_color?.toLowerCase() === "white"
-																		? "#aeafb3"
-																		: bus.bus_color,
-															}}
-														>
-															<i className="bi bi-bus-front fs-4"></i>
-														</div>
-														<div className="ms-3">
-															<h6 className="fw-bold text-dark mb-0 lh-1">
-																{bus.bus_name}
-															</h6>
-															<small
-																className="text-muted opacity-75 fw-medium"
-																style={{ fontSize: "0.7rem" }}
-															>
-																{bus.bus_number}
-															</small>
-														</div>
-													</div>
-												</div>
-
-												{/* 2. Timeline Section: Lightweight Journey Flow */}
-												<div className="col-12 col-md-8">
-													<div className="d-flex align-items-center">
-														{/* Departure */}
-														<div className="text-start">
-															<span className="d-block fw-800 text-primary fs-5">
-																{bus.departure_time}
-															</span>
-															<span
-																className="text-uppercase text-muted fw-bold"
-																style={{ fontSize: "0.6rem" }}
-															>
-																Depart
-															</span>
-														</div>
-
-														{/* Minimalist Path Line */}
-														<div className="flex-grow-1 px-4 position-relative d-flex flex-column align-items-center">
-															<div className="d-flex align-items-center w-100 justify-content-center">
-																{/* Start Point */}
+											<div className="card-body p-3">
+												<div className="row align-items-center g-0">
+													{/* Bus Branding & Speed Details Composite */}
+													<div className="col-12 col-md-5">
+														<div className="d-flex align-items-center ps-2 pe-3">
+															<div className="d-flex align-items-center flex-grow-1">
 																<div
-																	className="rounded-circle border border-primary"
-																	style={{ width: "7px", height: "7px" }}
-																></div>
+																	className="d-flex align-items-center justify-content-center"
+																	style={{
+																		color:
+																			bus.bus_color?.toLowerCase() === "white"
+																				? "#aeafb3"
+																				: bus.bus_color,
+																	}}
+																>
+																	<i className="bi bi-bus-front fs-4"></i>
+																</div>
+																<div className="ms-3">
+																	<h6
+																		className="fw-bold text-dark mb-0 lh-1"
+																		style={{ fontSize: "0.95rem" }}
+																	>
+																		{bus.bus_name}
+																	</h6>
+																	<small
+																		className="text-muted opacity-75 fw-medium"
+																		style={{ fontSize: "0.7rem" }}
+																	>
+																		{bus.bus_number}
+																	</small>
+																</div>
+															</div>
 
-																{/* Thin Connector */}
-																<div
-																	className="flex-grow-1 bg-primary mx-1"
-																	style={{ height: "1.5px" }}
-																></div>
-
-																{/* Subtle Direction Icon */}
-																<i
-																	className="bi bi-chevron-right text-primary"
-																	style={{ fontSize: "0.7rem" }}
-																></i>
-
-																<div
-																	className="flex-grow-1 bg-primary mx-1"
-																	style={{ height: "1.5px" }}
-																></div>
-
-																{/* End Point */}
-																<div
-																	className="rounded-circle bg-success"
-																	style={{ width: "7px", height: "7px" }}
-																></div>
+															<div className="text-end border-start ps-3 ms-2">
+																{!isRunningToday ? (
+																	<span
+																		className="badge bg-secondary-subtle text-black rounded-pill px-2 border"
+																		style={{ fontSize: "0.5rem" }}
+																	>
+																		NOT RUNNING TODAY
+																	</span>
+																) : (
+																	<div className="lh-1">
+																		<span
+																			className="text-muted d-block text-uppercase fw-800 mb-1"
+																			style={{
+																				fontSize: "0.5rem",
+																				letterSpacing: "0.7px",
+																			}}
+																		>
+																			AVG SPD
+																		</span>
+																		<span
+																			className="fw-900 text-dark"
+																			style={{ fontSize: "0.95rem" }}
+																		>
+																			{bus.speed_kmh || "00"}
+																			<small
+																				className="fw-normal text-muted ms-1"
+																				style={{ fontSize: "0.65rem" }}
+																			>
+																				km/h
+																			</small>
+																		</span>
+																	</div>
+																)}
 															</div>
 														</div>
+													</div>
 
-														{/* Arrival */}
-														<div className="text-end">
-															<span className="d-block fw-800 text-success fs-5">
-																{bus.arrival_time}
-															</span>
-															<span
-																className="text-uppercase text-muted fw-bold"
-																style={{ fontSize: "0.6rem" }}
-															>
-																Arrive
-															</span>
-														</div>
-
-														{/* Action: Only a chevron for interaction hint */}
-														<div className="ms-3 d-none d-md-block">
-															<i className="bi bi-arrow-right-short fs-4 text-primary opacity-25"></i>
+													{/* Timeline Section */}
+													<div className="col-12 col-md-7 mt-3 mt-md-0 border-start-md">
+														<div className="d-flex align-items-center justify-content-between px-2">
+															<div className="text-center">
+																<span className="d-block fw-bold text-primary fs-6">
+																	{bus.departure_time}
+																</span>
+															</div>
+															<div className="flex-grow-1 px-3 d-flex flex-column align-items-center">
+																<div className="d-flex align-items-center w-100 justify-content-center mb-1">
+																	<div
+																		className="rounded-circle border border-primary"
+																		style={{ width: "6px", height: "6px" }}
+																	></div>
+																	<div
+																		className="flex-grow-1 bg-primary mx-1"
+																		style={{ height: "1.5px" }}
+																	></div>
+																	<i
+																		className="bi bi-chevron-right text-primary opacity-50"
+																		style={{ fontSize: "0.6rem" }}
+																	></i>
+																	<div
+																		className="flex-grow-1 bg-primary mx-1"
+																		style={{ height: "1.5px" }}
+																	></div>
+																	<div
+																		className="rounded-circle bg-success"
+																		style={{ width: "6px", height: "6px" }}
+																	></div>
+																</div>
+																<div
+																	className="d-flex gap-2"
+																	style={{ fontSize: "0.6rem" }}
+																>
+																	<span className="text-muted fw-bold">
+																		<i className="bi bi-clock me-1"></i>
+																		{bus.time_taken}
+																	</span>
+																	<span className="text-muted opacity-50">
+																		|
+																	</span>
+																	<span className="text-muted fw-bold">
+																		<i className="bi bi-signpost-split me-1"></i>
+																		{parseInt(bus.trip_distance_km)} Km
+																	</span>
+																</div>
+															</div>
+															<div className="text-center">
+																<span className="d-block fw-bold text-success fs-6">
+																	{bus.arrival_time}
+																</span>
+															</div>
 														</div>
 													</div>
 												</div>
 											</div>
-										</div>
+										</div>,
+									);
 
-										<style jsx>{`
-											.bus-card {
-												transition: all 0.2s ease-in-out;
-												cursor: pointer;
-											}
-											.bus-card:hover {
-												transform: translateX(4px);
-												box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
-											}
-										`}</style>
-									</div>
-								))}
+									// 2. AD CARD LOGIC: After every 3 bus cards
+									if ((idx + 1) % 2 === 0) {
+										items.push(
+											<div
+												key={`ad-${idx}`}
+												className="bus-card card border-0 shadow-sm mb-3 position-relative overflow-hidden"
+												style={{ borderRadius: "0rem", background: "#fffdf0" }} // Slight yellow tint for subtle Ad feel
+											>
+												{/* Golden/Orange Side Accent for Ads */}
+												<div
+													className="position-absolute start-0 top-0 bottom-0 bg-warning"
+													style={{ width: "4px", opacity: 0.8 }}
+												></div>
+
+												<div className="card-body p-3">
+													<div className="row align-items-center g-0">
+														{/* Ad Brand Group */}
+														<div className="col-12 col-md-5">
+															<div className="d-flex align-items-center ps-2 pe-3">
+																<div className="d-flex align-items-center flex-grow-1">
+																	<div
+																		className="bg-warning bg-opacity-10 d-flex align-items-center justify-content-center rounded"
+																		style={{ width: "35px", height: "35px" }}
+																	>
+																		<i className="bi bi-megaphone-fill text-warning"></i>
+																	</div>
+																	<div className="ms-3">
+																		<h6
+																			className="fw-bold text-dark mb-0 lh-1"
+																			style={{ fontSize: "0.95rem" }}
+																		>
+																			Yathra Premium
+																		</h6>
+																		<small
+																			className="text-warning fw-bold text-uppercase"
+																			style={{
+																				fontSize: "0.6rem",
+																				letterSpacing: "1px",
+																			}}
+																		>
+																			Sponsored
+																		</small>
+																	</div>
+																</div>
+																{/* Placeholder to keep layout consistent with Bus Card */}
+																<div className="text-end border-start ps-3 ms-2 opacity-0">
+																	<div className="lh-1">
+																		<span style={{ fontSize: "0.95rem" }}>
+																			00
+																		</span>
+																	</div>
+																</div>
+															</div>
+														</div>
+
+														{/* Ad Content: Replaces Timeline */}
+														<div className="col-12 col-md-7 mt-2 mt-md-0 border-start-md">
+															<div className="d-flex align-items-center justify-content-between px-2">
+																<div className="flex-grow-1">
+																	<p
+																		className="mb-0 text-dark fw-medium"
+																		style={{ fontSize: "0.85rem" }}
+																	>
+																		Enjoy ad-free search and schedules.
+																	</p>
+																</div>
+																<div className="ms-2">
+																	<button
+																		className="btn btn-warning btn-sm fw-bold px-1 rounded-pill shadow-sm"
+																		style={{ fontSize: "0.75rem" }}
+																	>
+																		GET NOW
+																	</button>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>,
+										);
+									}
+
+									return items;
+								})}							
 
 							{buses === null && !busesLoading && (
 								<div className="text-center py-5">

@@ -19,7 +19,7 @@ export const useStationSearch = () => {
 		const trimmedQuery = query.trim();
 
 		// Optional: Ignore short searches unless empty (which signifies a reset/default load)
-		if (trimmedQuery.length > 0 && trimmedQuery.length < 3) return;
+		if (trimmedQuery.length > 0 && trimmedQuery.length < 2) return;
 
 		// Unnecessary to search identically what we already just searched
 		if (lastQuery.current === trimmedQuery) return;
