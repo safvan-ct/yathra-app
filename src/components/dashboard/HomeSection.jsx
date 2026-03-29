@@ -422,7 +422,7 @@ const HomeSection = () => {
 									);
 
 									// 2. AD CARD LOGIC: After every 3 bus cards
-									if ((idx + 1) % 2 === 0) {
+									if ((idx + 1) % 3 === 0) {
 										items.push(
 											<div
 												key={`ad-${idx}`}
@@ -504,7 +504,7 @@ const HomeSection = () => {
 									}
 
 									return items;
-								})}							
+								})}
 
 							{buses === null && !busesLoading && (
 								<div className="text-center py-5">
