@@ -38,7 +38,7 @@ const BusContribution = ({ goBack, onSuccess }) => {
 				)}
 
 				<form onSubmit={handleSubmit}>
-					<div className="mb-3 form-floating">
+					<div className="mb-3">
 						<input
 							type="text"
 							className="form-control"
@@ -46,15 +46,15 @@ const BusContribution = ({ goBack, onSuccess }) => {
 							name="bus_name"
 							value={form.bus_name || ""}
 							onChange={handleChange}
-							placeholder="e.g. Kallada, KSRTC Minnal"
+							placeholder="e.g. Yathra, KSRTC, etc."
 							required
 							disabled={loading || success}
 						/>
-						<label htmlFor="busName" className="text-muted">
+						{/* <label htmlFor="busName" className="text-muted">
 							Bus Name
-						</label>
+						</label> */}
 					</div>
-					<div className="mb-3 form-floating">
+					<div className="mb-3">
 						<input
 							type="text"
 							className="form-control"
@@ -62,12 +62,13 @@ const BusContribution = ({ goBack, onSuccess }) => {
 							name="bus_number"
 							value={form.bus_number || ""}
 							onChange={handleChange}
-							placeholder="e.g. KL-15-A-1234"
+							placeholder="e.g. KL 15 A 1234"
+							required
 							disabled={loading || success}
 						/>
-						<label htmlFor="busNumber" className="text-muted">
-							Bus Number (Optional)
-						</label>
+						{/* <label htmlFor="busNumber" className="text-muted">
+							Bus Number
+						</label> */}
 					</div>
 					<div className="row mb-3 g-2">
 						<div className="col-12 col-md-6">
@@ -117,8 +118,8 @@ const BusContribution = ({ goBack, onSuccess }) => {
 								<select
 									className="form-select"
 									id="busType"
-									name="bus_type"
-									value={form.bus_type || "Private"}
+									name="operator_type"
+									value={form.operator_type || "Private"}
 									onChange={handleChange}
 									disabled={loading || success}
 								>

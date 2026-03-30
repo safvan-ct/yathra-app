@@ -1,8 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Choices from "choices.js";
 import "choices.js/public/assets/styles/choices.min.css";
 import { useBuses } from "../../../src/hooks/useBuses";
 import { useStationSearch } from "../../../src/hooks/useStationSearch";
+
+const LS_KEY = "yathra_stops"; // localStorage persistence key
 
 const HomeSection = () => {
 	const desktopFromRef = useRef(null);
@@ -11,12 +13,14 @@ const HomeSection = () => {
 	const mobileToRef = useRef(null);
 
 	const choicesInstances = useRef({});
+	const [validationError, setValidationError] = useState("");
 
 	const {
 		buses,
 		loading: busesLoading,
 		error: busesError,
 		searchBuses,
+		clearBuses,
 	} = useBuses();
 
 	const {
@@ -30,7 +34,16 @@ const HomeSection = () => {
 		searchStations("");
 	}, []);
 
+	/* boot Choices on each select, restore persisted selection */
 	useEffect(() => {
+		const saved = (() => {
+			try {
+				return JSON.parse(localStorage.getItem(LS_KEY)) || {};
+			} catch {
+				return {};
+			}
+		})();
+
 		const attachInstance = (ref, id) => {
 			if (!ref.current || choicesInstances.current[id]) return;
 
@@ -42,9 +55,25 @@ const HomeSection = () => {
 				allowHTML: true,
 			});
 
+			// restore saved choice
+			const role = id.startsWith("from") ? "from" : "to";
+			if (saved[role]) {
+				instance.setChoices(
+					[
+						{
+							value: saved[role].value,
+							label: saved[role].label,
+							selected: true,
+						},
+					],
+					"value",
+					"label",
+					true,
+				);
+			}
+
 			instance.passedElement.element.addEventListener("search", (e) => {
-				const queryValue = e.detail?.value || "";
-				searchStations(queryValue);
+				searchStations(e.detail?.value || "");
 			});
 
 			choicesInstances.current[id] = instance;
@@ -56,9 +85,9 @@ const HomeSection = () => {
 		attachInstance(mobileToRef, "to-mobile");
 
 		return () => {
-			Object.values(choicesInstances.current).forEach((instance) => {
+			Object.values(choicesInstances.current).forEach((inst) => {
 				try {
-					instance?.destroy();
+					inst?.destroy();
 				} catch (err) {}
 			});
 			choicesInstances.current = {};
@@ -89,19 +118,65 @@ const HomeSection = () => {
 		});
 	}, [stationResults]);
 
+	/* validate → persist → search */
 	const handleBusSearch = async (view) => {
 		const fId = `from-${view}`;
 		const tId = `to-${view}`;
 
-		const fromChoice = choicesInstances.current[fId]?.getValue(true);
-		const toChoice = choicesInstances.current[tId]?.getValue(true);
+		const fChoice = choicesInstances.current[fId]?.getValue();
+		const tChoice = choicesInstances.current[tId]?.getValue();
 
-		const from = fromChoice || "";
-		const to = toChoice || "";
+		const from = fChoice?.value || "";
+		const to = tChoice?.value || "";
+
+		// validation
+		if (!from && !to) {
+			setValidationError("Please select both From and To stations.");
+			return;
+		}
+		if (!from) {
+			setValidationError("Please select a From station.");
+			return;
+		}
+		if (!to) {
+			setValidationError("Please select a To station.");
+			return;
+		}
+		if (from === to) {
+			setValidationError("From and To stations cannot be the same.");
+			return;
+		}
+
+		setValidationError("");
+
+		// persist selections for next session
+		try {
+			localStorage.setItem(
+				LS_KEY,
+				JSON.stringify({
+					from: fChoice ? { value: fChoice.value, label: fChoice.label } : null,
+					to: tChoice ? { value: tChoice.value, label: tChoice.label } : null,
+				}),
+			);
+		} catch (_) {}
 
 		await searchBuses(from, to);
 	};
 
+	/* clear both dropdowns + localStorage + results */
+	const handleClear = () => {
+		["from-desktop", "to-desktop", "from-mobile", "to-mobile"].forEach((id) => {
+			try {
+				choicesInstances.current[id]?.removeActiveItems();
+			} catch (_) {}
+		});
+		try {
+			localStorage.removeItem(LS_KEY);
+		} catch (_) {}
+		clearBuses(); // wipes results state + BUS_CACHE_KEY
+	};
+
+	/* swap values then immediately re-search */
 	const handleSwap = (view) => {
 		const fId = `from-${view}`;
 		const tId = `to-${view}`;
@@ -132,6 +207,11 @@ const HomeSection = () => {
 					true,
 				);
 			}
+
+			// reload results with swapped values
+			const newFrom = tVal?.value || "";
+			const newTo = fVal?.value || "";
+			searchBuses(newFrom, newTo);
 		}
 	};
 
@@ -148,7 +228,7 @@ const HomeSection = () => {
 
 	return (
 		<div id="section-home" className="app-section active">
-			<div className="search-header text-center">
+			<div className="search-header text-center d-none d-md-block">
 				<div className="container">
 					<h1 className="fw-800 mb-1">YATHRA</h1>
 					<p className="opacity-75">
@@ -157,59 +237,319 @@ const HomeSection = () => {
 				</div>
 			</div>
 
-			<div className="dashboard-container">
-				<div className="search-section-wrapper">
-					<div className="card search-card mb-4">
-						<div className="card-body p-3 p-md-4">
-							{(busesError || stationsError) && (
-								<div className="alert alert-danger py-2 small mb-3">
-									{busesError || stationsError}
+			{/* ── Compact Mobile Hero Strip ── */}
+			<div
+				className="d-block d-md-none position-relative overflow-hidden mb-3"
+				style={{
+					background: "linear-gradient(135deg, #0d6efd 0%, #001f6b 100%)",
+					height: "64px",
+					zIndex: 10,
+				}}
+			>
+				{/* Background Mesh Glow */}
+				<div
+					style={{
+						position: "absolute",
+						top: "-20px",
+						right: "-20px",
+						width: "100px",
+						height: "100px",
+						background:
+							"radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)",
+						filter: "blur(15px)",
+					}}
+				/>
+
+				<div className="d-flex align-items-center justify-content-between h-100 px-3">
+					<div>
+						<div
+							style={{
+								fontSize: "1.25rem",
+								fontWeight: 900,
+								color: "#fff",
+								letterSpacing: "-0.5px",
+								lineHeight: 1,
+							}}
+						>
+							YATHRA
+						</div>
+						<div
+							style={{
+								fontSize: "0.55rem",
+								color: "rgba(255,255,255,0.7)",
+								fontWeight: 600,
+								textTransform: "uppercase",
+								letterSpacing: "1px",
+							}}
+						>
+							Bus Finder
+						</div>
+					</div>
+
+					<div
+						style={{
+							width: "40px",
+							height: "40px",
+							borderRadius: "12px",
+							background: "rgba(255,255,255,0.15)",
+							backdropFilter: "blur(10px)",
+							border: "1px solid rgba(255,255,255,0.2)",
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center",
+							fontSize: "1.2rem",
+							animation: "busJolt 2s ease-in-out infinite",
+						}}
+					>
+						🚌
+					</div>
+				</div>
+			</div>
+
+			<style>{`
+				@keyframes busJolt {
+					0%, 100% { transform: translateY(0); }
+					50% { transform: translateY(-2px); }
+					75% { transform: translateX(1px); }
+				}
+				.search-card-unique {
+					background: #fff;
+					border: 1.5px solid #fff !important;
+					backdrop-filter: blur(10px);
+					box-shadow: 0 20px 50px rgba(13, 110, 253, 0.05), 0 1px 3px rgba(0,0,0,0.02) !important;
+					position: relative;
+					z-index: 10;
+				}
+				.search-card-bg-mesh {
+					position: absolute;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					overflow: hidden;
+					border-radius: inherit;
+					z-index: -1;
+					background: linear-gradient(135deg, rgba(239, 246, 255, 0.5) 0%, rgba(255, 255, 255, 1) 100%);
+				}
+				.search-card-bg-mesh::after {
+					content: '';
+					position: absolute;
+					top: -50%;
+					left: -20%;
+					width: 140%;
+					height: 140%;
+					background: radial-gradient(circle, rgba(13,110,253,0.05) 0%, transparent 60%);
+					pointer-events: none;
+				}
+				/* Ensure root doesn't scroll horizontally */
+				.app-section {
+					overflow-x: hidden !important;
+				}
+				.stop-dot {
+					width: 14px;
+					height: 14px;
+					border-radius: 50%;
+					position: absolute;
+					left: -24px;
+					top: 50%;
+					transform: translateY(-50%);
+					z-index: 5;
+					background: #fff;
+					border: 2.5px solid #0d6efd;
+					box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1);
+				}
+				.stop-dot.end { border-color: #198754; box-shadow: 0 0 0 4px rgba(25, 135, 84, 0.1); }
+				.mobile-connector {
+					position: absolute;
+					left: -18px;
+					top: 28px;
+					bottom: 28px;
+					width: 2.5px;
+					background: #e2e8f0;
+					z-index: 1;
+					overflow: hidden;
+				}
+				.mobile-connector::after {
+					content: '';
+					position: absolute;
+					top: -50%;
+					left: 0;
+					width: 100%;
+					height: 50%;
+					background: linear-gradient(to bottom, transparent, #0d6efd, transparent);
+					animation: flowPath 2s infinite linear;
+				}
+				@keyframes flowPath {
+					from { top: -50%; }
+					to { top: 100%; }
+				}
+				.btn-swap-floating {
+					position: absolute;
+					right: 12px;
+					top: 50%;
+					transform: translateY(-50%);
+					background: #fff;
+					border: 1px solid #e2e8f0;
+					width: 42px;
+					height: 42px;
+					border-radius: 50%;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					color: #0d6efd;
+					box-shadow: 0 4px 15px rgba(13, 110, 253, 0.1);
+					z-index: 10;
+					transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+				}
+				.btn-swap-floating:active {
+					transform: translateY(-50%) scale(0.85) rotate(180deg);
+					background: #eff6ff;
+					border-color: #bfdbfe;
+				}
+				.btn-liquid-indigo {
+					background: linear-gradient(135deg, #0d6efd 0%, #0043a8 100%);
+					border: none;
+					box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2);
+					transition: all 0.3s ease;
+					letter-spacing: 0.5px;
+				}
+				.btn-liquid-indigo:hover {
+					filter: brightness(1.1);
+					box-shadow: 0 6px 20px rgba(13, 110, 253, 0.3);
+					transform: translateY(-1px);
+				}
+				.btn-liquid-indigo:active {
+					transform: translateY(0);
+				}
+				/* Premium tint for choices selectors */
+				.search-card-unique .choices__inner {
+					border: 1.5px solid rgba(13, 110, 253, 0.2) !important;
+					background-color: rgba(255, 255, 255, 0.8) !important;
+					transition: all 0.3s ease !important;
+				}
+				.search-card-unique .choices.is-focused .choices__inner {
+					border-color: rgba(13, 110, 253, 0.5) !important;
+					box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.08) !important;
+				}
+			`}</style>
+
+			<div className="dashboard-container mt-n2 mt-md-0">
+				<div className="search-section-wrapper px-md-3">
+					<div className="card search-card-unique mb-2 rounded-4">
+						<div className="search-card-bg-mesh"></div>
+						<div
+							className="card-body p-3 p-md-4 position-relative"
+							style={{ zIndex: 1 }}
+						>
+							{/* Fix stacking so open dropdowns are always on top */}
+							<style>{`
+								.search-card-unique .choices.is-open {
+									z-index: 1000 !important;
+								}
+								.search-card-unique .choices {
+									z-index: 5;
+								}
+							`}</style>
+							{(busesError || stationsError || validationError) && (
+								<div
+									className={`alert py-2 small mb-3 d-flex align-items-center gap-2 ${validationError ? "alert-warning" : "alert-danger"}`}
+								>
+									<i
+										className={`bi ${validationError ? "bi-exclamation-triangle" : "bi-x-circle"}`}
+									/>
+									{validationError || busesError || stationsError}
 								</div>
 							)}
 							<div className="d-none d-md-flex row g-3 align-items-center">
 								<div className="col">
-									<label className="small fw-bold text-muted mb-1">From</label>
+									<label
+										className="text-muted small fw-bold mb-1 px-1"
+										style={{ fontSize: "0.65rem", letterSpacing: "0.8px" }}
+									>
+										FROM STATION
+									</label>
 									<select
 										id="from-desktop"
 										className="choice-select"
 										ref={desktopFromRef}
 									></select>
 								</div>
-								<div className="col-auto pt-4">
+								<div className="col-auto" style={{ paddingTop: "28px" }}>
 									<button
 										type="button"
 										className="btn btn-swap-creative shadow-sm"
 										data-view="desktop"
 										onClick={() => handleSwap("desktop")}
-										// disabled={stationsLoading}
 									>
 										<i className="bi bi-arrow-left-right"></i>
 									</button>
 								</div>
 								<div className="col">
-									<label className="small fw-bold text-muted mb-1">To</label>
+									<label
+										className="text-muted small fw-bold mb-1 px-1"
+										style={{ fontSize: "0.65rem", letterSpacing: "0.8px" }}
+									>
+										TO STATION
+									</label>
 									<select
 										id="to-desktop"
 										className="choice-select"
 										ref={desktopToRef}
 									></select>
 								</div>
-								<div className="col-auto pt-4">
-									<button
-										type="button"
-										className="btn btn-primary px-5 fw-bold h-100 rounded-3"
-										onClick={() => handleBusSearch("desktop")}
-										disabled={busesLoading || stationsLoading}
-									>
-										{busesLoading ? "..." : "SEARCH"}
-									</button>
+								<div className="col-auto" style={{ paddingTop: "28px" }}>
+									<div className="d-flex gap-2">
+										<button
+											type="button"
+											className="btn btn-liquid-indigo fw-bold rounded-3 px-3 text-white"
+											style={{
+												whiteSpace: "nowrap",
+												display: "flex",
+												alignItems: "center",
+												height: "42px",
+												fontSize: "0.85rem",
+											}}
+											onClick={() => handleBusSearch("desktop")}
+											disabled={busesLoading || stationsLoading}
+										>
+											{busesLoading ? (
+												<>
+													<span className="spinner-border spinner-border-sm me-2" />
+													Searching
+												</>
+											) : (
+												<>
+													<i className="bi bi-search me-2" />
+													Search Bus
+												</>
+											)}
+										</button>
+										<button
+											type="button"
+											className="btn fw-semibold rounded-3 px-3 border-0 transition-all shadow-sm"
+											style={{
+												whiteSpace: "nowrap",
+												height: "42px",
+												display: "flex",
+												alignItems: "center",
+												fontSize: "0.85rem",
+												color: "#64748b",
+												background: "#fff",
+											}}
+											onClick={handleClear}
+											title="Clear selections"
+										>
+											<i className="bi bi-x-lg me-1" />
+											Clear
+										</button>
+									</div>
 								</div>
 							</div>
 
 							<div className="d-block d-md-none" id="mobile-inputs">
-								<div className="journey-inputs-container">
-									<div className="d-flex flex-column gap-2">
-										<div className="position-relative">
+								<div className="journey-inputs-container ps-4 pe-2 py-1">
+									<div className="mobile-station-inputs">
+										<div className="position-relative mb-2">
 											<span className="stop-dot start"></span>
 											<select
 												id="from-mobile"
@@ -232,19 +572,46 @@ const HomeSection = () => {
 										className="btn btn-swap-floating shadow-sm"
 										data-view="mobile"
 										onClick={() => handleSwap("mobile")}
-										// disabled={stationsLoading}
 									>
 										<i className="bi bi-arrow-down-up"></i>
 									</button>
 								</div>
-								<button
-									type="button"
-									className="btn btn-primary w-100 py-3 mt-3 fw-bold shadow-sm"
-									onClick={() => handleBusSearch("mobile")}
-									disabled={busesLoading || stationsLoading}
-								>
-									{busesLoading ? "SEARCHING..." : "FIND BUS"}
-								</button>
+								<div className="d-flex gap-2 mt-2">
+									<button
+										type="button"
+										className="btn btn-sm btn-primary flex-grow-1 py-2 fw-bold shadow-sm rounded-3"
+										style={{ fontSize: "0.82rem" }}
+										onClick={() => handleBusSearch("mobile")}
+										disabled={busesLoading || stationsLoading}
+									>
+										{busesLoading ? (
+											<>
+												<span className="spinner-border spinner-border-sm me-1" />
+												Searching…
+											</>
+										) : (
+											<>
+												<i className="bi bi-search me-1" />
+												Find Bus
+											</>
+										)}
+									</button>
+									<button
+										type="button"
+										className="btn btn-sm py-2 fw-semibold rounded-3"
+										style={{
+											border: "1.5px solid #e2e8f0",
+											color: "#64748b",
+											background: "#f8fafc",
+											minWidth: "52px",
+											fontSize: "0.82rem",
+										}}
+										onClick={handleClear}
+										title="Clear selections"
+									>
+										<i className="bi bi-x-lg" />
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>

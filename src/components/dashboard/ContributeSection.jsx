@@ -8,9 +8,11 @@ import StationContribution from "./contributions/StationContribution";
 import RouteContribution from "./contributions/RouteContribution";
 import StopContribution from "./contributions/StopContribution";
 import TripContribution from "./contributions/TripContribution";
+import SuccessPopup from "./contributions/SuccessPopup";
 
 const ContributeSection = () => {
-	const [type, setType] = useState(null); // 'bus', 'station', 'route', 'stop', 'trip'
+	const [type, setType] = useState(null);
+	const [popup, setPopup] = useState(null); // null | 'bus' | 'station' | ...
 
 	// We only fetch these dependencies once we need them, but currently
 	// maintaining standard hooks instance for props
@@ -36,12 +38,7 @@ const ContributeSection = () => {
 	};
 
 	const onSuccess = (contributionType) => {
-		alert(
-			"Thank you for your contribution! Your suggestion for " +
-				contributionType +
-				" has been submitted successfully.",
-		);
-		goBackToMenu();
+		setPopup(contributionType);
 	};
 
 	const renderMenu = () => (
@@ -96,7 +93,7 @@ const ContributeSection = () => {
 						<div className="icon-box accent-green">
 							<i className="bi bi-geo-alt"></i>
 						</div>
-						<h6 className="fw-bold mb-1">Suggest Station</h6>
+						<h6 className="fw-bold mb-1">Suggest Stop</h6>
 						<p className="text-muted small mb-0">Main hubs or terminals</p>
 					</div>
 				</div>
@@ -115,18 +112,6 @@ const ContributeSection = () => {
 				<div className="col-6 col-md-4">
 					<div
 						className="card menu-item-card p-3 rounded-4 shadow-sm h-100"
-						onClick={() => switchContribution("stop")}
-					>
-						<div className="icon-box accent-orange">
-							<i className="bi bi-dot"></i>
-						</div>
-						<h6 className="fw-bold mb-1">Suggest Stop</h6>
-						<p className="text-muted small mb-0">Intermediate pick-ups</p>
-					</div>
-				</div>
-				<div className="col-6 col-md-4">
-					<div
-						className="card menu-item-card p-3 rounded-4 shadow-sm h-100"
 						onClick={() => switchContribution("trip")}
 					>
 						<div className="icon-box accent-red">
@@ -134,6 +119,228 @@ const ContributeSection = () => {
 						</div>
 						<h6 className="fw-bold mb-1">Suggest Trip</h6>
 						<p className="text-muted small mb-0">Timing & schedules</p>
+					</div>
+				</div>
+				<div className="col-6 col-md-4">
+					<div
+						className="card menu-item-card p-3 rounded-4 shadow-sm h-100"
+						onClick={() => switchContribution("stop")}
+					>
+						<div className="icon-box accent-orange">
+							<i className="bi bi-dot"></i>
+						</div>
+						<h6 className="fw-bold mb-1">Route Stop</h6>
+						<p className="text-muted small mb-0">Intermediate stops of route</p>
+					</div>
+				</div>
+				{/* ── WhatsApp Contact Card ── */}
+				<div className="col-6 col-md-4">
+					<a
+						href="https://wa.me/7560838394"
+						target="_blank"
+						rel="noopener noreferrer"
+						style={{ textDecoration: "none" }}
+					>
+						<div
+							className="card menu-item-card p-3 rounded-4 shadow-sm h-100 d-flex flex-column align-items-center justify-content-center text-center"
+							style={{
+								background: "linear-gradient(135deg, #e8f5e9 0%, #f0fff4 100%)",
+								border: "1.5px solid rgba(37,211,102,0.25) !important",
+							}}
+						>
+							<div
+								className="icon-box mb-2"
+								style={{
+									background: "rgba(37,211,102,0.12)",
+									color: "#25d366",
+									width: "52px",
+									height: "52px",
+									fontSize: "1.5rem",
+								}}
+							>
+								<i className="bi bi-whatsapp"></i>
+							</div>
+							<h6 className="fw-bold mb-1" style={{ color: "#128c5e" }}>
+								Other Suggestions?
+							</h6>
+							<p className="small mb-0" style={{ color: "#25d366" }}>
+								Contact us on WhatsApp
+							</p>
+						</div>
+					</a>
+				</div>
+
+				{/* ── AD Card ── */}
+				<div className="col-12">
+					<div
+						className="card rounded-4 border-0 shadow-sm overflow-hidden position-relative"
+						style={{
+							background: "linear-gradient(135deg, #fffdf0 0%, #fff8e1 100%)",
+							border: "1.5px solid rgba(255,193,7,0.2) !important",
+						}}
+					>
+						{/* Decorative accent bar */}
+						<div
+							style={{
+								position: "absolute",
+								top: 0,
+								left: 0,
+								bottom: 0,
+								width: "4px",
+								background: "linear-gradient(180deg, #ffc107 0%, #fd7e14 100%)",
+								opacity: 0.85,
+							}}
+						/>
+
+						{/* Decorative background circle */}
+						<div
+							style={{
+								position: "absolute",
+								top: "-40px",
+								right: "-40px",
+								width: "160px",
+								height: "160px",
+								borderRadius: "50%",
+								background: "rgba(255,193,7,0.08)",
+							}}
+						/>
+
+						<div className="card-body ps-4 pe-3 py-3 d-flex align-items-center gap-3 position-relative">
+							{/* Megaphone icon */}
+							<div
+								style={{
+									width: "46px",
+									height: "46px",
+									borderRadius: "50%",
+									flexShrink: 0,
+									background: "rgba(255,193,7,0.15)",
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center",
+									color: "#e67e00",
+									fontSize: "1.3rem",
+								}}
+							>
+								<i className="bi bi-megaphone-fill" />
+							</div>
+
+							{/* Text block */}
+							<div className="flex-grow-1">
+								<div className="d-flex align-items-center gap-2 mb-1">
+									<h6
+										className="fw-bold mb-0 text-dark"
+										style={{ fontSize: "0.9rem" }}
+									>
+										Yathra Premium
+									</h6>
+									<span
+										className="badge text-uppercase fw-bold"
+										style={{
+											fontSize: "0.5rem",
+											letterSpacing: "0.8px",
+											background: "rgba(255,193,7,0.2)",
+											color: "#b8860b",
+											padding: "3px 7px",
+										}}
+									>
+										Sponsored
+									</span>
+								</div>
+								<p className="mb-0 text-muted" style={{ fontSize: "0.78rem" }}>
+									Go ad-free and unlock priority contributions. Upgrade now.
+								</p>
+							</div>
+
+							{/* CTA Button */}
+							<button
+								className="btn btn-warning btn-sm fw-bold flex-shrink-0 rounded-pill shadow-sm px-3"
+								style={{ fontSize: "0.75rem", whiteSpace: "nowrap" }}
+							>
+								Get Now
+							</button>
+						</div>
+					</div>
+				</div>
+
+				{/* ── Full-width Creative CTA Banner ── */}
+				<div className="col-12">
+					<div
+						className="card rounded-4 border-0 shadow-sm overflow-hidden"
+						style={{
+							background: "linear-gradient(135deg, #0d6efd 0%, #6f42c1 100%)",
+							minHeight: "110px",
+						}}
+					>
+						{/* Decorative blurred circles */}
+						<div
+							style={{
+								position: "absolute",
+								top: "-30px",
+								right: "-30px",
+								width: "140px",
+								height: "140px",
+								borderRadius: "50%",
+								background: "rgba(255,255,255,0.08)",
+							}}
+						/>
+						<div
+							style={{
+								position: "absolute",
+								bottom: "-20px",
+								left: "60px",
+								width: "90px",
+								height: "90px",
+								borderRadius: "50%",
+								background: "rgba(255,255,255,0.06)",
+							}}
+						/>
+
+						<div className="card-body p-4 d-flex align-items-center gap-3 position-relative">
+							{/* Icon cluster */}
+							<div className="d-flex gap-2 flex-shrink-0">
+								{["bi-bus-front", "bi-signpost", "bi-geo-alt"].map((icon) => (
+									<div
+										key={icon}
+										style={{
+											width: "38px",
+											height: "38px",
+											borderRadius: "50%",
+											background: "rgba(255,255,255,0.15)",
+											display: "flex",
+											alignItems: "center",
+											justifyContent: "center",
+											color: "#fff",
+											fontSize: "1rem",
+										}}
+									>
+										<i className={`bi ${icon}`} />
+									</div>
+								))}
+							</div>
+
+							{/* Text */}
+							<div className="flex-grow-1">
+								<h6
+									className="fw-bold text-white mb-1"
+									style={{ fontSize: "0.95rem" }}
+								>
+									Every contribution matters 🚌
+								</h6>
+								<p
+									className="text-white mb-0 opacity-75"
+									style={{ fontSize: "0.78rem" }}
+								>
+									Help make Yathra better for everyone — add buses, stops,
+									routes &amp; more.
+								</p>
+							</div>
+
+							{/* Decorative chevron */}
+							{/* <i
+								className="bi bi-chevron-right text-white opacity-50 flex-shrink-0"
+								style={{ fontSize: "1.4rem" }}
+							/> */}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -161,14 +368,7 @@ const ContributeSection = () => {
 					/>
 				);
 			case "trip":
-				return (
-					<TripContribution
-						goBack={goBackToMenu}
-						routes={routes}
-						buses={buses}
-						onSuccess={onSuccess}
-					/>
-				);
+				return <TripContribution goBack={goBackToMenu} onSuccess={onSuccess} />;
 			default:
 				return null;
 		}
@@ -176,6 +376,17 @@ const ContributeSection = () => {
 
 	return (
 		<div id="section-contribute" className="app-section active">
+			{/* Creative Success Popup */}
+			{popup && (
+				<SuccessPopup
+					type={popup}
+					onClose={() => {
+						setPopup(null);
+						goBackToMenu();
+					}}
+				/>
+			)}
+
 			<div className="dashboard-container py-3 pb-5 mb-5">
 				<div className="text-center mb-4">
 					<h3 className="fw-800 mb-1 text-dark">Contribute Hub</h3>

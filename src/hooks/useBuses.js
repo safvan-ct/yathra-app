@@ -1,8 +1,35 @@
 import { useState, useCallback } from "react";
 import { busService } from "../services/busService";
 
+const BUS_CACHE_KEY = "yathra_bus_results";
+
+/* helpers */
+const loadCache = () => {
+	try {
+		const raw = localStorage.getItem(BUS_CACHE_KEY);
+		if (!raw) return null;
+		const parsed = JSON.parse(raw);
+		return Array.isArray(parsed) ? parsed : null;
+	} catch {
+		return null;
+	}
+};
+
+const saveCache = (data) => {
+	try {
+		localStorage.setItem(BUS_CACHE_KEY, JSON.stringify(data));
+	} catch (_) {}
+};
+
+const clearCache = () => {
+	try {
+		localStorage.removeItem(BUS_CACHE_KEY);
+	} catch (_) {}
+};
+
 export const useBuses = () => {
-	const [buses, setBuses] = useState(null); // null means untouched, [] means empty
+	// hydrate from cache on first render so results survive page reload
+	const [buses, setBuses] = useState(() => loadCache());
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
 
@@ -11,7 +38,9 @@ export const useBuses = () => {
 		setError("");
 		try {
 			const res = await busService.searchBuses(from, to);
-			setBuses(Array.isArray(res) ? res : res.data || []);
+			const result = Array.isArray(res) ? res : res.data || [];
+			setBuses(result);
+			saveCache(result); // ← persist results
 		} catch (err) {
 			console.error("Failed to search buses:", err);
 			setError(err.message || "Failed to search buses.");
@@ -26,7 +55,9 @@ export const useBuses = () => {
 		setError("");
 		try {
 			const res = await busService.getAllBuses();
-			setBuses(Array.isArray(res) ? res : res.data || []);
+			const result = Array.isArray(res) ? res : res.data || [];
+			setBuses(result);
+			saveCache(result);
 		} catch (err) {
 			console.error("Failed to load buses:", err);
 			setError(err.message || "Failed to load buses.");
@@ -36,5 +67,11 @@ export const useBuses = () => {
 		}
 	}, []);
 
-	return { buses, loading, error, searchBuses, getAllBuses };
+	/* wipe both results and cache (called by Clear button) */
+	const clearBuses = useCallback(() => {
+		setBuses(null);
+		clearCache();
+	}, []);
+
+	return { buses, loading, error, searchBuses, getAllBuses, clearBuses };
 };
