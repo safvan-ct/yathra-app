@@ -18,6 +18,7 @@ const useChoicesSearch = (
 	const instanceRef = useRef(null);
 	const debounceRef = useRef(null);
 	const abortRef = useRef(null);
+	const isUpdatingRef = useRef(false);
 
 	// Boot once
 	useEffect(() => {
@@ -50,8 +51,27 @@ const useChoicesSearch = (
 					const res = await fetchFn(query, controller.signal);
 					const items = Array.isArray(res) ? res : res?.data || [];
 					const options = items.map(formatOption);
+
+					const currentChoice = instance.getValue();
+					if (currentChoice && currentChoice.value) {
+						const exists = options.find(
+							(o) => String(o.value) === String(currentChoice.value),
+						);
+						if (!exists) {
+							options.unshift({
+								value: currentChoice.value,
+								label: currentChoice.label,
+								selected: true,
+							});
+						} else {
+							exists.selected = true;
+						}
+					}
+
+					isUpdatingRef.current = true;
 					instance.clearChoices();
 					instance.setChoices(options, "value", "label", true);
+					isUpdatingRef.current = false;
 				} catch (err) {
 					if (err?.name !== "AbortError" && err?.code !== "ERR_CANCELED") {
 						console.warn("Choices search error:", err);
@@ -62,6 +82,7 @@ const useChoicesSearch = (
 
 		// Change event → sync to form
 		instance.passedElement.element.addEventListener("change", (e) => {
+			if (isUpdatingRef.current) return;
 			onSelect(e.target.value);
 		});
 
@@ -86,8 +107,10 @@ const useChoicesSearch = (
 			const res = await fetchFn("", null);
 			const items = Array.isArray(res) ? res : res?.data || [];
 			const options = items.map(formatOption);
+			isUpdatingRef.current = true;
 			instance.clearChoices();
 			instance.setChoices(options, "value", "label", true);
+			isUpdatingRef.current = false;
 		} catch (err) {
 			console.warn("Choices initial load error:", err);
 		}
@@ -145,7 +168,7 @@ const TripContribution = ({ goBack, onSuccess }) => {
 	const formatRoute = useCallback(
 		(r) => ({
 			value: String(r.id),
-			label: `<i class="bi bi-signpost me-1"></i> ${r.origin.name} - ${r.destination.name} (${r.path_signature})`,
+			label: `<i class="bi bi-signpost me-1"></i> ${r.origin?.name ?? "?"} - ${r.destination?.name ?? "?"} (${r.path_signature ?? ""})`,
 		}),
 		[],
 	);

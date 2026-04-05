@@ -136,7 +136,7 @@ const ContributeSection = () => {
 				{/* ── WhatsApp Contact Card ── */}
 				<div className="col-6 col-md-4">
 					<a
-						href="https://wa.me/7560838394"
+						href={`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || "917560838394"}`}
 						target="_blank"
 						rel="noopener noreferrer"
 						style={{ textDecoration: "none" }}

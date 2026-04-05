@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useContributions } from "../../../hooks/useContributions";
 import api from "../../../services/api";
+import Choices from "choices.js";
+import "choices.js/public/assets/styles/choices.min.css";
 
 /* ─────────────────────────────────────────────
-   Tiny helper: loading spinner inside a select
+   Generic searchable Choices hook component
 ───────────────────────────────────────────── */
-const SelectField = ({
+const ChoicesField = ({
 	id,
 	name,
 	label,
@@ -16,35 +18,105 @@ const SelectField = ({
 	disabled,
 	placeholder,
 	required,
-}) => (
-	<div className="form-floating">
-		<select
-			id={id}
-			name={name}
-			className="form-select"
-			value={value}
-			onChange={onChange}
-			disabled={disabled || loading}
-			required={required}
-		>
-			<option value="">{loading ? "Loading…" : placeholder}</option>
-			{options.map((opt) => (
-				<option key={opt.id ?? opt} value={opt.id ?? opt}>
-					{opt.name ?? opt}
-				</option>
-			))}
-		</select>
-		<label htmlFor={id} className="text-muted">
-			{label}
-			{loading && (
-				<span
-					className="spinner-border spinner-border-sm ms-2"
-					style={{ width: "0.7rem", height: "0.7rem" }}
-				/>
-			)}
-		</label>
-	</div>
-);
+}) => {
+	const selectRef = useRef(null);
+	const instanceRef = useRef(null);
+	const isUpdatingRef = useRef(false);
+
+	useEffect(() => {
+		if (!selectRef.current || instanceRef.current) return;
+
+		const instance = new Choices(selectRef.current, {
+			searchEnabled: true,
+			removeItemButton: true,
+			shouldSort: false,
+			placeholderValue: placeholder,
+			searchPlaceholderValue: "Type to search...",
+		});
+
+		instance.passedElement.element.addEventListener("change", (e) => {
+			if (isUpdatingRef.current) return;
+			onChange({ target: { name, value: e.target.value } });
+		});
+
+		instanceRef.current = instance;
+
+		return () => {
+			try {
+				instanceRef.current?.destroy();
+			} catch (_) {}
+			instanceRef.current = null;
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	// Sync options
+	useEffect(() => {
+		if (!instanceRef.current) return;
+		const instance = instanceRef.current;
+
+		isUpdatingRef.current = true;
+		instance.clearChoices();
+		const choicesOptions = options.map((opt) => ({
+			value: String(opt.id ?? opt),
+			label: String(opt.name ?? opt),
+		}));
+		instance.setChoices(choicesOptions, "value", "label", true);
+		isUpdatingRef.current = false;
+	}, [options]);
+
+	// Sync value natively if it changes from outside
+	useEffect(() => {
+		if (!instanceRef.current) return;
+		const instance = instanceRef.current;
+		const currentVal = instance.getValue(true);
+
+		if (String(currentVal ?? "") !== String(value ?? "")) {
+			isUpdatingRef.current = true;
+			if (value) {
+				instance.setChoiceByValue(String(value));
+			} else {
+				instance.removeActiveItems();
+			}
+			isUpdatingRef.current = false;
+		}
+	}, [value]);
+
+	// Sync disabled
+	useEffect(() => {
+		if (!instanceRef.current) return;
+		if (disabled || loading) {
+			instanceRef.current.disable();
+		} else {
+			instanceRef.current.enable();
+		}
+	}, [disabled, loading]);
+
+	return (
+		<div>
+			<label className="small fw-bold text-muted mb-1">
+				{label}
+				{loading && (
+					<span
+						className="spinner-border spinner-border-sm ms-2"
+						style={{
+							width: "0.7rem",
+							height: "0.7rem",
+							verticalAlign: "middle",
+						}}
+					/>
+				)}
+			</label>
+			<select
+				id={id}
+				name={name}
+				ref={selectRef}
+				className="choice-select"
+				required={required}
+			/>
+		</div>
+	);
+};
 
 /* ─────────────────────────────────────────────
    Main Component
@@ -173,7 +245,7 @@ const StationContribution = ({ goBack, onSuccess }) => {
 				<form onSubmit={handleSubmit}>
 					{/* State */}
 					<div className="mb-3">
-						<SelectField
+						<ChoicesField
 							id="stateSelect"
 							name="state_id"
 							label="State"
@@ -189,7 +261,7 @@ const StationContribution = ({ goBack, onSuccess }) => {
 
 					{/* District */}
 					<div className="mb-3">
-						<SelectField
+						<ChoicesField
 							id="districtSelect"
 							name="district_id"
 							label="District"
@@ -207,7 +279,7 @@ const StationContribution = ({ goBack, onSuccess }) => {
 
 					{/* City */}
 					<div className="mb-3">
-						<SelectField
+						<ChoicesField
 							id="citySelect"
 							name="city_id"
 							label="City"

@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { useContributions } from "../../../hooks/useContributions";
 
 const BusContribution = ({ goBack, onSuccess }) => {
-	const [form, setForm] = useState({});
+	const [form, setForm] = useState({
+		bus_color: "Blue",
+		bus_category: "Ordinary",
+		operator_type: "Private",
+	});
 	const {
 		submitLoading: loading,
 		error,
