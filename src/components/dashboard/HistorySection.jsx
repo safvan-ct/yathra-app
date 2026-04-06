@@ -292,72 +292,98 @@ const AdCard = ({ index, onNavigate }) => {
 	const ad = AD_CARDS[index % AD_CARDS.length];
 	return (
 		<div
-			className="mx-3 my-2 rounded-4 p-3"
+			className="mx-3 my-3 rounded-4 p-3 position-relative overflow-hidden"
 			style={{
-				background: ad.bg,
-				border: `1.5px dashed ${ad.accent}55`,
+				background: `linear-gradient(135deg, ${ad.bg} 0%, #ffffff 100%)`,
+				border: `1px solid ${ad.accent}22`,
+				boxShadow: `0 10px 30px ${ad.accent}11`,
 			}}
 		>
-			{/* tiny label */}
+			{/* Decorative Glow Blob */}
 			<div
-				className="d-inline-flex align-items-center gap-1 rounded-pill px-2 py-1 mb-2"
+				className="position-absolute"
 				style={{
-					background: ad.iconBg,
-					fontSize: "0.6rem",
-					fontWeight: 700,
-					color: ad.accent,
-					letterSpacing: "0.5px",
+					top: "-20px",
+					right: "-20px",
+					width: "80px",
+					height: "80px",
+					background: ad.accent,
+					filter: "blur(40px)",
+					opacity: 0.1,
+					pointerEvents: "none",
 				}}
-			>
-				<i className={`bi ${ad.icon}`} style={{ fontSize: "0.65rem" }} />
-				YATHRA TIP
-			</div>
+			/>
 
-			<div className="d-flex align-items-center gap-3">
-				{/* emoji avatar */}
+			<div className="d-flex align-items-center justify-content-between mb-3">
+				{/* tiny label */}
 				<div
-					className="d-flex align-items-center justify-content-center rounded-3 flex-shrink-0"
+					className="d-inline-flex align-items-center gap-1 rounded-pill px-2 py-1"
 					style={{
-						width: "48px",
-						height: "48px",
-						background: ad.iconBg,
-						fontSize: "1.5rem",
+						background: "#ffffff99",
+						backdropFilter: "blur(4px)",
+						border: `1px solid ${ad.accent}33`,
+						fontSize: "0.55rem",
+						fontWeight: 800,
+						color: ad.accent,
+						letterSpacing: "0.8px",
+						textTransform: "uppercase",
 					}}
 				>
-					{ad.emoji}
+					<i className={`bi ${ad.icon}`} style={{ fontSize: "0.6rem" }} />
+					YATHRA TIP
 				</div>
 
-				{/* text */}
-				<div className="flex-grow-1">
-					<div
-						className="fw-bold text-dark mb-1"
-						style={{ fontSize: "0.85rem" }}
-					>
-						{ad.title}
-					</div>
-					<div
-						className="text-muted"
-						style={{ fontSize: "0.75rem", lineHeight: 1.4 }}
-					>
-						{ad.body}
-					</div>
+				<div className="text-muted" style={{ fontSize: "1.1rem" }}>
+					{ad.emoji}
 				</div>
 			</div>
 
-			{/* full-width CTA */}
+			<div className="pe-2">
+				<div
+					className="fw-900 text-dark mb-1"
+					style={{ fontSize: "0.9rem", letterSpacing: "-0.2px" }}
+				>
+					{ad.title}
+				</div>
+				<div
+					className="text-muted mb-3"
+					style={{ fontSize: "0.75rem", lineHeight: 1.5, opacity: 0.85 }}
+				>
+					{ad.body}
+				</div>
+			</div>
+
+			{/* compact CTA */}
 			<button
-				className="btn w-100 mt-3 fw-bold rounded-3"
+				className="btn btn-sm d-flex align-items-center justify-content-center gap-2 fw-bold rounded-pill ps-3 pe-2 py-2"
 				style={{
 					background: ad.accent,
 					color: "#fff",
-					fontSize: "0.78rem",
-					padding: "10px",
+					fontSize: "0.7rem",
 					border: "none",
-					letterSpacing: "0.3px",
+					boxShadow: `0 4px 12px ${ad.accent}44`,
+					transition: "all 0.2s ease",
 				}}
 				onClick={() => onNavigate(ad.section)}
+				onMouseEnter={(e) => {
+					e.currentTarget.style.transform = "translateY(-1px)";
+					e.currentTarget.style.boxShadow = `0 6px 15px ${ad.accent}55`;
+				}}
+				onMouseLeave={(e) => {
+					e.currentTarget.style.transform = "translateY(0)";
+					e.currentTarget.style.boxShadow = `0 4px 12px ${ad.accent}44`;
+				}}
 			>
-				{ad.cta} <i className="bi bi-arrow-right ms-1" />
+				{ad.cta}
+				<div
+					className="bg-white rounded-circle d-flex align-items-center justify-content-center"
+					style={{ width: "18px", height: "18px" }}
+				>
+					<i
+						className="bi bi-chevron-right"
+						style={{ color: ad.accent, fontSize: "0.6rem" }}
+					/>
+				</div>
 			</button>
 		</div>
 	);
@@ -405,7 +431,7 @@ const ContributionDetailModal = ({ item, onClose }) => {
 					maxHeight: "85vh",
 					overflowY: "auto",
 					borderRadius: "24px 24px 0 0", // Mobile style
-					paddingBottom: "env(safe-area-inset-bottom)",
+					paddingBottom: "calc(40px + env(safe-area-inset-bottom))",
 					animation: "slideUp 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
 					position: "relative",
 				}}
@@ -423,7 +449,7 @@ const ContributionDetailModal = ({ item, onClose }) => {
 					></div>
 				</div>
 
-				<div className="p-4 pt-1 pt-md-4">
+				<div className="p-4 pt-1 pt-md-4 pb-5">
 					{/* Header section */}
 					<div className="d-flex justify-content-between align-items-center mb-4">
 						<div className="d-flex align-items-center gap-3">
@@ -627,148 +653,131 @@ const HistoryItem = ({ item, onClick }) => {
 
 	const isApproved = item.status?.toLowerCase() === "approved";
 	const isPending = item.status?.toLowerCase() === "pending";
+	const isRejected = item.status?.toLowerCase() === "rejected";
 	const type = item.proposed_for?.toLowerCase();
 	const meta = TYPE_META[type] || DEFAULT_META;
 
+	const statusColor = isApproved
+		? "#10b981"
+		: isPending
+			? "#f59e0b"
+			: "#ef4444";
+
 	return (
 		<div
-			className="list-group-item border-0 border-bottom bg-transparent p-4 position-relative"
+			className="list-group-item border-0 border-bottom bg-transparent px-3 py-2.5 position-relative"
 			style={{
 				cursor: "pointer",
-				transition: "all 0.2s ease",
+				transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
 				borderBottomColor: "#f1f5f9 !important",
 			}}
 			onClick={onClick}
 			onMouseEnter={(e) => {
-				e.currentTarget.style.backgroundColor = "rgba(99, 102, 241, 0.03)";
+				e.currentTarget.style.backgroundColor = "rgba(99, 102, 241, 0.04)";
+				e.currentTarget.style.transform = "translateX(4px)";
 			}}
 			onMouseLeave={(e) => {
 				e.currentTarget.style.backgroundColor = "transparent";
+				e.currentTarget.style.transform = "translateX(0)";
 			}}
 		>
-			{/* Timeline line connector */}
-			<div
-				className="position-absolute"
-				style={{
-					top: 0,
-					bottom: 0,
-					left: "44px",
-					width: "2px",
-					background: "#f1f5f9",
-					zIndex: 0,
-				}}
-			/>
-
-			{/* ── Header row ── */}
-			<div
-				className="d-flex justify-content-between align-items-start mb-3 position-relative"
-				style={{ zIndex: 1 }}
-			>
-				<div className="d-flex align-items-center gap-3">
-					{/* type icon badge */}
-					<div
-						className="d-flex align-items-center justify-content-center rounded-circle shadow-sm"
-						style={{
-							width: "40px",
-							height: "40px",
-							background: meta.bg,
-							flexShrink: 0,
-							border: "2px solid #fff",
-						}}
-					>
-						<i
-							className={`bi ${meta.icon}`}
-							style={{ color: meta.accent, fontSize: "1.1rem" }}
-						/>
-					</div>
-					<div>
-						<div className="fw-bolder text-dark" style={{ fontSize: "0.9rem" }}>
-							{meta.label}
-						</div>
-						<div className="text-muted" style={{ fontSize: "0.72rem" }}>
-							<i className="bi bi-clock me-1" />
-							{item.created_relative || "recently"}
-						</div>
-					</div>
-				</div>
-
-				{/* status badge */}
-				<span
-					className="badge rounded-pill py-2 px-3"
+			<div className="d-flex align-items-center gap-3">
+				{/* Compact Icon */}
+				<div
+					className="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0 shadow-sm"
 					style={{
-						fontSize: "0.68rem",
-						fontWeight: 700,
-						background: isApproved
-							? "#d1fae5"
-							: isPending
-								? "#fef3c7"
-								: "#fee2e2",
-						color: isApproved ? "#065f46" : isPending ? "#92400e" : "#991b1b",
-						border: `1px solid ${isApproved ? "#6ee7b7" : isPending ? "#fde68a" : "#fca5a5"}`,
+						width: "34px",
+						height: "34px",
+						background: meta.bg,
+						border: `2px solid #fff`,
 					}}
 				>
 					<i
-						className={`bi me-1 ${isApproved ? "bi-check-circle-fill" : isPending ? "bi-hourglass-split" : "bi-x-circle-fill"}`}
+						className={`bi ${meta.icon}`}
+						style={{ color: meta.accent, fontSize: "0.95rem" }}
 					/>
-					{item.status || "Pending"}
-				</span>
-			</div>
+				</div>
 
-			{/* ── Data summary (compact) ── */}
-			<div className="ps-5 mb-3 position-relative" style={{ zIndex: 1 }}>
-				{dataArray.slice(0, 1).map((info, i) => (
+				<div className="flex-grow-1 min-w-0">
+					{/* Main Subject */}
 					<div
-						key={i}
-						className="text-dark fw-bold"
-						style={{ fontSize: "0.92rem" }}
+						className="fw-bold text-dark text-truncate"
+						style={{ fontSize: "0.85rem", lineHeight: "1.2" }}
 					>
-						{type === "bus" &&
-							(info.bus_name || info.bus_number || "Bus Details")}
-						{type === "stop" && (info.name || "Station Details")}
-						{type === "route" &&
-							`${info.origin_name || "?"} → ${info.destination_name || "?"}`}
-						{type === "trip" && (info.route_name || "Trip Details")}
-						{type === "route stop" && (info.stop_name || "Route Stop Details")}
-						{!["bus", "stop", "route", "trip", "route stop"].includes(type) &&
-							"Tap for Details"}
+						{dataArray.slice(0, 1).map((info) => {
+							if (type === "bus")
+								return info.bus_name || info.bus_number || "Bus Details";
+							if (type === "stop") return info.name || "Station Details";
+							if (type === "route")
+								return `${info.origin_name || "?"} → ${info.destination_name || "?"}`;
+							if (type === "trip") return info.route_name || "Trip Details";
+							if (type === "route stop")
+								return info.stop_name || "Route Stop Details";
+							return "Contribution Detail";
+						})}
 					</div>
-				))}
-				<div className="text-muted mt-1" style={{ fontSize: "0.75rem" }}>
-					Click to see all{" "}
-					{
-						Object.keys(dataArray[0] || {}).filter(
-							(k) =>
-								(k !== "id" &&
-									!k.endsWith("_id") &&
-									k !== "created_at" &&
-									k !== "updated_at") ||
-								k.toLowerCase().includes("number") ||
-								k.toLowerCase().includes("code"),
-						).length
-					}{" "}
-					proposed details
-				</div>
-			</div>
 
-			{/* ── Footer row ── */}
-			<div
-				className="d-flex align-items-center justify-content-between pt-1 ps-5 position-relative"
-				style={{ zIndex: 1 }}
-			>
-				<div
-					className="text-muted d-flex align-items-center gap-1"
-					style={{ fontSize: "0.72rem" }}
-				>
-					<i className="bi bi-calendar3" />
-					{item.created_time}
-				</div>
-				{isApproved && (
-					<span
-						style={{ color: "#6366f1", fontWeight: 800, fontSize: "0.85rem" }}
+					{/* Meta Row: Type • Time • Status Dot */}
+					<div
+						className="d-flex align-items-center gap-2 mt-0.5"
+						style={{ fontSize: "0.7rem" }}
 					>
-						<i className="bi bi-stars me-1"></i>+{item.reward?.points || 0} pts
-					</span>
-				)}
+						<span
+							className="fw-bold text-uppercase opacity-75"
+							style={{ color: meta.accent, letterSpacing: "0.3px" }}
+						>
+							{meta.label}
+						</span>
+						<span className="text-muted">•</span>
+						<span className="text-muted">
+							{item.created_relative || "recently"}
+						</span>
+						<span className="text-muted">•</span>
+						<div className="d-flex align-items-center gap-1">
+							<div
+								style={{
+									width: "6px",
+									height: "6px",
+									borderRadius: "50%",
+									background: statusColor,
+								}}
+							/>
+							<span
+								className="fw-bold"
+								style={{
+									color: statusColor,
+									fontSize: "0.65rem",
+									textTransform: "capitalize",
+								}}
+							>
+								{item.status || "Pending"}
+							</span>
+						</div>
+					</div>
+				</div>
+
+				{/* Reward / Action indicator */}
+				<div className="text-end flex-shrink-0">
+					{isApproved && item.reward?.points > 0 ? (
+						<div
+							className="rounded-pill px-2 py-0.5 d-flex align-items-center gap-1"
+							style={{
+								background: "#e0e7ff",
+								color: "#4338ca",
+								fontSize: "0.65rem",
+								fontWeight: 800,
+							}}
+						>
+							<i className="bi bi-stars" style={{ fontSize: "0.6rem" }}></i>+
+							{item.reward.points}
+						</div>
+					) : (
+						<i
+							className="bi bi-chevron-right text-muted opacity-25"
+							style={{ fontSize: "0.8rem" }}
+						></i>
+					)}
+				</div>
 			</div>
 		</div>
 	);
