@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { AuthProvider, useAuth } from "./context/AuthContext";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import ForgotPin from "./pages/ForgotPin";
-import ResetPin from "./pages/ResetPin";
+import { AuthProvider, useAuth } from "./shared/context/AuthContext";
+import Login from "./features/auth/pages/Login";
+import Register from "./features/auth/pages/Register";
+import ForgotPin from "./features/auth/pages/ForgotPin";
+import ResetPin from "./features/auth/pages/ResetPin";
 import Dashboard from "./pages/Dashboard";
 
 const AppContent = () => {

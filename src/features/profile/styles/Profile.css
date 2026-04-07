@@ -1,0 +1,65 @@
+.profile-avatar-container {
+    width: 100px;
+    height: 100px;
+    background-color: #f8f9fa;
+    border-radius: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-avatar-icon {
+    font-size: 3rem;
+    color: #0d6efd;
+}
+
+.trust-level-badge {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0;
+    text-transform: uppercase;
+}
+
+.trust-level-high {
+    color: #198754;
+}
+
+.trust-level-medium {
+    color: #0d6efd;
+}
+
+.trust-level-low {
+    color: #dc3545;
+}
+
+.trust-level-none {
+    color: #ffc107;
+}
+
+.stat-card {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.stat-label {
+    color: #6c757d;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    margin-top: 0.25rem;
+}

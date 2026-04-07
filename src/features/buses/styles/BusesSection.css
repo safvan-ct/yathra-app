@@ -1,0 +1,106 @@
+/* ─────────────────────────────────────────────────────────────
+   BUSES SECTION STYLES
+───────────────────────────────────────────────────────────── */
+
+.hover-lift {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: pointer;
+    border: 1px solid rgba(0,0,0,0.04) !important;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.15) !important;
+    border-color: rgba(0,0,0,0.08) !important;
+}
+
+.bus-icon-bg {
+    background: linear-gradient(135deg, var(--bus-color-light), rgba(255,255,255,0.8));
+    color: var(--bus-color, #0d6efd);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+    width: 65px;
+    height: 65px;
+}
+
+.custom-badge {
+    font-size: 0.7rem;
+    letter-spacing: 0.3px;
+}
+
+.search-input-wrapper {
+    transition: box-shadow 0.2s;
+}
+
+.search-input-wrapper:focus-within {
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+}
+
+.buses-sticky-search {
+    z-index: 1020;
+}
+
+.buses-search-input {
+    padding-left: 3rem;
+    padding-right: 3rem;
+    font-size: 1rem;
+}
+
+.buses-clear-btn {
+    margin-right: 0.5rem;
+}
+
+.bus-card-content {
+    min-width: 0;
+}
+
+.bus-card-number {
+    font-size: 0.95rem;
+    word-break: break-word;
+}
+
+.bus-card-name {
+    font-size: 0.9rem;
+}
+
+.next-icon-box {
+    width: 36px;
+    height: 36px;
+}
+
+/* Sponsored Ad Card */
+.sponsored-ad-card {
+    background: linear-gradient(135deg, #FF6B6C 0%, #FF8E53 100%);
+    min-height: 120px;
+}
+
+.ad-shape-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    opacity: 0.25;
+    width: 120px;
+    height: 120px;
+    top: -30px;
+    right: -30px;
+    filter: blur(4px);
+}
+
+.ad-card-description {
+    font-size: 0.85rem;
+    line-height: 1.3;
+}
+
+/* Loader & Empty States */
+.buses-loader-spinner {
+    width: 3rem;
+    height: 3rem;
+}
+
+.empty-state-icon-box {
+    width: 90px;
+    height: 90px;
+}
+
+.infinite-scroll-trigger {
+    height: 1px;
+}

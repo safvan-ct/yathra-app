@@ -1,21 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { useAuth } from "../context/AuthContext";
-import "./Dashboard.css"; // Ensure styles are imported
+import { useState, useEffect } from "react";
+import { useAuth } from "../shared/context/AuthContext";
+import "./Dashboard.css";
 
-// Import Components
-import DesktopNav from "../components/dashboard/DesktopNav";
-import BottomNav from "../components/dashboard/BottomNav";
-import HomeSection from "../components/dashboard/HomeSection";
-import BusesSection from "../components/dashboard/BusesSection";
-import ContributeSection from "../components/dashboard/ContributeSection";
-import HistorySection from "../components/dashboard/HistorySection";
-import ProfileSection from "../components/dashboard/ProfileSection";
+import DesktopNav from "../shared/components/DesktopNav";
+import BottomNav from "../shared/components/BottomNav";
+
+import HomeSection from "../features/home/components/HomeSection";
+import BusesSection from "../features/buses/components/BusesSection";
+import ContributeSection from "../features/contributions/components/ContributeSection";
+import HistorySection from "../features/profile/components/HistorySection";
+import ProfileSection from "../features/profile/components/ProfileSection";
 
 const Dashboard = ({ navigateTo }) => {
 	const { token, logout } = useAuth();
 	const [activeSection, setActiveSection] = useState("home");
 
-	// Auth protection
 	useEffect(() => {
 		if (!token) {
 			logout();
@@ -23,7 +22,7 @@ const Dashboard = ({ navigateTo }) => {
 		}
 	}, [token, logout, navigateTo]);
 
-	if (!token) return null; // Prevent rendering while redirecting
+	if (!token) return null;
 
 	return (
 		<>
@@ -38,7 +37,9 @@ const Dashboard = ({ navigateTo }) => {
 			{activeSection === "history" && (
 				<HistorySection setActiveSection={setActiveSection} />
 			)}
-			{activeSection === "profile" && <ProfileSection navigateTo={navigateTo} />}
+			{activeSection === "profile" && (
+				<ProfileSection navigateTo={navigateTo} />
+			)}
 
 			<BottomNav
 				activeSection={activeSection}

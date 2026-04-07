@@ -1,0 +1,33 @@
+.nav-brand-text {
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--bs-primary);
+    letter-spacing: -1px;
+}
+
+.bottom-nav-label-spacing {
+    margin-top: 5px;
+    display: block;
+}
+
+.btn-nav-contribute {
+    margin-left: 1rem;
+    border-radius: 50rem !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    font-weight: 700 !important;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.auth-input-group-text {
+    border-radius: 12px 0 0 12px !important;
+}
+
+.auth-input-group-input {
+    border-radius: 0 12px 12px 0 !important;
+}
+
+.auth-footer-copyright {
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+}
