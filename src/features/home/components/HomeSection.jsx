@@ -218,6 +218,41 @@ const HomeSection = () => {
 		return `${hours}h ${mins}m`;
 	};
 
+	const isPastTime = (timeStr) => {
+		if (!timeStr) return false;
+		const now = new Date();
+		// Subtract 15 minutes buffer: only mark as past if it departed >15m ago
+		const threshold = new Date(now.getTime() - 15 * 60000);
+		const currentH = threshold.getHours();
+		const currentM = threshold.getMinutes();
+
+		let h, m;
+		const timePart = timeStr.trim().toUpperCase();
+
+		if (timePart.includes("AM") || timePart.includes("PM")) {
+			const parts = timePart.split(/\s+/);
+			const timeParts = parts[0].split(":");
+			let hours = parseInt(timeParts[0]);
+			const minutes = parseInt(timeParts[1]);
+			const modifier = parts[1] || (timePart.includes("PM") ? "PM" : "AM");
+
+			if (modifier === "PM" && hours < 12) hours += 12;
+			if (modifier === "AM" && hours === 12) hours = 0;
+			h = hours;
+			m = minutes;
+		} else {
+			const parts = timePart.split(":");
+			h = parseInt(parts[0]);
+			m = parseInt(parts[1]);
+		}
+
+		if (isNaN(h) || isNaN(m)) return false;
+
+		if (h < currentH) return true;
+		if (h === currentH && m <= currentM) return true;
+		return false;
+	};
+
 	return (
 		<div id="section-home" className="app-section active">
 			<div className="search-header text-center d-none d-md-block">
@@ -401,18 +436,24 @@ const HomeSection = () => {
 							{!busesLoading &&
 								buses?.map((bus, idx) => {
 									const isRunningToday = bus.is_running_today == 1;
+									const isDeparted =
+										isRunningToday && isPastTime(bus.departure_time);
 									const items = [];
 
 									items.push(
 										<div
 											key={`bus-${idx}`}
-											className={`bus-card card bus-card-main border-0 shadow-sm mb-3 position-relative overflow-hidden ${!isRunningToday ? "opacity-75 grayscale" : ""}`}
+											className={`bus-card card bus-card-main border-0 shadow-sm mb-3 position-relative overflow-hidden ${!isRunningToday ? "opacity-75 grayscale" : ""} ${isDeparted ? "bus-card-departed" : ""}`}
 											style={{
-												background: isRunningToday ? "#ffffff" : "#f8f9fa",
+												background: !isRunningToday
+													? "#f8f9fa"
+													: isDeparted
+														? "#fdfdfe"
+														: "#ffffff",
 											}}
 										>
 											<div
-												className={`bus-card-indicator ${isRunningToday ? "bg-primary" : "bg-secondary"}`}
+												className={`bus-card-indicator ${!isRunningToday ? "bg-secondary" : isDeparted ? "bg-warning opacity-50" : "bg-primary"}`}
 											></div>
 
 											<div className="card-body p-3">
@@ -445,6 +486,10 @@ const HomeSection = () => {
 																{!isRunningToday ? (
 																	<span className="badge bg-secondary-subtle text-black rounded-pill px-2 border badge-not-running">
 																		NOT RUNNING TODAY
+																	</span>
+																) : isDeparted ? (
+																	<span className="badge badge-departed rounded-pill px-2 border">
+																		DEPARTED
 																	</span>
 																) : (
 																	<div className="lh-1">

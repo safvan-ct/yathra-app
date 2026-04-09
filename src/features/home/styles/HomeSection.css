@@ -265,6 +265,56 @@
     font-size: 0.5rem;
 }
 
+.badge-departed {
+    font-size: 0.6rem;
+    font-weight: 800;
+    background: rgba(108, 117, 125, 0.08);
+    color: #495057;
+    border: 1px solid rgba(108, 117, 125, 0.2) !important;
+    letter-spacing: 0.5px;
+    backdrop-filter: blur(4px);
+}
+
+.bus-card-departed {
+    opacity: 0.7;
+    filter: grayscale(0.5) brightness(0.98);
+}
+
+.bus-card-departed::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(-45deg,
+            transparent,
+            transparent 10px,
+            rgba(0, 0, 0, 0.02) 10px,
+            rgba(0, 0, 0, 0.02) 20px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.bus-card-departed .bus-card-name {
+    color: #64748b !important;
+}
+
+.bus-card-departed .text-primary,
+.bus-card-departed .text-success,
+.bus-card-departed .journey-dot-start,
+.bus-card-departed .journey-dot-end,
+.bus-card-departed .journey-line,
+.bus-card-departed .journey-arrow {
+    color: #94a3b8 !important;
+    border-color: #cbd5e1 !important;
+    background-color: #cbd5e1 !important;
+}
+
+.bus-card-departed .journey-line {
+    background-color: #e2e8f0 !important;
+}
+
 .bus-card-label-tiny {
     font-size: 0.5rem;
     letter-spacing: 0.7px;
