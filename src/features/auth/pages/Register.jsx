@@ -115,7 +115,7 @@ const Register = ({ navigateTo }) => {
 						)}
 					</button>
 					<div className="text-center mt-3">
-						<p className="small text-muted">
+						<p className="small text-muted mb-2">
 							Already have an account?{" "}
 							<a
 								href="#"
@@ -128,6 +128,17 @@ const Register = ({ navigateTo }) => {
 								Login
 							</a>
 						</p>
+						<a
+							href="#"
+							onClick={(e) => {
+								e.preventDefault();
+								navigateTo("dashboard");
+							}}
+							className="text-muted text-decoration-none small d-inline-flex align-items-center gap-1"
+						>
+							<i className="bi bi-arrow-left"></i>
+							Back to Search
+						</a>
 					</div>
 				</form>
 			</div>

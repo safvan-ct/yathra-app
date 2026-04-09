@@ -12,30 +12,30 @@ import HistorySection from "../features/profile/components/HistorySection";
 import ProfileSection from "../features/profile/components/ProfileSection";
 
 const Dashboard = ({ navigateTo }) => {
-	const { token, logout } = useAuth();
+	const { token } = useAuth();
 	const [activeSection, setActiveSection] = useState("home");
 
-	useEffect(() => {
-		if (!token) {
-			logout();
+	const handleSectionChange = (section) => {
+		if (section !== "home" && !token) {
 			navigateTo("login");
+			return;
 		}
-	}, [token, logout, navigateTo]);
-
-	if (!token) return null;
+		setActiveSection(section);
+	};
 
 	return (
 		<>
 			<DesktopNav
 				activeSection={activeSection}
-				setActiveSection={setActiveSection}
+				setActiveSection={handleSectionChange}
+				token={token}
 			/>
 
 			{activeSection === "home" && <HomeSection />}
 			{activeSection === "buses" && <BusesSection />}
 			{activeSection === "contribute" && <ContributeSection />}
 			{activeSection === "history" && (
-				<HistorySection setActiveSection={setActiveSection} />
+				<HistorySection setActiveSection={handleSectionChange} />
 			)}
 			{activeSection === "profile" && (
 				<ProfileSection navigateTo={navigateTo} />
@@ -43,7 +43,8 @@ const Dashboard = ({ navigateTo }) => {
 
 			<BottomNav
 				activeSection={activeSection}
-				setActiveSection={setActiveSection}
+				setActiveSection={handleSectionChange}
+				token={token}
 			/>
 		</>
 	);

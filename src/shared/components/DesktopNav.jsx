@@ -1,6 +1,6 @@
 import "../styles/Navigation.css";
 
-const DesktopNav = ({ activeSection, setActiveSection }) => {
+const DesktopNav = ({ activeSection, setActiveSection, token }) => {
 	const handleNavClick = (e, section) => {
 		e.preventDefault();
 		setActiveSection(section);
@@ -38,7 +38,7 @@ const DesktopNav = ({ activeSection, setActiveSection }) => {
 						className={`nav-link ${activeSection === "profile" ? "active" : ""}`}
 						onClick={(e) => handleNavClick(e, "profile")}
 					>
-						Profile
+						{token ? "Profile" : "Sign In"}
 					</a>
 					<button
 						className="btn btn-primary btn-nav-contribute shadow-sm"

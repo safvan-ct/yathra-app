@@ -1,6 +1,6 @@
 import "../styles/Navigation.css";
 
-const BottomNav = ({ activeSection, setActiveSection }) => {
+const BottomNav = ({ activeSection, setActiveSection, token }) => {
 	const handleNavClick = (e, section) => {
 		if (e) e.preventDefault();
 		setActiveSection(section);
@@ -47,8 +47,10 @@ const BottomNav = ({ activeSection, setActiveSection }) => {
 				className={`nav-item ${activeSection === "profile" ? "active" : ""}`}
 				onClick={(e) => handleNavClick(e, "profile")}
 			>
-				<i className="bi bi-person-circle"></i>
-				<span>Profile</span>
+				<i
+					className={`bi ${token ? "bi-person-circle" : "bi-box-arrow-in-right"}`}
+				></i>
+				<span>{token ? "Profile" : "Login"}</span>
 			</a>
 		</nav>
 	);

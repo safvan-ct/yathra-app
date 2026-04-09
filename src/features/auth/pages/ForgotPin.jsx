@@ -60,7 +60,7 @@ const ForgotPin = ({ navigateTo }) => {
 						)}
 					</button>
 
-					<div className="text-center mt-3">
+					<div className="text-center mt-3 d-flex flex-column gap-2">
 						<a
 							href="#"
 							onClick={(e) => {
@@ -70,6 +70,17 @@ const ForgotPin = ({ navigateTo }) => {
 							className="text-muted text-decoration-none small fw-bold"
 						>
 							<i className="bi bi-arrow-left me-1"></i> Back to Login
+						</a>
+						<a
+							href="#"
+							onClick={(e) => {
+								e.preventDefault();
+								navigateTo("dashboard");
+							}}
+							className="text-muted text-decoration-none small d-inline-flex align-items-center justify-content-center gap-1"
+						>
+							<i className="bi bi-house-door"></i>
+							Back to Search
 						</a>
 					</div>
 				</form>

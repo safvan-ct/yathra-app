@@ -8,7 +8,7 @@ import Dashboard from "./pages/Dashboard";
 
 const AppContent = () => {
 	const { token, loading, logout } = useAuth();
-	const [currentScreen, setCurrentScreen] = useState("login");
+	const [currentScreen, setCurrentScreen] = useState("dashboard");
 
 	const navigateTo = (screen) => {
 		setCurrentScreen(screen);
@@ -24,7 +24,7 @@ const AppContent = () => {
 		);
 	}
 
-	if (token) {
+	if (currentScreen === "dashboard") {
 		return <Dashboard navigateTo={navigateTo} />;
 	}
 
@@ -39,7 +39,7 @@ const AppContent = () => {
 			case "resetPin":
 				return <ResetPin navigateTo={navigateTo} />;
 			default:
-				return <Login navigateTo={navigateTo} />;
+				return <Dashboard navigateTo={navigateTo} />;
 		}
 	};
 
