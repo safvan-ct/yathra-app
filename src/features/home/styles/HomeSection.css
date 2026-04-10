@@ -357,3 +357,30 @@
 .journey-meta {
     font-size: 0.6rem;
 }
+
+/* Choices Custom Styles */
+/* .choice-secondary-label {
+    font-size: 0.7rem;
+    color: #d1d7df;
+    margin-left: 0.3rem;
+    font-weight: 400;
+    opacity: 0.8;
+} */
+
+.choices__item .choice-secondary-label::before {
+    content: "•";
+    margin-right: 0.2rem;
+    opacity: 0.4;
+}
+
+/* .choices__list--single .choices__item .choice-secondary-label {
+    color: #64748b;
+    opacity: 0.6;
+} */
+
+.choices__list--dropdown .choices__item--selectable {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    display: flex;
+    align-items: center;
+}

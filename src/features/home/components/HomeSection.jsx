@@ -97,10 +97,8 @@ const HomeSection = () => {
 		if (!stationResults) return;
 
 		const formattedOptions = stationResults.map((r) => ({
-			value: String(r.id || r.code),
-			label: `<span class="badge bg-primary">${String(r.code)
-				.substring(0, 3)
-				.toUpperCase()}</span> ${r.name || r.code} <small class="text-muted"></small>`,
+			value: String(r.id),
+			label: `${r.name}${r.display_name ? ` <small class="choice-secondary-label">${r.display_name}</small>` : ""}`,
 		}));
 
 		Object.values(choicesInstances.current).forEach((instance) => {
