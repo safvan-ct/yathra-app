@@ -16,9 +16,56 @@ import TrackingSection from "../features/buses/components/TrackingSection";
 
 const Dashboard = ({ navigateTo }) => {
 	const { token } = useAuth();
-	const [activeSection, setActiveSection] = useState("home");
-	const [trackedBus, setTrackedBus] = useState(null);
-	const [previousSection, setPreviousSection] = useState("home");
+
+	const [activeSection, setActiveSection] = useState(() => {
+		const saved = localStorage.getItem("yathra_active_section");
+		if (saved === "tracking") {
+			const savedBus = localStorage.getItem("yathra_tracked_bus");
+			if (!savedBus) return "home";
+		}
+		return saved || "home";
+	});
+
+	const [trackedBus, setTrackedBus] = useState(() => {
+		const savedBus = localStorage.getItem("yathra_tracked_bus");
+		try {
+			return savedBus ? JSON.parse(savedBus) : null;
+		} catch (e) {
+			return null;
+		}
+	});
+
+	const [previousSection, setPreviousSection] = useState(() => {
+		return localStorage.getItem("yathra_previous_section") || "home";
+	});
+
+	useEffect(() => {
+		localStorage.setItem("yathra_active_section", activeSection);
+	}, [activeSection]);
+
+	useEffect(() => {
+		if (trackedBus) {
+			localStorage.setItem("yathra_tracked_bus", JSON.stringify(trackedBus));
+		} else {
+			localStorage.removeItem("yathra_tracked_bus");
+		}
+	}, [trackedBus]);
+
+	useEffect(() => {
+		localStorage.setItem("yathra_previous_section", previousSection);
+	}, [previousSection]);
+
+	useEffect(() => {
+		if (
+			activeSection !== "home" &&
+			activeSection !== "stops" &&
+			activeSection !== "buses" &&
+			activeSection !== "tracking" &&
+			!token
+		) {
+			setActiveSection("home");
+		}
+	}, [activeSection, token]);
 
 	const handleTrackBus = (bus, fromSection) => {
 		setTrackedBus(bus);
