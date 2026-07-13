@@ -123,6 +123,12 @@
   display: block;
 }
 
+@media (max-width: 767.98px) {
+  .app-section.active {
+    padding-bottom: 80px;
+  }
+}
+
 .choices__list--dropdown {
   z-index: 9999 !important;
   /* box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important; */
@@ -145,13 +151,15 @@
 /* (Base styles are already somewhat in style.css, but we will use the exact dashboard.html ones to not break anything) */
 .bottom-nav-dashboard {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 70px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(15px);
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
   display: flex;
   align-items: center;
   z-index: 2000;
@@ -164,9 +172,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .bottom-nav-dashboard .nav-item.active {
@@ -174,8 +183,13 @@
 }
 
 .bottom-nav-dashboard .nav-item i {
-  font-size: 1.3rem;
-  margin-bottom: 2px;
+  font-size: 1.15rem;
+  margin-bottom: 1px;
+  transition: all 0.2s ease;
+}
+
+.bottom-nav-dashboard .nav-item.active i {
+  transform: scale(1.08) translateY(-1px);
 }
 
 .btn-contribute-float {
