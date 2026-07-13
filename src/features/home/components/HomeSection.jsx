@@ -7,7 +7,7 @@ import "../styles/HomeSection.css";
 
 const LS_KEY = "yathra_stops";
 
-const HomeSection = () => {
+const HomeSection = ({ onBusClick }) => {
 	const desktopFromRef = useRef(null);
 	const desktopToRef = useRef(null);
 	const mobileFromRef = useRef(null);
@@ -442,12 +442,14 @@ const HomeSection = () => {
 										<div
 											key={`bus-${idx}`}
 											className={`bus-card card bus-card-main border-0 shadow-sm mb-3 position-relative overflow-hidden ${!isRunningToday ? "opacity-75 grayscale" : ""} ${isDeparted ? "bus-card-departed" : ""}`}
+											onClick={() => isRunningToday && onBusClick && onBusClick(bus)}
 											style={{
 												background: !isRunningToday
 													? "#f8f9fa"
 													: isDeparted
 														? "#fdfdfe"
 														: "#ffffff",
+												cursor: isRunningToday ? "pointer" : "default",
 											}}
 										>
 											<div

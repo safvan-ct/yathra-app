@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import { busService } from "../api/busService";
 import "../styles/BusesSection.css";
 
-const BusesSection = () => {
+const BusesSection = ({ onBusClick }) => {
 	const [buses, setBuses] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [loadingMore, setLoadingMore] = useState(false);
@@ -173,7 +173,11 @@ const BusesSection = () => {
 						// Push the actual Bus Card
 						elements.push(
 							<div key={bus.id || idx} className="col-12 col-md-6 col-lg-4">
-								<div className="card border-0 shadow-sm rounded-4 h-100 hover-lift bg-white">
+								<div 
+									className="card border-0 shadow-sm rounded-4 h-100 hover-lift bg-white"
+									onClick={() => onBusClick && onBusClick(bus)}
+									style={{ cursor: "pointer" }}
+								>
 									<div className="card-body p-3 d-flex align-items-center gap-3">
 										{/* Left side: Colored bus icon */}
 										<div
