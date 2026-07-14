@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../shared/context/AuthContext";
 import "./Dashboard.css";
 
@@ -14,16 +14,19 @@ import ProfileSection from "../features/profile/components/ProfileSection";
 import StopsSection from "../features/stops/components/StopsSection";
 import TicketsSection from "../features/tickets/components/TicketsSection";
 import TrackingSection from "../features/buses/components/TrackingSection";
+import BusTripsSection from "../features/buses/components/BusTripsSection";
 
 const Dashboard = ({ navigateTo }) => {
 	const { token } = useAuth();
 	const location = useLocation();
 	const navigate = useNavigate();
+	const { busId } = useParams();
 
 	// Determine active section from location.pathname
 	const getActiveSection = () => {
 		const path = location.pathname;
 		if (path === "/" || path === "/home") return "home";
+		if (path.startsWith("/buses/") && path.endsWith("/trips")) return "bus-trips";
 		if (path.startsWith("/buses")) return "buses";
 		if (path.startsWith("/stops")) return "stops";
 		if (path.startsWith("/tickets")) return "tickets";
@@ -91,6 +94,7 @@ const Dashboard = ({ navigateTo }) => {
 			activeSection !== "stops" &&
 			activeSection !== "buses" &&
 			activeSection !== "tracking" &&
+			activeSection !== "bus-trips" &&
 			!token
 		) {
 			navigate("/");
@@ -109,6 +113,7 @@ const Dashboard = ({ navigateTo }) => {
 			section !== "stops" &&
 			section !== "buses" &&
 			section !== "tracking" &&
+			section !== "bus-trips" &&
 			!token
 		) {
 			navigateTo("login");
@@ -119,7 +124,7 @@ const Dashboard = ({ navigateTo }) => {
 
 	return (
 		<>
-			{activeSection !== "tracking" && (
+			{activeSection !== "tracking" && activeSection !== "bus-trips" && (
 				<DesktopNav
 					activeSection={activeSection}
 					setActiveSection={handleSectionChange}
@@ -131,7 +136,16 @@ const Dashboard = ({ navigateTo }) => {
 				<HomeSection onBusClick={(bus) => handleTrackBus(bus, "home")} />
 			)}
 			{activeSection === "buses" && (
-				<BusesSection onBusClick={(bus) => handleTrackBus(bus, "buses")} />
+				<BusesSection onBusClick={(bus) => navigate(`/buses/${bus.id}/trips`, { state: { bus } })} />
+			)}
+			{activeSection === "bus-trips" && (
+				<BusTripsSection
+					bus={location.state?.bus || { id: busId }}
+					onBack={() => navigate("/buses")}
+					onTrackBus={(busObj, tripObj) => {
+						handleTrackBus({ ...busObj, trip_id: tripObj.id }, `buses/${busObj.id}/trips`);
+					}}
+				/>
 			)}
 			{activeSection === "stops" && <StopsSection />}
 			{activeSection === "tickets" && (
@@ -151,7 +165,7 @@ const Dashboard = ({ navigateTo }) => {
 				<ProfileSection navigateTo={navigateTo} />
 			)}
 
-			{activeSection !== "tracking" && (
+			{activeSection !== "tracking" && activeSection !== "bus-trips" && (
 				<BottomNav
 					activeSection={activeSection}
 					setActiveSection={handleSectionChange}
