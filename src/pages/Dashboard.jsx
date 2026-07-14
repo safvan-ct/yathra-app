@@ -102,6 +102,7 @@ const Dashboard = ({ navigateTo }) => {
 			activeSection !== "tracking" &&
 			activeSection !== "bus-trips" &&
 			activeSection !== "stop-timings" &&
+			activeSection !== "tickets" &&
 			!token
 		) {
 			navigate("/");
@@ -121,6 +122,7 @@ const Dashboard = ({ navigateTo }) => {
 			section !== "buses" &&
 			section !== "tracking" &&
 			section !== "bus-trips" &&
+			section !== "tickets" &&
 			!token
 		) {
 			navigateTo("login");
