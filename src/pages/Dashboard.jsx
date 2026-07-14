@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../shared/context/AuthContext";
 import "./Dashboard.css";
@@ -49,14 +49,21 @@ const Dashboard = ({ navigateTo }) => {
 		return localStorage.getItem("yathra_previous_section") || "home";
 	});
 
-	// Restore last active section on visiting root `/`
+	const initialRestoreDone = useRef(false);
+
+	// Restore last active section on visiting root `/` (only on initial load)
 	useEffect(() => {
 		if (location.pathname === "/") {
-			const saved = localStorage.getItem("yathra_active_section");
-			if (saved && saved !== "home" && saved !== "tracking") {
-				if (saved === "stops" || saved === "buses" || token) {
-					navigate(`/${saved}`, { replace: true });
+			if (!initialRestoreDone.current) {
+				initialRestoreDone.current = true;
+				const saved = localStorage.getItem("yathra_active_section");
+				if (saved && saved !== "home" && saved !== "tracking") {
+					if (saved === "stops" || saved === "buses" || token) {
+						navigate(`/${saved}`, { replace: true });
+					}
 				}
+			} else {
+				localStorage.setItem("yathra_active_section", "home");
 			}
 		}
 	}, [location.pathname, token, navigate]);
