@@ -15,26 +15,32 @@ import StopsSection from "../features/stops/components/StopsSection";
 import TicketsSection from "../features/tickets/components/TicketsSection";
 import TrackingSection from "../features/buses/components/TrackingSection";
 import BusTripsSection from "../features/buses/components/BusTripsSection";
+import StopTimingsSection from "../features/stops/components/StopTimingsSection";
 
 const Dashboard = ({ navigateTo }) => {
 	const { token } = useAuth();
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { busId } = useParams();
+	const { busId, stopId } = useParams();
 
 	// Determine active section from location.pathname
 	const getActiveSection = () => {
 		const path = location.pathname;
-		if (path === "/" || path === "/home") return "home";
-		if (path.startsWith("/buses/") && path.endsWith("/trips")) return "bus-trips";
-		if (path.startsWith("/buses")) return "buses";
-		if (path.startsWith("/stops")) return "stops";
-		if (path.startsWith("/tickets")) return "tickets";
-		if (path.startsWith("/tracking")) return "tracking";
-		if (path.startsWith("/contribute")) return "contribute";
-		if (path.startsWith("/history")) return "history";
-		if (path.startsWith("/profile")) return "profile";
-		return "home";
+		const active = (() => {
+			if (path === "/" || path === "/home") return "home";
+			if (path.startsWith("/buses/") && path.endsWith("/trips")) return "bus-trips";
+			if (path.startsWith("/buses")) return "buses";
+			if (path.startsWith("/stops/") && path.endsWith("/timings")) return "stop-timings";
+			if (path.startsWith("/stops")) return "stops";
+			if (path.startsWith("/tickets")) return "tickets";
+			if (path.startsWith("/tracking")) return "tracking";
+			if (path.startsWith("/contribute")) return "contribute";
+			if (path.startsWith("/history")) return "history";
+			if (path.startsWith("/profile")) return "profile";
+			return "home";
+		})();
+		console.log("getActiveSection path:", path, "activeSection:", active);
+		return active;
 	};
 
 	const activeSection = getActiveSection();
@@ -95,6 +101,7 @@ const Dashboard = ({ navigateTo }) => {
 			activeSection !== "buses" &&
 			activeSection !== "tracking" &&
 			activeSection !== "bus-trips" &&
+			activeSection !== "stop-timings" &&
 			!token
 		) {
 			navigate("/");
@@ -124,7 +131,7 @@ const Dashboard = ({ navigateTo }) => {
 
 	return (
 		<>
-			{activeSection !== "tracking" && activeSection !== "bus-trips" && (
+			{activeSection !== "tracking" && activeSection !== "bus-trips" && activeSection !== "stop-timings" && (
 				<DesktopNav
 					activeSection={activeSection}
 					setActiveSection={handleSectionChange}
@@ -147,7 +154,19 @@ const Dashboard = ({ navigateTo }) => {
 					}}
 				/>
 			)}
-			{activeSection === "stops" && <StopsSection />}
+			{activeSection === "stops" && (
+				<StopsSection onStopClick={(stop) => {
+					console.log("onStopClick callback invoked in Dashboard for stop:", stop);
+					navigate(`/stops/${stop.id}/timings`, { state: { stop } });
+				}} />
+			)}
+			{activeSection === "stop-timings" && (
+				<StopTimingsSection
+					stop={location.state?.stop || { id: stopId }}
+					onBack={() => navigate("/stops")}
+					onBusClick={(bus) => handleTrackBus(bus, `stops/${stopId}/timings`)}
+				/>
+			)}
 			{activeSection === "tickets" && (
 				<TicketsSection setActiveSection={handleSectionChange} />
 			)}
@@ -165,7 +184,7 @@ const Dashboard = ({ navigateTo }) => {
 				<ProfileSection navigateTo={navigateTo} />
 			)}
 
-			{activeSection !== "tracking" && activeSection !== "bus-trips" && (
+			{activeSection !== "tracking" && activeSection !== "bus-trips" && activeSection !== "stop-timings" && (
 				<BottomNav
 					activeSection={activeSection}
 					setActiveSection={handleSectionChange}

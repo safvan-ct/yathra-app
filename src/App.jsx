@@ -51,6 +51,7 @@ const AppContent = () => {
 			<Route path="/buses" element={<Dashboard navigateTo={navigateTo} />} />
 			<Route path="/buses/:busId/trips" element={<Dashboard navigateTo={navigateTo} />} />
 			<Route path="/stops" element={<Dashboard navigateTo={navigateTo} />} />
+			<Route path="/stops/:stopId/timings" element={<Dashboard navigateTo={navigateTo} />} />
 			<Route path="/tickets" element={<Dashboard navigateTo={navigateTo} />} />
 			<Route path="/tracking" element={<Dashboard navigateTo={navigateTo} />} />
 			<Route path="/contribute" element={<Dashboard navigateTo={navigateTo} />} />

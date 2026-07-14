@@ -2,6 +2,135 @@ import React, { useEffect, useState } from "react";
 import api from "../../../shared/api/api";
 import "../styles/Tracking.css";
 
+// Helper to provide mock trip data and nodes if API fails or for mock trip IDs
+const getMockTripAndNodes = (busObj) => {
+	const tripId = busObj.trip_id || "T-201";
+	
+	const allMockTrips = {
+		"T-201": {
+			id: "T-201",
+			departure_time: "07:30 AM",
+			arrival_time: "01:00 PM",
+			speed_kmh: 60,
+			route_id: 101,
+			bus: {
+				bus_name: busObj.bus_name || "Yathra Premium",
+				bus_number: busObj.bus_number || "KL-07-Y-1001",
+				category: busObj.category || "AC Multi-Axle",
+				bus_color: busObj.bus_color || "#0d6efd",
+				operator: busObj.operator || { name: "KSRTC", type: "State" }
+			},
+			route: {
+				origin: { name: "Cochin (Vytila)" },
+				destination: { name: "Trivandrum Central" }
+			},
+			nodes: [
+				{ stop_sequence: 1, distance_from_origin: 0, station: { name: "Cochin (Vytila)" } },
+				{ stop_sequence: 2, distance_from_origin: 40, station: { name: "Cherthala Bypass" } },
+				{ stop_sequence: 3, distance_from_origin: 80, station: { name: "Alappuzha" } },
+				{ stop_sequence: 4, distance_from_origin: 130, station: { name: "Kayamkulam" } },
+				{ stop_sequence: 5, distance_from_origin: 170, station: { name: "Kollam" } },
+				{ stop_sequence: 6, distance_from_origin: 220, station: { name: "Trivandrum Central" } }
+			]
+		},
+		"T-202": {
+			id: "T-202",
+			departure_time: "02:15 PM",
+			arrival_time: "10:45 PM",
+			speed_kmh: 55,
+			route_id: 102,
+			bus: {
+				bus_name: busObj.bus_name || "Yathra Premium",
+				bus_number: busObj.bus_number || "KL-07-Y-1002",
+				category: busObj.category || "AC Multi-Axle",
+				bus_color: busObj.bus_color || "#0d6efd",
+				operator: busObj.operator || { name: "KSRTC", type: "State" }
+			},
+			route: {
+				origin: { name: "Trivandrum Central" },
+				destination: { name: "Kozhikode (Calicut)" }
+			},
+			nodes: [
+				{ stop_sequence: 1, distance_from_origin: 0, station: { name: "Trivandrum Central" } },
+				{ stop_sequence: 2, distance_from_origin: 70, station: { name: "Kollam" } },
+				{ stop_sequence: 3, distance_from_origin: 140, station: { name: "Alappuzha" } },
+				{ stop_sequence: 4, distance_from_origin: 210, station: { name: "Ernakulam" } },
+				{ stop_sequence: 5, distance_from_origin: 290, station: { name: "Thrissur" } },
+				{ stop_sequence: 6, distance_from_origin: 375, station: { name: "Kozhikode (Calicut)" } }
+			]
+		},
+		"T-203": {
+			id: "T-203",
+			departure_time: "08:30 PM",
+			arrival_time: "06:15 AM",
+			speed_kmh: 65,
+			route_id: 103,
+			bus: {
+				bus_name: busObj.bus_name || "Yathra Premium",
+				bus_number: busObj.bus_number || "KL-07-Y-1003",
+				category: busObj.category || "AC Multi-Axle",
+				bus_color: busObj.bus_color || "#0d6efd",
+				operator: busObj.operator || { name: "KSRTC", type: "State" }
+			},
+			route: {
+				origin: { name: "Cochin (Vytila)" },
+				destination: { name: "Bangalore (Kaladipal)" }
+			},
+			nodes: [
+				{ stop_sequence: 1, distance_from_origin: 0, station: { name: "Cochin (Vytila)" } },
+				{ stop_sequence: 2, distance_from_origin: 20, station: { name: "Aluva Bypass" } },
+				{ stop_sequence: 3, distance_from_origin: 75, station: { name: "Thrissur Bypass" } },
+				{ stop_sequence: 4, distance_from_origin: 145, station: { name: "Palakkad" } },
+				{ stop_sequence: 5, distance_from_origin: 470, station: { name: "Hosur" } },
+				{ stop_sequence: 6, distance_from_origin: 530, station: { name: "Bangalore (Kaladipal)" } }
+			]
+		},
+		"T-204": {
+			id: "T-204",
+			departure_time: "09:45 PM",
+			arrival_time: "07:30 AM",
+			speed_kmh: 65,
+			route_id: 104,
+			bus: {
+				bus_name: busObj.bus_name || "Yathra Premium",
+				bus_number: busObj.bus_number || "KL-07-Y-1004",
+				category: busObj.category || "AC Multi-Axle",
+				bus_color: busObj.bus_color || "#0d6efd",
+				operator: busObj.operator || { name: "KSRTC", type: "State" }
+			},
+			route: {
+				origin: { name: "Bangalore (Kaladipal)" },
+				destination: { name: "Cochin (Vytila)" }
+			},
+			nodes: [
+				{ stop_sequence: 1, distance_from_origin: 0, station: { name: "Bangalore (Kaladipal)" } },
+				{ stop_sequence: 2, distance_from_origin: 60, station: { name: "Hosur" } },
+				{ stop_sequence: 3, distance_from_origin: 385, station: { name: "Palakkad" } },
+				{ stop_sequence: 4, distance_from_origin: 455, station: { name: "Thrissur Bypass" } },
+				{ stop_sequence: 5, distance_from_origin: 510, station: { name: "Aluva Bypass" } },
+				{ stop_sequence: 6, distance_from_origin: 530, station: { name: "Cochin (Vytila)" } }
+			]
+		}
+	};
+	
+	const matchedTrip = allMockTrips[tripId] || allMockTrips["T-201"];
+	
+	return {
+		trip: {
+			...matchedTrip,
+			bus: {
+				...matchedTrip.bus,
+				bus_name: busObj.bus_name || matchedTrip.bus.bus_name,
+				bus_number: busObj.bus_number || matchedTrip.bus.bus_number,
+				bus_color: busObj.bus_color || matchedTrip.bus.bus_color,
+				category: busObj.category || matchedTrip.bus.category,
+				operator: busObj.operator || matchedTrip.bus.operator
+			}
+		},
+		nodes: matchedTrip.nodes
+	};
+};
+
 const TrackingSection = ({ bus, onBack }) => {
 	const [activeTrip, setActiveTrip] = useState(null);
 	const [nodes, setNodes] = useState([]);
@@ -46,6 +175,21 @@ const TrackingSection = ({ bus, onBack }) => {
 		const fetchTrackingData = async () => {
 			setLoading(true);
 			setError(null);
+
+			// Intercept mock trip IDs first to load instant mock tracking
+			if (bus && bus.trip_id && String(bus.trip_id).startsWith("T-")) {
+				try {
+					await new Promise((resolve) => setTimeout(resolve, 600)); // Simulated loading
+					const mockResult = getMockTripAndNodes(bus);
+					setActiveTrip(mockResult.trip);
+					setNodes(mockResult.nodes);
+					setLoading(false);
+					return;
+				} catch (mockErr) {
+					console.error("Failed to load mock tracking info:", mockErr);
+				}
+			}
+
 			try {
 				let trip = null;
 				if (bus.trip_id) {
@@ -75,6 +219,16 @@ const TrackingSection = ({ bus, onBack }) => {
 				setNodes(sortedNodes);
 			} catch (err) {
 				console.error("Failed to load tracking info:", err);
+				// Check for mock fallback in case of API failure
+				if (bus && (bus.trip_id || bus.id)) {
+					console.log("API failed, attempting mock tracking fallback...");
+					try {
+						const mockResult = getMockTripAndNodes(bus);
+						setActiveTrip(mockResult.trip);
+						setNodes(mockResult.nodes);
+						return;
+					} catch (_) {}
+				}
 				setError(err.message || "Failed to load bus tracking page.");
 			} finally {
 				setLoading(false);

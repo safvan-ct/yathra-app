@@ -1,0 +1,209 @@
+/* ─────────────────────────────────────────────────────────────
+   STOP TIMINGS SECTION STYLES
+   ───────────────────────────────────────────────────────────── */
+
+.stop-timings-container {
+    padding-bottom: 5rem;
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* Header style styling */
+.stop-timings-header {
+    background: linear-gradient(135deg, #121c38 0%, #1e3c72 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.stop-timings-header-glow {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 75%);
+    top: -60px;
+    right: -60px;
+    pointer-events: none;
+}
+
+.btn-back-light {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+    transition: all 0.2s ease;
+}
+
+.btn-back-light:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: translateX(-3px);
+    color: white;
+}
+
+/* Glassmorphism Filters Box */
+.glass-filter-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04) !important;
+}
+
+.filter-chip-button {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 50rem;
+    transition: all 0.2s ease;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    color: #64748b;
+}
+
+.filter-chip-button.active {
+    background: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+}
+
+.filter-chip-button:hover:not(.active) {
+    background: #f1f5f9;
+    color: #334155;
+    border-color: #cbd5e1;
+}
+
+/* Bus Cards */
+.bus-card {
+    border-radius: 1.25rem !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid rgba(0, 0, 0, 0.03) !important;
+    overflow: hidden;
+}
+
+.bus-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px -5px rgba(0, 0, 0, 0.08) !important;
+}
+
+.bus-card-indicator {
+    width: 5px;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+/* Grayscale for not running today */
+.grayscale {
+    filter: grayscale(85%);
+    opacity: 0.75;
+}
+
+.bus-card-departed {
+    border: 1px solid rgba(255, 193, 7, 0.2) !important;
+}
+
+.badge-departed {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #b58105;
+    border-color: rgba(255, 193, 7, 0.2) !important;
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+.badge-not-running {
+    font-size: 0.68rem;
+    font-weight: 700;
+    background-color: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+}
+
+.bus-card-label-tiny {
+    font-size: 0.6rem;
+    letter-spacing: 0.5px;
+}
+
+.bus-card-speed {
+    font-size: 1.1rem;
+}
+
+.bus-card-speed-unit {
+    font-size: 0.7rem;
+}
+
+/* Timeline visual design */
+.journey-dot-start {
+    width: 8px;
+    height: 8px;
+    background: #0d6efd;
+    flex-shrink: 0;
+}
+
+.journey-dot-mid {
+    width: 12px;
+    height: 12px;
+    background: #0d6efd;
+    border: 2px solid white;
+    border-radius: 50%;
+    z-index: 2;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+    transition: transform 0.2s ease;
+}
+
+.journey-dot-mid:hover {
+    transform: scale(1.3);
+}
+
+.journey-dot-end {
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+}
+
+.journey-line {
+    height: 2px;
+    opacity: 0.75;
+}
+
+.journey-meta {
+    font-size: 0.72rem;
+}
+
+/* Responsive side borders */
+@media (min-width: 768px) {
+    .border-start-md {
+        border-left: 1px solid #f1f5f9 !important;
+    }
+}
+
+/* Badge styles */
+.custom-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+/* Animations */
+.animate-bus-icon {
+    transition: transform 0.3s ease;
+}
+
+.bus-card:hover .animate-bus-icon {
+    transform: scale(1.15) rotate(-5deg);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

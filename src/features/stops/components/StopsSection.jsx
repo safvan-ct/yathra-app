@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useStationSearch } from "../../buses/hooks/useStationSearch";
 
-const StopsSection = () => {
+const StopsSection = ({ onStopClick }) => {
 	const { searchStations, stationResults, isSearching, error } = useStationSearch();
 	const [searchQuery, setSearchQuery] = useState("");
+	const [recentStops, setRecentStops] = useState(() => {
+		try {
+			const saved = localStorage.getItem("yathra_recent_stops");
+			return saved ? JSON.parse(saved) : [];
+		} catch {
+			return [];
+		}
+	});
 
 	useEffect(() => {
 		// Load default stations
@@ -14,6 +22,31 @@ const StopsSection = () => {
 		const val = e.target.value;
 		setSearchQuery(val);
 		searchStations(val);
+	};
+
+	const handleStopSelection = (stop) => {
+		try {
+			const saved = localStorage.getItem("yathra_recent_stops");
+			let recent = saved ? JSON.parse(saved) : [];
+			
+			// Filter out duplicates to bring clicked stop to the front
+			recent = recent.filter((s) => String(s.id) !== String(stop.id));
+			recent.unshift(stop);
+			
+			// Keep only the 10 most recent unique stops
+			const updated = recent.slice(0, 10);
+			localStorage.setItem("yathra_recent_stops", JSON.stringify(updated));
+			setRecentStops(updated);
+		} catch (err) {
+			console.error("Failed to save recent stop:", err);
+		}
+
+		console.log("Navigating to stop timings for:", stop);
+		if (onStopClick) {
+			onStopClick(stop);
+		} else {
+			console.warn("onStopClick prop is undefined in StopsSection!");
+		}
 	};
 
 	return (
@@ -42,6 +75,78 @@ const StopsSection = () => {
 					{error && <div className="text-danger small mt-2 px-2">{error}</div>}
 				</div>
 
+				{/* Recent Stops Section */}
+				{recentStops.length > 0 && !searchQuery && (
+					<div className="mb-4">
+						<div className="d-flex justify-content-between align-items-center mb-3 px-1">
+							<h6 className="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+								<i className="bi bi-clock-history text-primary"></i>
+								Recent Stops
+							</h6>
+							<button 
+								className="btn btn-link btn-sm text-muted text-decoration-none p-0 fw-semibold"
+								style={{ fontSize: "0.75rem" }}
+								onClick={() => {
+									try {
+										localStorage.removeItem("yathra_recent_stops");
+										setRecentStops([]);
+									} catch (_) {}
+								}}
+							>
+								Clear All
+							</button>
+						</div>
+						
+						{/* Horizontal scrolling recent stops */}
+						<div className="d-flex gap-3 overflow-x-auto pb-2 px-1" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+							{recentStops.map((stop) => (
+								<div
+									key={`recent-${stop.id}`}
+									className="card border-0 rounded-4 shadow-sm p-3 recent-stop-card d-flex align-items-center gap-2 flex-shrink-0"
+									style={{
+										minWidth: "160px",
+										maxWidth: "200px",
+										cursor: "pointer",
+										background: "white",
+										transition: "transform 0.2s, box-shadow 0.2s"
+									}}
+									onClick={() => handleStopSelection(stop)}
+									onMouseEnter={(e) => {
+										e.currentTarget.style.transform = "translateY(-2px)";
+										e.currentTarget.style.boxShadow = "0 6px 15px rgba(0,0,0,0.05)";
+									}}
+									onMouseLeave={(e) => {
+										e.currentTarget.style.transform = "translateY(0)";
+										e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.02)";
+									}}
+								>
+									<div className="d-flex align-items-center gap-2 w-100">
+										<div
+											className="rounded-circle d-flex align-items-center justify-content-center bg-primary-subtle text-primary"
+											style={{ width: "32px", height: "32px", flexShrink: 0 }}
+										>
+											<i className="bi bi-geo-alt-fill" style={{ fontSize: "0.9rem" }}></i>
+										</div>
+										<div className="flex-grow-1 min-w-0">
+											<h6 className="fw-bold mb-0 text-dark fs-7 text-truncate">{stop.name}</h6>
+											{stop.display_name && (
+												<small className="text-muted d-block text-truncate" style={{ fontSize: "0.68rem" }}>
+													{stop.display_name}
+												</small>
+											)}
+										</div>
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
+				)}
+
+				{/* Available Stops Title */}
+				{!searchQuery && recentStops.length > 0 && (
+					<h6 className="fw-bold text-dark mb-3 px-1">All Stops</h6>
+				)}
+
 				{/* Stops List */}
 				<div className="stops-list d-flex flex-column gap-3">
 					{isSearching ? (
@@ -60,6 +165,7 @@ const StopsSection = () => {
 									cursor: "pointer",
 									background: "white"
 								}}
+								onClick={() => handleStopSelection(stop)}
 								onMouseEnter={(e) => {
 									e.currentTarget.style.transform = "translateY(-2px)";
 									e.currentTarget.style.boxShadow = "0 8px 20px rgba(0,0,0,0.06)";
