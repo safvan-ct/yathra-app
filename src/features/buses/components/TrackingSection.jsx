@@ -281,9 +281,9 @@ const TrackingSection = ({ bus, onBack }) => {
 				</div>
 			</div>
 
-			<div className="px-3 py-4">
+			<div className="px-3 py-2">
 				{/* 1. Header Metrics Card */}
-				<div className="card tracking-metrics-card p-3 mb-2">
+				{/* <div className="card tracking-metrics-card p-3 mb-2">
 					<div className="d-flex align-items-center justify-content-between mb-3">
 						<div className="d-flex align-items-center gap-2">
 							<div
@@ -348,15 +348,15 @@ const TrackingSection = ({ bus, onBack }) => {
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> */}
 
 				{/* 2. Active Segment Info Banner */}
 				<div className="card segment-progress-banner border-0 p-2 mb-2">
-					<div className="d-flex justify-content-between align-items-center mb-2">
+					<div className="d-flex justify-content-between align-items-center mb-1">
 						<span className="segment-title">Current Location</span>
 						{currentSpeed > 0 && (
 							<span
-								className="badge bg-primary text-white rounded-pill px-2 py-0.5"
+								className="badge bg-primary text-white rounded-pill px-2 py-0"
 								style={{ fontSize: "0.65rem" }}
 							>
 								MOVING

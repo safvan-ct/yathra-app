@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../shared/context/AuthContext";
 import "./Dashboard.css";
 
@@ -16,15 +17,24 @@ import TrackingSection from "../features/buses/components/TrackingSection";
 
 const Dashboard = ({ navigateTo }) => {
 	const { token } = useAuth();
+	const location = useLocation();
+	const navigate = useNavigate();
 
-	const [activeSection, setActiveSection] = useState(() => {
-		const saved = localStorage.getItem("yathra_active_section");
-		if (saved === "tracking") {
-			const savedBus = localStorage.getItem("yathra_tracked_bus");
-			if (!savedBus) return "home";
-		}
-		return saved || "home";
-	});
+	// Determine active section from location.pathname
+	const getActiveSection = () => {
+		const path = location.pathname;
+		if (path === "/" || path === "/home") return "home";
+		if (path.startsWith("/buses")) return "buses";
+		if (path.startsWith("/stops")) return "stops";
+		if (path.startsWith("/tickets")) return "tickets";
+		if (path.startsWith("/tracking")) return "tracking";
+		if (path.startsWith("/contribute")) return "contribute";
+		if (path.startsWith("/history")) return "history";
+		if (path.startsWith("/profile")) return "profile";
+		return "home";
+	};
+
+	const activeSection = getActiveSection();
 
 	const [trackedBus, setTrackedBus] = useState(() => {
 		const savedBus = localStorage.getItem("yathra_tracked_bus");
@@ -38,6 +48,18 @@ const Dashboard = ({ navigateTo }) => {
 	const [previousSection, setPreviousSection] = useState(() => {
 		return localStorage.getItem("yathra_previous_section") || "home";
 	});
+
+	// Restore last active section on visiting root `/`
+	useEffect(() => {
+		if (location.pathname === "/") {
+			const saved = localStorage.getItem("yathra_active_section");
+			if (saved && saved !== "home" && saved !== "tracking") {
+				if (saved === "stops" || saved === "buses" || token) {
+					navigate(`/${saved}`, { replace: true });
+				}
+			}
+		}
+	}, [location.pathname, token, navigate]);
 
 	useEffect(() => {
 		localStorage.setItem("yathra_active_section", activeSection);
@@ -55,6 +77,7 @@ const Dashboard = ({ navigateTo }) => {
 		localStorage.setItem("yathra_previous_section", previousSection);
 	}, [previousSection]);
 
+	// Protected routes redirect
 	useEffect(() => {
 		if (
 			activeSection !== "home" &&
@@ -63,14 +86,14 @@ const Dashboard = ({ navigateTo }) => {
 			activeSection !== "tracking" &&
 			!token
 		) {
-			setActiveSection("home");
+			navigate("/");
 		}
-	}, [activeSection, token]);
+	}, [activeSection, token, navigate]);
 
 	const handleTrackBus = (bus, fromSection) => {
 		setTrackedBus(bus);
 		setPreviousSection(fromSection);
-		setActiveSection("tracking");
+		navigate("/tracking");
 	};
 
 	const handleSectionChange = (section) => {
@@ -84,7 +107,7 @@ const Dashboard = ({ navigateTo }) => {
 			navigateTo("login");
 			return;
 		}
-		setActiveSection(section);
+		navigate(section === "home" ? "/" : `/${section}`);
 	};
 
 	return (
@@ -108,7 +131,10 @@ const Dashboard = ({ navigateTo }) => {
 				<TicketsSection setActiveSection={handleSectionChange} />
 			)}
 			{activeSection === "tracking" && (
-				<TrackingSection bus={trackedBus} onBack={() => setActiveSection(previousSection)} />
+				<TrackingSection
+					bus={trackedBus}
+					onBack={() => navigate(previousSection === "home" ? "/" : `/${previousSection}`)}
+				/>
 			)}
 			{activeSection === "contribute" && <ContributeSection />}
 			{activeSection === "history" && (
