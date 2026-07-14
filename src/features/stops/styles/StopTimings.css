@@ -18,7 +18,7 @@
     position: absolute;
     width: 250px;
     height: 250px;
-    background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 75%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 75%);
     top: -60px;
     right: -60px;
     pointer-events: none;
@@ -78,7 +78,7 @@
 
 /* Bus Cards */
 .bus-card {
-    border-radius: 1.25rem !important;
+    /* border-radius: 1.25rem !important; */
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     border: 1px solid rgba(0, 0, 0, 0.03) !important;
     overflow: hidden;
@@ -202,6 +202,7 @@
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
