@@ -7,7 +7,7 @@ import "../styles/HomeSection.css";
 
 const LS_KEY = "yathra_stops";
 
-const HomeSection = () => {
+const HomeSection = ({ onBusClick }) => {
 	const desktopFromRef = useRef(null);
 	const desktopToRef = useRef(null);
 	const mobileFromRef = useRef(null);
@@ -442,12 +442,16 @@ const HomeSection = () => {
 										<div
 											key={`bus-${idx}`}
 											className={`bus-card card bus-card-main border-0 shadow-sm mb-3 position-relative overflow-hidden ${!isRunningToday ? "opacity-75 grayscale" : ""} ${isDeparted ? "bus-card-departed" : ""}`}
+											onClick={() =>
+												isRunningToday && onBusClick && onBusClick(bus)
+											}
 											style={{
 												background: !isRunningToday
 													? "#f8f9fa"
 													: isDeparted
 														? "#fdfdfe"
 														: "#ffffff",
+												cursor: isRunningToday ? "pointer" : "default",
 											}}
 										>
 											<div
@@ -547,57 +551,57 @@ const HomeSection = () => {
 										</div>,
 									);
 
-									if ((idx + 1) % 3 === 0) {
-										items.push(
-											<div
-												key={`ad-${idx}`}
-												className="bus-card card bus-card-main border-0 shadow-sm mb-3 position-relative overflow-hidden"
-												style={{ background: "#fffdf0" }}
-											>
-												<div className="bus-card-indicator bg-warning"></div>
+									// if ((idx + 1) % 3 === 0) {
+									// 	items.push(
+									// 		<div
+									// 			key={`ad-${idx}`}
+									// 			className="bus-card card bus-card-main border-0 shadow-sm mb-3 position-relative overflow-hidden"
+									// 			style={{ background: "#fffdf0" }}
+									// 		>
+									// 			<div className="bus-card-indicator bg-warning"></div>
 
-												<div className="card-body p-3">
-													<div className="row align-items-center g-0">
-														<div className="col-12 col-md-5">
-															<div className="d-flex align-items-center ps-2 pe-3">
-																<div className="d-flex align-items-center flex-grow-1">
-																	<div
-																		className="bg-warning bg-opacity-10 d-flex align-items-center justify-content-center rounded"
-																		style={{ width: "35px", height: "35px" }}
-																	>
-																		<i className="bi bi-megaphone-fill text-warning"></i>
-																	</div>
-																	<div className="ms-3">
-																		<h6 className="fw-bold text-dark mb-0 lh-1 bus-card-name">
-																			Yathra Premium
-																		</h6>
-																		<small className="text-warning fw-bold text-uppercase bus-card-label-tiny">
-																			Sponsored
-																		</small>
-																	</div>
-																</div>
-															</div>
-														</div>
+									// 			<div className="card-body p-3">
+									// 				<div className="row align-items-center g-0">
+									// 					<div className="col-12 col-md-5">
+									// 						<div className="d-flex align-items-center ps-2 pe-3">
+									// 							<div className="d-flex align-items-center flex-grow-1">
+									// 								<div
+									// 									className="bg-warning bg-opacity-10 d-flex align-items-center justify-content-center rounded"
+									// 									style={{ width: "35px", height: "35px" }}
+									// 								>
+									// 									<i className="bi bi-megaphone-fill text-warning"></i>
+									// 								</div>
+									// 								<div className="ms-3">
+									// 									<h6 className="fw-bold text-dark mb-0 lh-1 bus-card-name">
+									// 										Yathra Premium
+									// 									</h6>
+									// 									<small className="text-warning fw-bold text-uppercase bus-card-label-tiny">
+									// 										Sponsored
+									// 									</small>
+									// 								</div>
+									// 							</div>
+									// 						</div>
+									// 					</div>
 
-														<div className="col-12 col-md-7 mt-2 mt-md-0 border-start-md">
-															<div className="d-flex align-items-center justify-content-between px-2">
-																<div className="flex-grow-1">
-																	<p className="mb-0 text-dark fw-medium small">
-																		Enjoy ad-free search and schedules.
-																	</p>
-																</div>
-																<div className="ms-2">
-																	<button className="btn btn-warning btn-sm fw-bold px-3 rounded-pill shadow-sm small">
-																		GET
-																	</button>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>,
-										);
-									}
+									// 					<div className="col-12 col-md-7 mt-2 mt-md-0 border-start-md">
+									// 						<div className="d-flex align-items-center justify-content-between px-2">
+									// 							<div className="flex-grow-1">
+									// 								<p className="mb-0 text-dark fw-medium small">
+									// 									Enjoy ad-free search and schedules.
+									// 								</p>
+									// 							</div>
+									// 							<div className="ms-2">
+									// 								<button className="btn btn-warning btn-sm fw-bold px-3 rounded-pill shadow-sm small">
+									// 									GET
+									// 								</button>
+									// 							</div>
+									// 						</div>
+									// 					</div>
+									// 				</div>
+									// 			</div>
+									// 		</div>,
+									// 	);
+									// }
 
 									return items;
 								})}

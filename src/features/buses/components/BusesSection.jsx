@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import { busService } from "../api/busService";
 import "../styles/BusesSection.css";
 
-const BusesSection = () => {
+const BusesSection = ({ onBusClick }) => {
 	const [buses, setBuses] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [loadingMore, setLoadingMore] = useState(false);
@@ -38,7 +38,8 @@ const BusesSection = () => {
 				setBuses((prev) => (isReset ? newData : [...prev, ...newData]));
 				setHasMore(
 					pagination.current_page < pagination.total_pages ||
-						(newData.length > 0 && newData.length >= (pagination.per_page || 15)),
+						(newData.length > 0 &&
+							newData.length >= (pagination.per_page || 15)),
 				);
 			} catch (err) {
 				console.error("Failed to fetch buses:", err);
@@ -173,7 +174,11 @@ const BusesSection = () => {
 						// Push the actual Bus Card
 						elements.push(
 							<div key={bus.id || idx} className="col-12 col-md-6 col-lg-4">
-								<div className="card border-0 shadow-sm rounded-4 h-100 hover-lift bg-white">
+								<div
+									className="card border-0 shadow-sm rounded-4 h-100 hover-lift bg-white"
+									onClick={() => onBusClick && onBusClick(bus)}
+									style={{ cursor: "pointer" }}
+								>
 									<div className="card-body p-3 d-flex align-items-center gap-3">
 										{/* Left side: Colored bus icon */}
 										<div
@@ -236,35 +241,35 @@ const BusesSection = () => {
 						);
 
 						// Insert a Creative Ad block after every 2nd bus
-						if ((idx + 1) % 2 === 0) {
-							elements.push(
-								<div key={`ad-${idx}`} className="col-12 col-md-6 col-lg-4">
-									<div className="card border-0 shadow-sm rounded-4 h-100 overflow-hidden position-relative hover-lift text-white sponsored-ad-card">
-										{/* Decorative background shapes */}
-										<div className="ad-shape-circle"></div>
+						// if ((idx + 1) % 2 === 0) {
+						// 	elements.push(
+						// 		<div key={`ad-${idx}`} className="col-12 col-md-6 col-lg-4">
+						// 			<div className="card border-0 shadow-sm rounded-4 h-100 overflow-hidden position-relative hover-lift text-white sponsored-ad-card">
+						// 				{/* Decorative background shapes */}
+						// 				<div className="ad-shape-circle"></div>
 
-										<div className="card-body p-3 d-flex flex-column justify-content-center position-relative z-1 h-100">
-											<div className="d-flex justify-content-between align-items-start mb-2">
-												<span className="badge bg-white text-danger border-0 rounded-pill custom-badge shadow-sm px-2 py-1">
-													<i className="bi bi-stars me-1"></i> SPONSORED
-												</span>
-												<i className="bi bi-tag-fill opacity-50 fs-4"></i>
-											</div>
-											<h5 className="fw-bolder mb-1 text-white">
-												Save 20% Today!
-											</h5>
-											<p className="mb-0 text-white-50 ad-card-description">
-												Use code{" "}
-												<strong className="text-white px-1 bg-dark bg-opacity-25 rounded-1">
-													YATHRA20
-												</strong>{" "}
-												on your next trip.
-											</p>
-										</div>
-									</div>
-								</div>,
-							);
-						}
+						// 				<div className="card-body p-3 d-flex flex-column justify-content-center position-relative z-1 h-100">
+						// 					<div className="d-flex justify-content-between align-items-start mb-2">
+						// 						<span className="badge bg-white text-danger border-0 rounded-pill custom-badge shadow-sm px-2 py-1">
+						// 							<i className="bi bi-stars me-1"></i> SPONSORED
+						// 						</span>
+						// 						<i className="bi bi-tag-fill opacity-50 fs-4"></i>
+						// 					</div>
+						// 					<h5 className="fw-bolder mb-1 text-white">
+						// 						Save 20% Today!
+						// 					</h5>
+						// 					<p className="mb-0 text-white-50 ad-card-description">
+						// 						Use code{" "}
+						// 						<strong className="text-white px-1 bg-dark bg-opacity-25 rounded-1">
+						// 							YATHRA20
+						// 						</strong>{" "}
+						// 						on your next trip.
+						// 					</p>
+						// 				</div>
+						// 			</div>
+						// 		</div>,
+						// 	);
+						// }
 
 						return elements;
 					})}

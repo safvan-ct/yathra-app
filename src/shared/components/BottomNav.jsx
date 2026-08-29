@@ -1,6 +1,6 @@
 import "../styles/Navigation.css";
 
-const BottomNav = ({ activeSection, setActiveSection, token }) => {
+const BottomNav = ({ activeSection, setActiveSection }) => {
 	const handleNavClick = (e, section) => {
 		if (e) e.preventDefault();
 		setActiveSection(section);
@@ -14,7 +14,7 @@ const BottomNav = ({ activeSection, setActiveSection, token }) => {
 				className={`nav-item ${activeSection === "home" ? "active" : ""}`}
 				onClick={(e) => handleNavClick(e, "home")}
 			>
-				<i className="bi bi-house-door-fill"></i>
+				<i className={`bi ${activeSection === "home" ? "bi-house-fill" : "bi-house"}`}></i>
 				<span>Home</span>
 			</a>
 			<a
@@ -22,38 +22,28 @@ const BottomNav = ({ activeSection, setActiveSection, token }) => {
 				className={`nav-item ${activeSection === "buses" ? "active" : ""}`}
 				onClick={(e) => handleNavClick(e, "buses")}
 			>
-				<i className="bi bi-bus-front"></i>
+				<i className={`bi ${activeSection === "buses" ? "bi-bus-front-fill" : "bi-bus-front"}`}></i>
 				<span>Buses</span>
 			</a>
-			<div
-				className={`nav-item ${activeSection === "contribute" ? "active" : ""}`}
-				onClick={() => handleNavClick(null, "contribute")}
-			>
-				<div className="btn-contribute-float">
-					<i className="bi bi-plus-lg"></i>
-				</div>
-				<span className="bottom-nav-label-spacing">Contribute</span>
-			</div>
 			<a
 				href="#"
-				className={`nav-item ${activeSection === "history" ? "active" : ""}`}
-				onClick={(e) => handleNavClick(e, "history")}
+				className={`nav-item ${activeSection === "stops" ? "active" : ""}`}
+				onClick={(e) => handleNavClick(e, "stops")}
 			>
-				<i className="bi bi-clock-history"></i>
-				<span>History</span>
+				<i className={`bi ${activeSection === "stops" ? "bi-geo-alt-fill" : "bi-geo-alt"}`}></i>
+				<span>Stops</span>
 			</a>
 			<a
 				href="#"
-				className={`nav-item ${activeSection === "profile" ? "active" : ""}`}
-				onClick={(e) => handleNavClick(e, "profile")}
+				className={`nav-item ${activeSection === "tickets" ? "active" : ""}`}
+				onClick={(e) => handleNavClick(e, "tickets")}
 			>
-				<i
-					className={`bi ${token ? "bi-person-circle" : "bi-box-arrow-in-right"}`}
-				></i>
-				<span>{token ? "Profile" : "Login"}</span>
+				<i className={`bi ${activeSection === "tickets" ? "bi-ticket-perforated-fill" : "bi-ticket-perforated"}`}></i>
+				<span>Tickets</span>
 			</a>
 		</nav>
 	);
 };
 
 export default BottomNav;
+
