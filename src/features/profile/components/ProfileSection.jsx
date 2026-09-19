@@ -25,11 +25,11 @@ const ProfileSection = ({ navigateTo }) => {
 
 	return (
 		<div id="section-profile" className="app-section active">
-			<div className="dashboard-container py-2 mb-5">
-				<div className="row g-4">
+			<div className="dashboard-container px-1 px-sm-3 mt-1">
+				<div className="row g-2">
 					<div className="col-md-4">
-						<div className="card border-0 rounded-4 shadow-sm p-4 text-center">
-							<div className="profile-avatar-container">
+						<div className="card border-0 rounded-4 shadow-sm p-3 text-center bg-white mb-2">
+							<div className="profile-avatar-container mb-2">
 								{loading ? (
 									<div className="spinner-border text-primary" role="status">
 										<span className="visually-hidden">Loading...</span>
@@ -38,17 +38,29 @@ const ProfileSection = ({ navigateTo }) => {
 									<i className="bi bi-person-fill profile-avatar-icon"></i>
 								)}
 							</div>
-							<h4 className="fw-bold mb-1">{profile?.name || "User"}</h4>
-							<p className="text-muted small mb-3">
+							<h6
+								className="fw-bold mb-1 text-dark"
+								style={{ fontSize: "0.95rem" }}
+							>
+								{profile?.name || "User"}
+							</h6>
+							<p
+								className="text-muted small mb-2"
+								style={{ fontSize: "0.72rem" }}
+							>
 								{profile?.phone || "Welcome to Yathra"}
 							</p>
 							{error && (
-								<div className="alert alert-danger py-1 small mb-3">
+								<div
+									className="alert alert-danger py-1 px-2 small mb-2"
+									style={{ fontSize: "11px" }}
+								>
 									{error}
 								</div>
 							)}
 							<button
-								className="btn btn-outline-danger btn-sm w-100 rounded-pill"
+								className="btn btn-outline-danger btn-sm w-100 rounded-pill py-1 fw-bold"
+								style={{ fontSize: "0.75rem" }}
 								onClick={handleLogout}
 							>
 								LOGOUT
@@ -57,8 +69,13 @@ const ProfileSection = ({ navigateTo }) => {
 					</div>
 
 					<div className="col-md-8">
-						<div className="card border-0 rounded-4 shadow-sm p-4">
-							<h5 className="fw-bold mb-4">Account Overview</h5>
+						<div className="card border-0 rounded-4 shadow-sm p-3 bg-white mb-2">
+							<h6
+								className="fw-bold mb-2 text-dark"
+								style={{ fontSize: "0.95rem" }}
+							>
+								Account Overview
+							</h6>
 							{loading && (
 								<div className="text-center py-3">
 									<div className="spinner-border text-primary" role="status">

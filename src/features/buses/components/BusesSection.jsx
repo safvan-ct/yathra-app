@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { busService } from "../api/busService";
+import SponsoredAdCard from "../../home/components/SponsoredAdCard";
 import "../styles/BusesSection.css";
 
-const BusesSection = () => {
+const BusesSection = ({ onBusClick }) => {
 	const [buses, setBuses] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [loadingMore, setLoadingMore] = useState(false);
@@ -38,7 +39,8 @@ const BusesSection = () => {
 				setBuses((prev) => (isReset ? newData : [...prev, ...newData]));
 				setHasMore(
 					pagination.current_page < pagination.total_pages ||
-						(newData.length > 0 && newData.length >= (pagination.per_page || 15)),
+						(newData.length > 0 &&
+							newData.length >= (pagination.per_page || 15)),
 				);
 			} catch (err) {
 				console.error("Failed to fetch buses:", err);
@@ -118,52 +120,64 @@ const BusesSection = () => {
 	return (
 		<div id="section-buses" className="app-section active">
 			{/* Sticky Search Bar */}
-			<div className="sticky-top bg-white py-3 px-3 mb-4 rounded-bottom-4 shadow-sm buses-sticky-search">
-				<div className="position-relative search-input-wrapper rounded-pill">
-					<i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-4 text-primary opacity-75"></i>
-					<input
-						type="text"
-						className="form-control form-control-lg bg-light border-0 rounded-pill shadow-none buses-search-input"
-						placeholder="Search by bus name, number ..."
-						value={searchTerm}
-						onChange={(e) => setSearchTerm(e.target.value)}
-					/>
-					{searchTerm && (
-						<button
-							className="btn position-absolute top-50 end-0 translate-middle-y text-muted border-0 shadow-none p-2 buses-clear-btn"
-							onClick={() => setSearchTerm("")}
-							aria-label="Clear search"
-						>
-							<i className="bi bi-x-circle-fill fs-5 opacity-50 hover-opacity-100"></i>
-						</button>
-					)}
+			<div className="dashboard-container px-1 px-sm-3 mt-1">
+				<div className="card border-0 rounded-4 shadow-sm bg-white p-2 mb-2">
+					<div className="position-relative search-input-wrapper">
+						<i
+							className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-primary opacity-75"
+							style={{ fontSize: "13px" }}
+						></i>
+						<input
+							type="text"
+							className="form-control bg-light border-0 rounded-3 shadow-none buses-search-input"
+							placeholder="Search by bus name, number ..."
+							value={searchTerm}
+							onChange={(e) => setSearchTerm(e.target.value)}
+						/>
+						{searchTerm && (
+							<button
+								className="btn position-absolute top-50 end-0 translate-middle-y text-muted border-0 shadow-none p-1 buses-clear-btn"
+								onClick={() => setSearchTerm("")}
+								aria-label="Clear search"
+							>
+								<i
+									className="bi bi-x-circle-fill opacity-50 hover-opacity-100"
+									style={{ fontSize: "14px" }}
+								></i>
+							</button>
+						)}
+					</div>
 				</div>
-			</div>
 
-			<div className="dashboard-container px-3 pb-5">
-				<div className="d-flex justify-content-between align-items-end mb-4 px-1">
+				<div className="d-flex justify-content-between align-items-center mb-2 px-1">
 					<div>
-						<h4 className="fw-bolder mb-1 text-dark">Explore Buses</h4>
-						<p className="text-muted small mb-0">
-							Find and book your next journey
+						<h6
+							className="fw-bold mb-0 text-dark"
+							style={{ fontSize: "0.95rem" }}
+						>
+							Explore Buses
+						</h6>
+						<p className="text-muted mb-0" style={{ fontSize: "0.72rem" }}>
+							Find your route & bus schedule
 						</p>
 					</div>
-					<span className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-2 rounded-pill shadow-sm custom-badge">
-						{buses.length > 0 ? `${buses.length} Buses loaded` : `Search Buses`}
+					<span className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-2 py-1 rounded-pill custom-badge">
+						{buses.length > 0 ? `${buses.length} Buses` : `Search Buses`}
 					</span>
 				</div>
 
 				{error && (
 					<div
-						className="alert alert-danger d-flex align-items-center rounded-4 border-0 shadow-sm py-3 mb-4"
+						className="alert alert-danger d-flex align-items-center rounded-3 border-0 shadow-sm py-2 px-3 mb-2"
 						role="alert"
+						style={{ fontSize: "12px" }}
 					>
-						<i className="bi bi-exclamation-triangle-fill fs-4 me-3"></i>
+						<i className="bi bi-exclamation-triangle-fill fs-5 me-2"></i>
 						<div>{error}</div>
 					</div>
 				)}
 
-				<div className="row g-3">
+				<div className="row g-1">
 					{/* Bus List */}
 					{buses.map((bus, idx) => {
 						const rawColor =
@@ -173,11 +187,15 @@ const BusesSection = () => {
 						// Push the actual Bus Card
 						elements.push(
 							<div key={bus.id || idx} className="col-12 col-md-6 col-lg-4">
-								<div className="card border-0 shadow-sm rounded-4 h-100 hover-lift bg-white">
-									<div className="card-body p-3 d-flex align-items-center gap-3">
+								<div
+									className="card border-0 shadow-sm rounded-5 h-100 hover-lift bg-white mb-1"
+									onClick={() => onBusClick && onBusClick(bus)}
+									style={{ cursor: "pointer" }}
+								>
+									<div className="card-body p-1 d-flex align-items-center gap-2">
 										{/* Left side: Colored bus icon */}
 										<div
-											className="rounded-4 d-flex align-items-center justify-content-center flex-shrink-0 bus-icon-bg"
+											className="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0 bus-icon-bg"
 											style={{
 												"--bus-color": rawColor || "#0d6efd",
 												"--bus-color-light": rawColor
@@ -185,7 +203,7 @@ const BusesSection = () => {
 													: "rgba(13, 110, 253, 0.15)",
 											}}
 										>
-											<i className="bi bi-bus-front fs-2"></i>
+											<i className="bi bi-bus-front"></i>
 										</div>
 
 										{/* Main content */}
@@ -235,33 +253,12 @@ const BusesSection = () => {
 							</div>,
 						);
 
-						// Insert a Creative Ad block after every 2nd bus
+						// Insert Sponsored Ad Banner after every 2 bus cards like home ad card
 						if ((idx + 1) % 2 === 0) {
+							const adIndex = Math.floor(idx / 2);
 							elements.push(
-								<div key={`ad-${idx}`} className="col-12 col-md-6 col-lg-4">
-									<div className="card border-0 shadow-sm rounded-4 h-100 overflow-hidden position-relative hover-lift text-white sponsored-ad-card">
-										{/* Decorative background shapes */}
-										<div className="ad-shape-circle"></div>
-
-										<div className="card-body p-3 d-flex flex-column justify-content-center position-relative z-1 h-100">
-											<div className="d-flex justify-content-between align-items-start mb-2">
-												<span className="badge bg-white text-danger border-0 rounded-pill custom-badge shadow-sm px-2 py-1">
-													<i className="bi bi-stars me-1"></i> SPONSORED
-												</span>
-												<i className="bi bi-tag-fill opacity-50 fs-4"></i>
-											</div>
-											<h5 className="fw-bolder mb-1 text-white">
-												Save 20% Today!
-											</h5>
-											<p className="mb-0 text-white-50 ad-card-description">
-												Use code{" "}
-												<strong className="text-white px-1 bg-dark bg-opacity-25 rounded-1">
-													YATHRA20
-												</strong>{" "}
-												on your next trip.
-											</p>
-										</div>
-									</div>
+								<div key={`sponsored-ad-${idx}`} className="col-12">
+									<SponsoredAdCard index={adIndex} />
 								</div>,
 							);
 						}
@@ -312,7 +309,7 @@ const BusesSection = () => {
 
 					{/* End of List indicator */}
 					{!hasMore && buses.length > 0 && !loading && !loadingMore && (
-						<div className="col-12 text-center pt-2 pb-4 mb-3">
+						<div className="col-12 text-center pt-2">
 							<span className="text-muted small bg-light px-3 py-1 rounded-pill">
 								You've reached the end of the list
 							</span>

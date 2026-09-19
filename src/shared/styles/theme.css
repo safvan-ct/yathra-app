@@ -99,3 +99,36 @@
     border: 1px solid #e2e8f0;
     color: #475569;
 }
+
+/* Card Shape Rectangular Overrides */
+.card,
+.card.rounded-4,
+.card.rounded-3,
+.card.rounded-2,
+.card.rounded-1,
+.card.rounded,
+.card.rounded-pill,
+.bus-card,
+.search-card,
+.contribution-card,
+.menu-item-card,
+.login-card,
+.glass-filter-card,
+.recent-stop-card,
+.stop-card,
+.stat-card,
+.modal-status-card,
+.modal-data-card,
+.premium-ad-card,
+.contribution-cta-banner,
+.sponsored-ad-card,
+.whatsapp-contact-card,
+.ticket-card-container,
+.type-card-shell,
+.ad-card-container,
+.ticket-wrapper,
+.tracking-metrics-card,
+.segment-progress-banner,
+.tracking-timeline-card {
+    border-radius: 0px !important;
+}

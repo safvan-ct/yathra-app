@@ -59,8 +59,12 @@ body {
 }
 
 .choices__list--dropdown .choices__item--selectable.is-highlighted {
-    background: var(--primary-gradient) !important;
-    color: white !important;
+    background: #0d6efd !important;
+    color: #ffffff !important;
+}
+
+.choices__list--dropdown .choices__item--selectable.is-highlighted * {
+    color: #ffffff !important;
 }
 
 .choices__list--single {

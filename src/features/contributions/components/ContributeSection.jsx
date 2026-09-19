@@ -228,12 +228,19 @@ const ContributeSection = () => {
 				/>
 			)}
 
-			<div className="dashboard-container py-3 pb-5 mb-5">
-				<div className="text-center mb-4">
-					<h3 className="fw-800 mb-1 text-dark">Contribute Hub</h3>
-					<p className="text-muted mb-1 small">
-						Select a category to share information
-					</p>
+			<div className="dashboard-container px-1 px-sm-3 mt-1">
+				<div className="d-flex justify-content-between align-items-center mb-2 px-1">
+					<div>
+						<h6
+							className="fw-bold mb-0 text-dark"
+							style={{ fontSize: "0.95rem" }}
+						>
+							Contribute Hub
+						</h6>
+						<p className="text-muted mb-0" style={{ fontSize: "0.72rem" }}>
+							Select a category to share information
+						</p>
+					</div>
 				</div>
 
 				{!type ? (
@@ -241,10 +248,11 @@ const ContributeSection = () => {
 				) : (
 					<div id="form-container" className="section-fade active">
 						<button
-							className="btn btn-light rounded-pill border shadow-sm text-dark fw-bold mb-3 px-3"
+							className="btn btn-light rounded-pill border shadow-sm text-dark fw-bold mb-2 px-3 py-1"
+							style={{ fontSize: "0.78rem" }}
 							onClick={goBackToMenu}
 						>
-							<i className="bi bi-arrow-left me-2"></i>Back to options
+							<i className="bi bi-arrow-left me-1"></i>Back to options
 						</button>
 
 						{renderForm()}

@@ -1,57 +1,60 @@
 import "../styles/Navigation.css";
 
-const BottomNav = ({ activeSection, setActiveSection, token }) => {
+const BottomNav = ({ activeSection, setActiveSection }) => {
 	const handleNavClick = (e, section) => {
 		if (e) e.preventDefault();
 		setActiveSection(section);
 		window.scrollTo({ top: 0, behavior: "smooth" });
 	};
 
+	const navItems = [
+		{
+			id: "home",
+			label: "Home",
+			activeIcon: "bi-house-door-fill",
+			inactiveIcon: "bi-house-door",
+		},
+		{
+			id: "buses",
+			label: "Buses",
+			activeIcon: "bi-bus-front-fill",
+			inactiveIcon: "bi-bus-front",
+		},
+		{
+			id: "stops",
+			label: "Stops",
+			activeIcon: "bi-geo-alt-fill",
+			inactiveIcon: "bi-geo-alt",
+		},
+		{
+			id: "tickets",
+			label: "Tickets",
+			activeIcon: "bi-ticket-perforated-fill",
+			inactiveIcon: "bi-ticket-perforated",
+		},
+	];
+
 	return (
 		<nav className="bottom-nav-dashboard d-md-none">
-			<a
-				href="#"
-				className={`nav-item ${activeSection === "home" ? "active" : ""}`}
-				onClick={(e) => handleNavClick(e, "home")}
-			>
-				<i className="bi bi-house-door-fill"></i>
-				<span>Home</span>
-			</a>
-			<a
-				href="#"
-				className={`nav-item ${activeSection === "buses" ? "active" : ""}`}
-				onClick={(e) => handleNavClick(e, "buses")}
-			>
-				<i className="bi bi-bus-front"></i>
-				<span>Buses</span>
-			</a>
-			<div
-				className={`nav-item ${activeSection === "contribute" ? "active" : ""}`}
-				onClick={() => handleNavClick(null, "contribute")}
-			>
-				<div className="btn-contribute-float">
-					<i className="bi bi-plus-lg"></i>
-				</div>
-				<span className="bottom-nav-label-spacing">Contribute</span>
-			</div>
-			<a
-				href="#"
-				className={`nav-item ${activeSection === "history" ? "active" : ""}`}
-				onClick={(e) => handleNavClick(e, "history")}
-			>
-				<i className="bi bi-clock-history"></i>
-				<span>History</span>
-			</a>
-			<a
-				href="#"
-				className={`nav-item ${activeSection === "profile" ? "active" : ""}`}
-				onClick={(e) => handleNavClick(e, "profile")}
-			>
-				<i
-					className={`bi ${token ? "bi-person-circle" : "bi-box-arrow-in-right"}`}
-				></i>
-				<span>{token ? "Profile" : "Login"}</span>
-			</a>
+			{navItems.map((item) => {
+				const isActive =
+					activeSection === item.id ||
+					(item.id === "buses" && activeSection === "bus-trips") ||
+					(item.id === "stops" && activeSection === "stop-timings");
+				return (
+					<a
+						key={item.id}
+						href="#"
+						className={`nav-item ${isActive ? "active" : ""}`}
+						onClick={(e) => handleNavClick(e, item.id)}
+					>
+						<i
+							className={`bi ${isActive ? item.activeIcon : item.inactiveIcon}`}
+						></i>
+						<span className="nav-label">{item.label}</span>
+					</a>
+				);
+			})}
 		</nav>
 	);
 };

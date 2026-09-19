@@ -1,0 +1,424 @@
+.trips-container {
+    padding-bottom: 4rem;
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* Header style styling */
+.trip-bus-header {
+    background: linear-gradient(135deg, #0d6efd 0%, #0043a8 100%);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.1);
+}
+
+.btn-back-light {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(5px);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+    transition: all 0.2s ease;
+}
+
+.btn-back-light:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateX(-2px);
+    color: white;
+}
+
+/* Glassmorphism Filters Box */
+.glass-filter-card {
+    background: #ffffff;
+    border: 1px solid #eef2f6;
+}
+
+.filter-chip-button {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    color: #64748b;
+}
+
+.filter-chip-button.active {
+    background: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
+    box-shadow: 0 2px 8px rgba(13, 110, 253, 0.2);
+}
+
+/* Bus / Trip Card (matches .yathra-bus-card) */
+.yathra-bus-card {
+    border: 1px solid #0052cc !important;
+    border-radius: 14px !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03) !important;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.yathra-bus-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06) !important;
+    border-color: rgba(13, 110, 253, 0.18) !important;
+}
+
+.card-bottom-accent {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+}
+
+.bus-brand-icon-box {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    transition: transform 0.2s ease;
+}
+
+.yathra-bus-card:hover .bus-brand-icon-box {
+    transform: scale(1.04);
+}
+
+.bus-title-text {
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    line-height: 1.1;
+}
+
+.bus-reg-text {
+    font-size: 0.72rem;
+    letter-spacing: 0.2px;
+    line-height: 1.1;
+    margin-top: 1px;
+}
+
+.status-badge {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+}
+
+/* Journey Route Timings */
+.timing-col {
+    min-width: 75px;
+}
+
+.departure-time-text {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #1d4ed8;
+    line-height: 1.1;
+}
+
+.arrival-time-text {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #15803d;
+    line-height: 1.1;
+}
+
+.station-sub-text {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: #64748b;
+    max-width: 110px;
+    margin-top: 1px;
+}
+
+/* Journey Route Track Line */
+.journey-track-col {
+    position: relative;
+}
+
+.journey-track-line {
+    flex-grow: 1;
+    height: 1.5px;
+    background: #93c5fd;
+}
+
+.journey-track-arrow {
+    font-size: 0.6rem;
+    color: #16a34a;
+    margin-left: -3px;
+    margin-right: 1px;
+}
+
+.journey-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.journey-dot.origin-dot {
+    background-color: #1d4ed8;
+}
+
+.journey-dot.dest-dot {
+    background-color: #16a34a;
+}
+
+.journey-bus-marker {
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trip-stops-collapse {
+    border-top: 1px dashed #e2e8f0;
+    background: #fafbfd;
+}
+
+/* Steer wheel icon wrapper */
+.steering-wheel-icon {
+    font-size: 1.4rem;
+    color: #64748b;
+    animation: busJolt 4s infinite ease-in-out;
+}
+
+/* Interactive Seat Selector Modal */
+.seat-booking-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1060;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    animation: fadeIn 0.25s ease-out;
+}
+
+@media (min-width: 576px) {
+    .seat-booking-modal-overlay {
+        align-items: center;
+        padding: 1.5rem;
+    }
+}
+
+.seat-booking-modal-content {
+    background: white;
+    width: 100%;
+    max-width: 440px;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 576px) {
+    .seat-booking-modal-content {
+        border-radius: 2rem;
+        max-height: 85vh;
+    }
+}
+
+.modal-header-section {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.modal-body-scrollable {
+    overflow-y: auto;
+    padding: 1.25rem 1.5rem;
+    flex: 1;
+}
+
+/* Bus seat plan container */
+.bus-cabin-layout {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 1.5rem;
+    padding: 1.25rem;
+    position: relative;
+}
+
+.bus-cabin-front {
+    border-bottom: 2px dashed #cbd5e1;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+}
+
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+}
+
+/* Empty spacer to represent aisle between seats 2 and 3 */
+.seat-aisle-spacer {
+    grid-column: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bus-seat-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bus-seat-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #cbd5e1;
+    background: white;
+    color: #475569;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.bus-seat-btn:hover:not(:disabled) {
+    transform: scale(1.08);
+    border-color: #0d6efd;
+    color: #0d6efd;
+}
+
+.bus-seat-btn.selected {
+    background: #0d6efd;
+    border-color: #0d6efd;
+    color: white;
+    box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+    animation: popSeat 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popSeat {
+    0% {
+        transform: scale(0.8);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.bus-seat-btn:disabled {
+    background: #e2e8f0;
+    border-color: #cbd5e1;
+    color: #94a3b8;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Legend items */
+.legend-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.legend-dot.available {
+    background: white;
+    border: 2px solid #cbd5e1;
+}
+
+.legend-dot.selected {
+    background: #0d6efd;
+}
+
+.legend-dot.sold {
+    background: #e2e8f0;
+    border: 2px solid #cbd5e1;
+}
+
+/* Success Ticket Stub */
+.ticket-wrapper {
+    background: white;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    animation: popSeat 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.ticket-top {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.ticket-divider {
+    height: 20px;
+    background: #f8fafc;
+    position: relative;
+    overflow: hidden;
+}
+
+.ticket-divider-line {
+    border-top: 2px dashed #cbd5e1;
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    right: 1rem;
+    transform: translateY(-50%);
+}
+
+.ticket-notch {
+    width: 20px;
+    height: 20px;
+    background: #f8fafc;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+}
+
+.ticket-notch.left {
+    left: -10px;
+    box-shadow: inset -3px 0 5px rgba(0, 0, 0, 0.03);
+}
+
+.ticket-notch.right {
+    right: -10px;
+    box-shadow: inset 3px 0 5px rgba(0, 0, 0, 0.03);
+}
+
+.ticket-body {
+    padding: 1.5rem;
+    background: white;
+}
+
+.barcode-mock {
+    height: 50px;
+    background: repeating-linear-gradient(90deg,
+            #0f172a,
+            #0f172a 2px,
+            transparent 2px,
+            transparent 6px,
+            #0f172a 6px,
+            #0f172a 10px);
+    width: 100%;
+    opacity: 0.85;
+}

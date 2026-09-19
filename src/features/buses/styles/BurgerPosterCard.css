@@ -1,0 +1,373 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Permanent+Marker&family=Outfit:wght@500;700;800;900&display=swap');
+
+/* ==========================================================
+   Creative Food Ad Poster Card ("Yummy Chicken Burger" style)
+   ========================================================== */
+.burger-poster-card {
+    background: radial-gradient(ellipse at 50% 38%, #661803 0%, #3e0b02 52%, #190400 100%);
+    border: 1px solid rgba(255, 120, 50, 0.25);
+    border-radius: 22px;
+    color: #ffffff;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), inset 0 0 60px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    position: relative;
+    user-select: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.burger-poster-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), 0 0 20px rgba(255, 87, 34, 0.2);
+}
+
+/* Background Watermark Rings */
+.poster-bg-rings {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.bg-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 10px solid rgba(255, 140, 50, 0.08);
+    box-shadow: inset 0 0 12px rgba(255, 100, 20, 0.06);
+}
+
+.bg-ring.ring-1 {
+    width: 140px;
+    height: 140px;
+    top: 35%;
+    left: -30px;
+    border-width: 14px;
+    transform: rotate(25deg);
+}
+
+.bg-ring.ring-2 {
+    width: 160px;
+    height: 160px;
+    top: 10%;
+    right: -40px;
+    border-width: 18px;
+    transform: rotate(-15deg);
+}
+
+.bg-ring.ring-3 {
+    width: 120px;
+    height: 120px;
+    bottom: -20px;
+    left: 20%;
+    border-width: 12px;
+}
+
+.bg-ring.ring-4 {
+    width: 130px;
+    height: 130px;
+    bottom: 20px;
+    right: 15%;
+    border-width: 14px;
+}
+
+/* Poster Header */
+.poster-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.brand-badge-seal {
+    width: 52px;
+    height: 52px;
+    background: #240802;
+    border: 2px dashed rgba(255, 180, 100, 0.4);
+    outline: 2px solid #3d0e04;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+    transform: rotate(-8deg);
+    padding: 2px;
+}
+
+.brand-badge-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 900;
+    color: #ffedd5;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: -0.2px;
+    line-height: 1.05;
+}
+
+/* Social Icon Buttons */
+.social-icons-group {
+    background: rgba(0, 0, 0, 0.25);
+    padding: 4px 8px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.social-icon-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 0.85rem;
+    transition: transform 0.2s, filter 0.2s;
+}
+
+.social-icon-btn:hover {
+    transform: scale(1.15);
+    filter: brightness(1.2);
+}
+
+.social-icon-btn.whatsapp {
+    background: #25d366;
+    box-shadow: 0 2px 8px rgba(37, 211, 102, 0.4);
+}
+
+.social-icon-btn.instagram {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+    box-shadow: 0 2px 8px rgba(214, 36, 159, 0.4);
+}
+
+.social-icon-btn.info-call {
+    background: #1877f2;
+    box-shadow: 0 2px 8px rgba(24, 119, 242, 0.4);
+}
+
+/* Headline Typography */
+.poster-headline-wrap {
+    transform: rotate(-3deg);
+    margin-top: 2px;
+    margin-bottom: 4px;
+}
+
+.poster-script-yummy {
+    font-family: 'Caveat', cursive;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    letter-spacing: 0.5px;
+}
+
+.poster-title-burger {
+    font-family: 'Permanent Marker', 'Outfit', sans-serif;
+    font-size: 2.1rem;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1;
+    text-shadow: 0 4px 14px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 87, 34, 0.5);
+    letter-spacing: 1px;
+}
+
+/* Hero Center Visual */
+.poster-visual-container {
+    position: relative;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+}
+
+.burger-image-wrapper {
+    position: relative;
+    max-width: 290px;
+    width: 100%;
+    z-index: 3;
+}
+
+.burger-hero-img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: transform 0.3s ease;
+}
+
+.burger-poster-card:hover .burger-hero-img {
+    transform: scale(1.02);
+}
+
+.burger-glow-shadow {
+    position: absolute;
+    bottom: -15px;
+    left: 10%;
+    right: 10%;
+    height: 30px;
+    background: radial-gradient(ellipse at center, rgba(255, 110, 0, 0.35) 0%, rgba(0, 0, 0, 0) 70%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Skewed Pebble Discount Badge */
+.discount-pebble-badge {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-12deg);
+    z-index: 6;
+    background: linear-gradient(135deg, #ff5722 0%, #d84315 100%);
+    border: 3px solid #2d0801;
+    border-radius: 48% 52% 44% 56% / 55% 46% 54% 45%;
+    padding: 10px 14px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 0 12px rgba(255, 87, 34, 0.4);
+    animation: pebbleFloat 3s infinite ease-in-out;
+}
+
+@keyframes pebbleFloat {
+    0%, 100% { transform: translateY(-50%) rotate(-12deg); }
+    50% { transform: translateY(-54%) rotate(-10deg); }
+}
+
+.pebble-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    line-height: 1.05;
+}
+
+.pebble-line-1 {
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: #ffedd5;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+}
+
+.pebble-line-2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 1px 0;
+}
+
+.pebble-line-3 {
+    font-size: 0.58rem;
+    font-weight: 700;
+    color: #fff3e0;
+    opacity: 0.95;
+}
+
+/* Offer Terms */
+.poster-terms {
+    margin-top: -4px;
+    margin-bottom: 2px;
+}
+
+.terms-text {
+    font-size: 0.72rem;
+    font-style: italic;
+    color: rgba(255, 220, 180, 0.8);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Poster Footer */
+.poster-footer {
+    background: rgba(15, 3, 0, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(4px);
+}
+
+.delivery-contact-block .delivery-label {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #ffffff;
+    letter-spacing: 0.4px;
+    line-height: 1.1;
+}
+
+.delivery-contact-block .delivery-phone {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.02rem;
+    font-weight: 900;
+    color: #ff9800;
+    letter-spacing: 0.2px;
+    display: block;
+    line-height: 1.2;
+    transition: color 0.2s;
+}
+
+.delivery-contact-block .delivery-phone:hover {
+    color: #ffb74d;
+}
+
+.poster-web-tagline .call-now-sub {
+    font-size: 0.62rem;
+    color: rgba(255, 255, 255, 0.6);
+    display: block;
+    line-height: 1;
+}
+
+.poster-web-tagline .web-url {
+    font-size: 0.66rem;
+    color: #ffcc80;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+/* Order Now Pill Button */
+.btn-order-now-pill {
+    background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);
+    color: #ffffff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-radius: 50px;
+    padding: 8px 20px;
+    box-shadow: 0 4px 16px rgba(230, 74, 25, 0.6);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-order-now-pill:hover {
+    background: linear-gradient(135deg, #ff6e40 0%, #f4511e 100%);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(230, 74, 25, 0.8);
+    color: #ffffff;
+}
+
+.btn-order-now-pill:active {
+    transform: scale(0.98);
+}
+
+@media (max-width: 420px) {
+    .poster-title-burger {
+        font-size: 1.75rem;
+    }
+    .poster-script-yummy {
+        font-size: 1.45rem;
+    }
+    .burger-hero-img {
+        height: 160px;
+    }
+    .discount-pebble-badge {
+        padding: 6px 10px;
+        left: 6px;
+    }
+    .pebble-line-2 {
+        font-size: 0.78rem;
+    }
+    .delivery-contact-block .delivery-phone {
+        font-size: 0.9rem;
+    }
+    .btn-order-now-pill {
+        padding: 6px 14px;
+        font-size: 0.78rem;
+    }
+}
