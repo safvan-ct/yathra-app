@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/BurgerPosterCard.css";
 
 const TrackingBurgerPosterCard = ({
 	brandName = "Mr. Burger",
@@ -15,7 +16,7 @@ const TrackingBurgerPosterCard = ({
 	};
 
 	return (
-		<div className="burger-poster-card shadow-lg rounded-4 overflow-hidden position-relative my-3">
+		<div className="burger-poster-card shadow-lg rounded-4 overflow-hidden position-relative mb-5">
 			{/* Background Decorative Rings / Watermarks */}
 			<div className="poster-bg-rings" aria-hidden="true">
 				<div className="bg-ring ring-1"></div>

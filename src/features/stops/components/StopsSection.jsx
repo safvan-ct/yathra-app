@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useStationSearch } from "../../buses/hooks/useStationSearch";
+import TrackingBurgerPosterCard from "../../buses/components/TrackingBurgerPosterCard";
 
 const StopsSection = ({ onStopClick }) => {
 	const { searchStations, stationResults, isSearching, error } =
@@ -198,16 +199,6 @@ const StopsSection = ({ onStopClick }) => {
 					</div>
 				)}
 
-				{/* Available Stops Title */}
-				{!searchQuery && recentStops.length > 0 && (
-					<div
-						className="fw-bold text-secondary mb-1 px-1"
-						style={{ fontSize: "0.75rem" }}
-					>
-						All Stops
-					</div>
-				)}
-
 				{/* Stops List */}
 				<div className="stops-list d-flex flex-column gap-1">
 					{isSearching ? (
@@ -272,14 +263,21 @@ const StopsSection = ({ onStopClick }) => {
 							</div>
 						))
 					) : (
-						<div className="text-center py-4 card border-0 rounded-4 shadow-sm bg-white p-3">
-							<i className="bi bi-geo-alt text-muted fs-1 mb-2"></i>
-							<h6 className="fw-bold text-secondary">No Stops Found</h6>
-							<p className="text-muted small mb-0">
-								Try searching for a different stop name
-							</p>
-						</div>
+						recentStops.length < 0 && (
+							<div className="text-center py-4 card border-0 rounded-4 shadow-sm bg-white p-3">
+								<i className="bi bi-geo-alt text-muted fs-1 mb-2"></i>
+								<h6 className="fw-bold text-secondary">No Stops Found</h6>
+								<p className="text-muted small mb-0">
+									Try searching for a different stop name
+								</p>
+							</div>
+						)
 					)}
+				</div>
+
+				{/* Ad Card after stops-list */}
+				<div className="mt-2 mb-4 pb-1">
+					<TrackingBurgerPosterCard />
 				</div>
 			</div>
 		</div>
