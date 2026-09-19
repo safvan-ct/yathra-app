@@ -42,14 +42,13 @@ const BottomNav = ({ activeSection, setActiveSection }) => {
 					<a
 						key={item.id}
 						href="#"
-						className={`nav-item position-relative ${isActive ? "active" : ""}`}
+						className={`nav-item ${isActive ? "active" : ""}`}
 						onClick={(e) => handleNavClick(e, item.id)}
 					>
 						<i
 							className={`bi ${isActive ? item.activeIcon : item.inactiveIcon}`}
 						></i>
 						<span className="nav-label">{item.label}</span>
-						{/* {isActive && <div className="active-pill-indicator"></div>} */}
 					</a>
 				);
 			})}

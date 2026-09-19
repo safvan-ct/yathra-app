@@ -997,10 +997,10 @@ const HomeSection = ({ onBusClick }) => {
 														● On Time
 													</span>
 												)}
-												<i
+												{/* <i
 													className="bi bi-chevron-right text-muted"
 													style={{ fontSize: "12px" }}
-												></i>
+												></i> */}
 											</div>
 										</div>
 
