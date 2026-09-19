@@ -133,7 +133,7 @@ const Dashboard = ({ navigateTo }) => {
 
 	return (
 		<>
-			{activeSection !== "tracking" && activeSection !== "stop-timings" && (
+			{activeSection !== "tracking" && (
 				<DesktopNav
 					activeSection={activeSection}
 					setActiveSection={handleSectionChange}
@@ -186,7 +186,7 @@ const Dashboard = ({ navigateTo }) => {
 				<ProfileSection navigateTo={navigateTo} />
 			)}
 
-			{activeSection !== "tracking" && activeSection !== "stop-timings" && (
+			{activeSection !== "tracking" && (
 				<BottomNav
 					activeSection={activeSection}
 					setActiveSection={handleSectionChange}

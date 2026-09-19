@@ -39,7 +39,8 @@ const BottomNav = ({ activeSection, setActiveSection }) => {
 			{navItems.map((item) => {
 				const isActive =
 					activeSection === item.id ||
-					(item.id === "buses" && activeSection === "bus-trips");
+					(item.id === "buses" && activeSection === "bus-trips") ||
+					(item.id === "stops" && activeSection === "stop-timings");
 				return (
 					<a
 						key={item.id}

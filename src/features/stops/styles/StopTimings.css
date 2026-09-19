@@ -1,23 +1,15 @@
 .stop-timings-container {
-    padding-bottom: 3rem;
+    padding-bottom: 4rem;
     animation: fadeIn 0.4s ease-out;
 }
 
 /* Header style styling */
 .stop-timings-header {
-    background: linear-gradient(135deg, #121c38 0%, #1e3c72 100%);
-    position: relative;
-    overflow: hidden;
-}
-
-.stop-timings-header-glow {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 75%);
-    top: -50px;
-    right: -50px;
-    pointer-events: none;
+    background: linear-gradient(135deg, #0d6efd 0%, #0043a8 100%);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.1);
 }
 
 .btn-back-light {
@@ -70,60 +62,123 @@
     border-color: #cbd5e1;
 }
 
-/* Bus Cards */
-.bus-card {
-    /* border-radius: 1.25rem !important; */
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    border: 1px solid rgba(0, 0, 0, 0.03) !important;
+/* Bus Card (matches .yathra-bus-card) */
+.yathra-bus-card {
+    border: 1px solid #0052cc !important;
+    border-radius: 14px !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03) !important;
+    cursor: pointer;
     overflow: hidden;
 }
 
-.bus-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 28px -5px rgba(0, 0, 0, 0.08) !important;
+.yathra-bus-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06) !important;
+    border-color: rgba(13, 110, 253, 0.18) !important;
 }
 
-.bus-card-indicator {
-    width: 5px;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
+.bus-brand-icon-box {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    transition: transform 0.2s ease;
 }
 
-/* Grayscale for not running today */
-.grayscale {
-    filter: grayscale(85%);
-    opacity: 0.75;
+.yathra-bus-card:hover .bus-brand-icon-box {
+    transform: scale(1.04);
+}
+
+.bus-title-text {
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    line-height: 1.1;
+}
+
+.bus-reg-text {
+    font-size: 0.72rem;
+    letter-spacing: 0.2px;
+    line-height: 1.1;
+    margin-top: 1px;
+}
+
+.status-badge {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+}
+
+/* Journey Route Timings */
+.timing-col {
+    min-width: 75px;
+}
+
+.departure-time-text {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #1d4ed8;
+    line-height: 1.1;
+}
+
+.arrival-time-text {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #15803d;
+    line-height: 1.1;
+}
+
+.station-sub-text {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: #64748b;
+    max-width: 110px;
+    margin-top: 1px;
+}
+
+/* Journey Route Track Line */
+.journey-track-col {
+    position: relative;
+}
+
+.journey-track-line {
+    flex-grow: 1;
+    height: 1.5px;
+    background: #93c5fd;
+}
+
+.journey-track-arrow {
+    font-size: 0.6rem;
+    color: #16a34a;
+    margin-left: -3px;
+    margin-right: 1px;
+}
+
+.journey-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.journey-dot.origin-dot {
+    background-color: #1d4ed8;
+}
+
+.journey-dot.dest-dot {
+    background-color: #16a34a;
+}
+
+.journey-bus-marker {
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .bus-card-departed {
-    border: 1px solid rgba(255, 193, 7, 0.2) !important;
-}
-
-.badge-departed {
-    background-color: rgba(255, 193, 7, 0.1);
-    color: #b58105;
-    border-color: rgba(255, 193, 7, 0.2) !important;
-    font-size: 0.68rem;
-    font-weight: 700;
-}
-
-.badge-not-running {
-    font-size: 0.68rem;
-    font-weight: 700;
-    background-color: #f1f5f9 !important;
-    border-color: #cbd5e1 !important;
-}
-
-.bus-card-label-tiny {
-    font-size: 0.6rem;
-    letter-spacing: 0.5px;
-}
-
-.bus-card-speed {
-    font-size: 1.1rem;
+    border: 1px solid rgba(255, 193, 7, 0.3) !important;
 }
 
 .bus-card-speed-unit {

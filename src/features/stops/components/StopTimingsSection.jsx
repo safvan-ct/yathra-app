@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useStationSearch } from "../../buses/hooks/useStationSearch";
+import SponsoredAdCard from "../../home/components/SponsoredAdCard";
 import "../styles/StopTimings.css";
 
 // Pre-defined mock trip details matching Yathra routes
@@ -317,8 +318,7 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 	return (
 		<div className="stop-timings-container section-fade">
 			{/* Header component styled similarly to other inner sub-pages */}
-			<div className="stop-timings-header py-2 px-3 text-white rounded-bottom-3 shadow-sm">
-				<div className="stop-timings-header-glow"></div>
+			<div className="stop-timings-header py-2 px-3 text-white">
 				<div className="d-flex align-items-center gap-2">
 					<button
 						className="btn btn-back-light"
@@ -345,67 +345,11 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 			</div>
 
 			<div className="dashboard-container px-1 px-sm-3 mt-1">
-				{/* Search & Shift Filters Card */}
-				<div className="card glass-filter-card border-0 rounded-4 p-2 mb-2 shadow-sm bg-white">
-					<div className="position-relative mb-2">
-						<i
-							className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-primary opacity-75"
-							style={{ fontSize: "13px" }}
-						></i>
-						<input
-							type="text"
-							className="form-control bg-light border-0 rounded-3 ps-5 shadow-none"
-							style={{ fontSize: "0.85rem", minHeight: "36px" }}
-							placeholder="Search by bus name or destination..."
-							value={searchQuery}
-							onChange={(e) => setSearchQuery(e.target.value)}
-						/>
-					</div>
-
-					<div
-						className="d-flex gap-2 overflow-x-auto pb-1"
-						style={{ scrollbarWidth: "none" }}
-					>
-						<button
-							className={`filter-chip-button text-nowrap ${
-								activeTimeFilter === "all" ? "active" : ""
-							}`}
-							onClick={() => setActiveTimeFilter("all")}
-						>
-							All Shifts
-						</button>
-						<button
-							className={`filter-chip-button text-nowrap ${
-								activeTimeFilter === "morning" ? "active" : ""
-							}`}
-							onClick={() => setActiveTimeFilter("morning")}
-						>
-							☀️ Morning (6 AM - 12 PM)
-						</button>
-						<button
-							className={`filter-chip-button text-nowrap ${
-								activeTimeFilter === "afternoon" ? "active" : ""
-							}`}
-							onClick={() => setActiveTimeFilter("afternoon")}
-						>
-							🌤️ Afternoon (12 PM - 6 PM)
-						</button>
-						<button
-							className={`filter-chip-button text-nowrap ${
-								activeTimeFilter === "evening" ? "active" : ""
-							}`}
-							onClick={() => setActiveTimeFilter("evening")}
-						>
-							🌙 Evening (6 PM - 6 AM)
-						</button>
-					</div>
-				</div>
-
 				{/* Bus Timings List */}
-				<div className="d-flex flex-column gap-1 mb-4">
+				<div className="d-flex flex-column gap-1 mb-2">
 					<div className="d-flex justify-content-between align-items-center px-1 mb-1">
 						<h6
-							className="fw-bold text-dark mb-0"
+							className="fw-bold text-dark mb-0 pt-2"
 							style={{ fontSize: "0.88rem" }}
 						>
 							Buses Passing Through ({filteredBuses.length})
@@ -421,192 +365,168 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 					</div>
 
 					{filteredBuses.length > 0 ? (
-						filteredBuses.map((bus) => {
+						filteredBuses.map((bus, idx) => {
 							const isRunningToday = bus.is_running_today === 1;
 							const isDeparted =
 								isRunningToday && isPastTime(bus.departure_time);
 							const rawColor =
 								bus.bus_color === "White" ? "#aeafb3" : bus.bus_color;
 
-							return (
+							const elements = [
 								<div
 									key={bus.id}
-									className={`card bus-card border-0 shadow-sm position-relative overflow-hidden bg-white ${
+									className={`card border-0 rounded-5 shadow-sm yathra-bus-card bg-white position-relative mb-1 ${
 										!isRunningToday ? "opacity-75 grayscale" : ""
 									} ${isDeparted ? "bus-card-departed" : ""}`}
-									style={{
-										background: !isRunningToday
-											? "#f8f9fa"
-											: isDeparted
-												? "#fdfdfe"
-												: "#ffffff",
-									}}
 								>
-									{/* Vertical colored theme line */}
-									<div
-										className="bus-card-indicator"
-										style={{
-											background: !isRunningToday
-												? "#6c757d"
-												: isDeparted
-													? "#ffc107"
-													: rawColor || "#0d6efd",
-										}}
-									></div>
-
-									<div className="card-body p-3">
-										<div className="row align-items-center g-0">
-											{/* Column 1: Bus Name and Number */}
-											<div className="col-12 col-md-5">
-												<div className="d-flex align-items-center ps-2 pe-3">
-													<div className="d-flex align-items-center flex-grow-1">
-														<div
-															className="d-flex align-items-center justify-content-center animate-bus-icon"
-															style={{ color: rawColor || "#0d6efd" }}
-														>
-															<i className="bi bi-bus-front fs-4"></i>
-														</div>
-														<div className="ms-3">
-															<h6 className="fw-bold text-dark mb-0 lh-1 bus-card-name">
-																{bus.bus_name}
-															</h6>
-															<small className="text-muted opacity-75 fw-medium bus-card-meta">
-																{bus.bus_number}
-															</small>
-														</div>
-													</div>
-
-													<div className="text-end border-start ps-3 ms-2">
-														{!isRunningToday ? (
-															<span className="badge bg-secondary-subtle text-black rounded-pill px-2 border badge-not-running">
-																NOT RUNNING TODAY
-															</span>
-														) : isDeparted ? (
-															<span className="badge badge-departed rounded-pill px-2 border">
-																DEPARTED
-															</span>
-														) : (
-															<div className="lh-1">
-																<span className="text-muted d-block text-uppercase fw-800 mb-1 bus-card-label-tiny">
-																	AVG SPEED
-																</span>
-																<span className="fw-900 text-dark bus-card-speed">
-																	{bus.speed_kmh || "50"}
-																	<small className="fw-normal text-muted ms-1 bus-card-speed-unit">
-																		km/h
-																	</small>
-																</span>
-															</div>
-														)}
+									<div className="card-body p-2 px-3">
+										{/* Top Header: Brand/Bus icon + Name & Number + Status Badge */}
+										<div className="card-top-row d-flex align-items-center justify-content-between mb-1">
+											<div className="d-flex align-items-center gap-2">
+												<div
+													className="bus-brand-icon-box rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+													style={{
+														backgroundColor: "rgba(13, 110, 253, 0.1)",
+														color: rawColor || "#0d6efd",
+													}}
+												>
+													<i className="bi bi-bus-front"></i>
+												</div>
+												<div>
+													<h6 className="fw-bold mb-0 text-dark bus-title-text">
+														{bus.bus_name}
+													</h6>
+													<div className="bus-reg-text text-muted">
+														{bus.bus_number} • {bus.operator?.name || "KSRTC"}
 													</div>
 												</div>
 											</div>
 
-											{/* Column 2: Journey visual timeline (Origin -> This Stop -> Destination) */}
-											<div className="col-12 col-md-7 mt-3 mt-md-0 border-start-md">
-												<div className="d-flex align-items-center justify-content-between px-2">
-													{/* Origin */}
-													<div
-														className="text-start"
-														style={{ width: "30%", minWidth: "70px" }}
-													>
-														<span className="d-block fw-bold text-dark fs-7 text-truncate">
-															{bus.origin_station.split(" ")[0]}
-														</span>
-														<small
-															className="text-muted text-uppercase fw-semibold"
-															style={{ fontSize: "0.68rem" }}
-														>
-															{bus.origin_time}
-														</small>
-													</div>
-
-													{/* Central visual line showing scheduled pass-through */}
-													<div className="flex-grow-1 px-2 d-flex flex-column align-items-center">
-														<div className="text-center mb-1">
-															<span
-																className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-10 rounded-pill px-2 py-0.5 fw-bold"
-																style={{ fontSize: "0.68rem" }}
-															>
-																At Stop: {bus.stop_arrival_time}
-															</span>
-														</div>
-														<div className="d-flex align-items-center w-100 justify-content-center mb-1">
-															<div className="rounded-circle border border-primary journey-dot-start"></div>
-															<div className="bg-primary journey-line flex-grow-1"></div>
-															<div
-																className="rounded-circle bg-primary journey-dot-mid shadow-sm"
-																title={`Arrives here at ${bus.stop_arrival_time}`}
-															></div>
-															<div className="bg-primary journey-line flex-grow-1"></div>
-															<div className="rounded-circle bg-success journey-dot-end"></div>
-														</div>
-														<div className="d-flex gap-2 journey-meta justify-content-center">
-															<span className="text-muted fw-bold">
-																<i className="bi bi-clock me-1"></i>
-																{bus.time_taken}
-															</span>
-															<span className="text-muted opacity-50">|</span>
-															<span className="text-muted fw-bold">
-																<i className="bi bi-signpost-split me-1"></i>
-																{parseInt(bus.trip_distance_km)} Km
-															</span>
-														</div>
-													</div>
-
-													{/* Destination */}
-													<div
-														className="text-end"
-														style={{ width: "30%", minWidth: "70px" }}
-													>
-														<span className="d-block fw-bold text-success fs-7 text-truncate">
-															{bus.destination_station.split(" ")[0]}
-														</span>
-														<small
-															className="text-muted text-uppercase fw-semibold"
-															style={{ fontSize: "0.68rem" }}
-														>
-															{bus.destination_time}
-														</small>
-													</div>
-												</div>
-
-												{/* Action Buttons row inside Card */}
-												<div className="d-flex justify-content-end gap-2 mt-3 pt-2.5 border-top border-light px-2">
-													<span className="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 rounded-pill custom-badge d-flex align-items-center me-auto pb-1">
-														<i className="bi bi-building me-1 opacity-75"></i>
-														{bus.operator.name}
+											{/* Status Badge */}
+											<div className="d-flex align-items-center gap-1">
+												{!isRunningToday ? (
+													<span className="status-badge badge rounded-pill px-2 py-1 bg-secondary bg-opacity-10 text-secondary border">
+														● Not Running
 													</span>
-													{isRunningToday && (
-														<button
-															className="btn btn-outline-primary btn-sm rounded-pill px-3 fw-bold py-1.5"
-															onClick={() => onBusClick && onBusClick(bus)}
-															title="Track Live Bus Location"
-														>
-															<i className="bi bi-geo-alt-fill me-1"></i> Track
-														</button>
-													)}
-													<button
-														className={`btn btn-primary btn-sm rounded-pill px-3 fw-bold py-1.5 ${
-															!isRunningToday
-																? "btn-light text-muted"
-																: "shadow-sm"
-														}`}
-														disabled={!isRunningToday}
-														onClick={() =>
-															alert(
-																`Seat Booking feature is only active from the search results tab.`,
-															)
-														}
-													>
-														Book
-													</button>
+												) : isDeparted ? (
+													<span className="status-badge badge rounded-pill px-2 py-1 bg-secondary bg-opacity-10 text-secondary border">
+														● Departed
+													</span>
+												) : (
+													<span className="status-badge badge rounded-pill px-2 py-1 bg-success bg-opacity-10 text-success border border-success border-opacity-25">
+														● At Stop: {bus.stop_arrival_time}
+													</span>
+												)}
+											</div>
+										</div>
+
+										{/* Middle Timings & Journey Route Line */}
+										<div className="journey-timings-row d-flex align-items-center justify-content-between my-2">
+											{/* Departure */}
+											<div className="timing-col start-col text-start">
+												<span className="d-block fw-bold departure-time-text">
+													{bus.origin_time || bus.departure_time}
+												</span>
+												<span className="station-sub-text d-block text-truncate">
+													{bus.origin_station}
+												</span>
+											</div>
+
+											{/* Connecting Journey Line with Center Bus Marker */}
+											<div className="journey-track-col flex-grow-1 px-2 d-flex align-items-center justify-content-center">
+												<div className="journey-dot origin-dot"></div>
+												<div className="journey-track-line"></div>
+												<div
+													className="journey-bus-marker mx-1"
+													style={{ color: rawColor || "#0d6efd" }}
+												>
+													<i className="bi bi-bus-front"></i>
 												</div>
+												<div className="journey-track-line"></div>
+												<i className="bi bi-chevron-right journey-track-arrow"></i>
+												<div className="journey-dot dest-dot ms-1"></div>
+											</div>
+
+											{/* Arrival */}
+											<div className="timing-col end-col text-end">
+												<span className="d-block fw-bold arrival-time-text">
+													{bus.destination_time || bus.arrival_time}
+												</span>
+												<span className="station-sub-text d-block text-truncate">
+													{bus.destination_station}
+												</span>
+											</div>
+										</div>
+
+										{/* Bottom Metadata & Action Buttons */}
+										<div className="card-footer-meta d-flex align-items-center justify-content-between pt-2 border-top border-light-subtle">
+											<div
+												className="d-flex align-items-center gap-2 text-secondary flex-wrap"
+												style={{ fontSize: "11px" }}
+											>
+												{bus.time_taken && (
+													<span className="d-flex align-items-center gap-1">
+														<i className="bi bi-clock"></i>
+														{bus.time_taken}
+													</span>
+												)}
+												{bus.time_taken && bus.trip_distance_km && (
+													<span className="meta-divider text-muted opacity-50">
+														|
+													</span>
+												)}
+												{bus.trip_distance_km && (
+													<span className="d-flex align-items-center gap-1">
+														<i className="bi bi-signpost-2"></i>
+														{parseInt(bus.trip_distance_km)} km
+													</span>
+												)}
+												{bus.category && (
+													<>
+														<span className="meta-divider text-muted opacity-50">
+															|
+														</span>
+														<span className="badge bg-light text-secondary border rounded-pill px-1.5 py-0.5">
+															{bus.category}
+														</span>
+													</>
+												)}
+											</div>
+
+											{/* Action Buttons */}
+											<div className="d-flex align-items-center gap-1">
+												{isRunningToday && (
+													<button
+														type="button"
+														className="btn btn-outline-primary btn-sm rounded-pill px-2.5 py-0.5 fw-bold"
+														style={{ fontSize: "11px", lineHeight: 1.2 }}
+														onClick={(e) => {
+															e.stopPropagation();
+															onBusClick && onBusClick(bus);
+														}}
+														title="Track Live Bus Location"
+													>
+														<i className="bi bi-geo-alt-fill me-0.5"></i> Track
+													</button>
+												)}
 											</div>
 										</div>
 									</div>
-								</div>
-							);
+								</div>,
+							];
+
+							// Insert Sponsored Ad Banner after every 2 bus cards like home ad card
+							if ((idx + 1) % 2 === 0) {
+								const adIndex = Math.floor(idx / 2);
+								elements.push(
+									<SponsoredAdCard
+										key={`sponsored-ad-${idx}`}
+										index={adIndex}
+									/>,
+								);
+							}
+
+							return elements;
 						})
 					) : (
 						<div className="text-center py-5 card border-0 rounded-4 shadow-sm bg-white p-4">
