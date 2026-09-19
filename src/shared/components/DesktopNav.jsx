@@ -32,6 +32,24 @@ const DesktopNav = ({ activeSection, setActiveSection, token }) => {
 					</a>
 					<a
 						href="#"
+						className={`nav-link ${
+							activeSection === "stops" || activeSection === "stop-timings"
+								? "active"
+								: ""
+						}`}
+						onClick={(e) => handleNavClick(e, "stops")}
+					>
+						Stops
+					</a>
+					<a
+						href="#"
+						className={`nav-link ${activeSection === "tickets" ? "active" : ""}`}
+						onClick={(e) => handleNavClick(e, "tickets")}
+					>
+						Tickets
+					</a>
+					<a
+						href="#"
 						className={`nav-link ${activeSection === "history" ? "active" : ""}`}
 						onClick={(e) => handleNavClick(e, "history")}
 					>
