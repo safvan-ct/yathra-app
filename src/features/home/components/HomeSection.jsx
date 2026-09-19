@@ -1095,7 +1095,7 @@ const HomeSection = ({ onBusClick }) => {
 												}}
 												onClick={(e) => {
 													e.stopPropagation();
-													setSelectedBusForStops(bus);
+													onBusClick && onBusClick(bus);
 												}}
 											>
 												Stops <i className="bi bi-chevron-right"></i>
@@ -1105,9 +1105,15 @@ const HomeSection = ({ onBusClick }) => {
 								</div>,
 							);
 
-							// Insert Sponsored Ad Banner after the 2nd bus card
-							if (idx === 1) {
-								elements.push(<SponsoredAdCard key="sponsored-ad" />);
+							// Insert Sponsored Ad Banner after every 2 bus cards
+							if ((idx + 1) % 2 === 0) {
+								const adIndex = Math.floor(idx / 2);
+								elements.push(
+									<SponsoredAdCard
+										key={`sponsored-ad-${idx}`}
+										index={adIndex}
+									/>,
+								);
 							}
 
 							return elements;
