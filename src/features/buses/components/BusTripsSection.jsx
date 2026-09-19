@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import SponsoredAdCard from "../../home/components/SponsoredAdCard";
 import "../styles/BusTrips.css";
 
 const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
@@ -290,14 +291,15 @@ const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
 						Scheduled Trips ({filteredTrips.length})
 					</h6>
 
-					{filteredTrips.map((trip) => {
+					{filteredTrips.map((trip, idx) => {
 						const isExpanded = expandedTripId === trip.id;
 						const isSoldOut = trip.available_seats === 0;
 						const originStop = trip.stops?.[0]?.name || "Origin";
 						const destStop =
 							trip.stops?.[trip.stops.length - 1]?.name || "Destination";
+						const elements = [];
 
-						return (
+						elements.push(
 							<div
 								key={trip.id}
 								className="card border-0 rounded-5 shadow-sm yathra-bus-card bg-white position-relative mb-1"
@@ -443,20 +445,6 @@ const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
 													<i className={`bi bi-chevron-right`}></i>
 												</button>
 											)}
-											{/* {trip.is_active && (
-												<button
-													type="button"
-													className="btn btn-outline-primary btn-sm rounded-pill px-2.5 py-0.5 fw-bold"
-													style={{ fontSize: "11px", lineHeight: 1.2 }}
-													onClick={(e) => {
-														e.stopPropagation();
-														onTrackBus && onTrackBus(activeBus, trip);
-													}}
-													title="Track Live Bus Location"
-												>
-													<i className="bi bi-geo-alt-fill me-0.5"></i> Track
-												</button>
-											)} */}
 											<button
 												type="button"
 												className={`btn btn-sm rounded-pill px-2.5 py-0.5 fw-bold ${
@@ -499,9 +487,9 @@ const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
 												}}
 											></div>
 
-											{trip.stops.map((stop, idx) => (
+											{trip.stops.map((stop, sIdx) => (
 												<div
-													key={idx}
+													key={sIdx}
 													className="position-relative d-flex justify-content-between mb-3 last-mb-0"
 												>
 													<div
@@ -512,9 +500,9 @@ const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
 															left: "2px",
 															top: "5px",
 															background:
-																idx === 0
+																sIdx === 0
 																	? "#0d6efd"
-																	: idx === trip.stops.length - 1
+																	: sIdx === trip.stops.length - 1
 																		? "#198754"
 																		: "#cbd5e1",
 															border: "1.5px solid white",
@@ -542,8 +530,21 @@ const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
 										</div>
 									</div>
 								)}
-							</div>
+							</div>,
 						);
+
+						// Insert Sponsored Ad Banner after every 2 trip cards like home ad card
+						if ((idx + 1) % 2 === 0) {
+							const adIndex = Math.floor(idx / 2);
+							elements.push(
+								<SponsoredAdCard
+									key={`sponsored-ad-${idx}`}
+									index={adIndex}
+								/>,
+							);
+						}
+
+						return elements;
 					})}
 
 					{filteredTrips.length === 0 && (
