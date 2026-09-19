@@ -529,32 +529,32 @@ const TrackingSection = ({ bus, onBack }) => {
 					)}
 				</div>
 
-				{/* 3. Timeline Card */}
-				<div className="card tracking-timeline-card p-2 rounded-1 shadow-sm border-0 bg-white mb-2">
-					<div className="tracking-timeline">
-						{/* The vertical tracks */}
-						<div className="timeline-track-line"></div>
-						<div
-							className="timeline-track-progress"
-							style={{ height: `calc(${busPositionPercent}% - 20px)` }}
-						></div>
-
-						{/* Floating live bus pin */}
-						{processedNodes.length > 0 && (
-							<div
-								className="live-bus-pin"
-								style={{
-									top: `calc(${busPositionPercent}% + 20px)`,
-									transform: "translateY(-50%)",
-								}}
+				{/* 3. Creative Simple Timeline Card */}
+				<div className="card tracking-timeline-card p-3 rounded-4 shadow-sm border-0 bg-white mb-2">
+					<div className="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+						<div className="d-flex align-items-center gap-2">
+							<span className="fw-bold text-dark" style={{ fontSize: "0.88rem" }}>
+								Live Route Timeline
+							</span>
+							<span
+								className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill px-2 py-0.5"
+								style={{ fontSize: "0.62rem" }}
 							>
-								<i className="bi bi-bus-front-fill"></i>
-							</div>
-						)}
+								{processedNodes.length} Stops
+							</span>
+						</div>
+						<span className="text-muted fw-semibold" style={{ fontSize: "0.68rem" }}>
+							Est. {totalDistance} km
+						</span>
+					</div>
 
-						{/* Stop nodes */}
+					<div className="tracking-timeline-list">
 						{processedNodes.map((node, index) => {
-							const isPassed = index <= activeNodeIndex;
+							const isFirst = index === 0;
+							const isLast = index === processedNodes.length - 1;
+							const isPassed =
+								index < activeNodeIndex ||
+								(index === activeNodeIndex && busPositionPercent >= 100);
 							const isActiveStop =
 								index === activeNodeIndex &&
 								busPositionPercent > 0 &&
@@ -562,64 +562,121 @@ const TrackingSection = ({ bus, onBack }) => {
 
 							return (
 								<div
-									key={node.id}
-									className={`timeline-node-item ${isPassed ? "passed" : ""} ${isActiveStop ? "active-stop" : ""}`}
+									key={node.id || index}
+									className={`timeline-row d-flex align-items-stretch position-relative ${
+										isPassed ? "row-passed" : ""
+									} ${isActiveStop ? "row-active" : ""}`}
 								>
-									{/* Left: times */}
-									<div className="timeline-time-container">
-										<span className="time-plan">{node.planArrivalStr}</span>
+									{/* 1. Left Time Column */}
+									<div className="timeline-time-col flex-shrink-0 text-end pe-2">
+										<span className="fw-bold d-block text-dark time-text">
+											{node.planArrivalStr}
+										</span>
 										{node.delayMins > 0 ? (
-											<span className="delay-badge">+{node.delayMins}m</span>
+											<span className="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-1.5 py-0.5 rounded-pill delay-badge">
+												+{node.delayMins}m
+											</span>
 										) : (
-											<span className="on-time-badge">On Time</span>
+											<span className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-1.5 py-0.5 rounded-pill on-time-badge">
+												On Time
+											</span>
 										)}
 									</div>
 
-									{/* Center: Creative Icons based on stop status */}
-									<div className="timeline-dot-container">
-										{isActiveStop ? (
-											<div className="timeline-icon-wrapper">
-												<i className="bi bi-geo-alt-fill text-primary fs-5"></i>
-											</div>
-										) : isPassed ? (
-											<div className="timeline-icon-wrapper">
-												<i className="bi bi-check-circle-fill text-success fs-5"></i>
-											</div>
-										) : index === processedNodes.length - 1 ? (
-											<div className="timeline-icon-wrapper">
-												<i className="bi bi-flag-fill text-secondary fs-5"></i>
-											</div>
-										) : (
-											<div className="station-dot"></div>
+									{/* 2. Center Creative Timeline Track & Node */}
+									<div className="timeline-node-track d-flex flex-column align-items-center position-relative flex-shrink-0">
+										{/* Upper connecting line */}
+										{!isFirst && (
+											<div
+												className={`track-segment track-upper ${
+													isPassed || isActiveStop ? "track-passed" : "track-pending"
+												}`}
+											></div>
+										)}
+
+										{/* Node Icon Indicator */}
+										<div className="node-icon-bubble d-flex align-items-center justify-content-center">
+											{isActiveStop ? (
+												<div className="active-bus-bubble shadow-sm">
+													<i className="bi bi-bus-front-fill text-white"></i>
+												</div>
+											) : isPassed ? (
+												<div className="passed-dot-bubble">
+													<i className="bi bi-check-lg text-white"></i>
+												</div>
+											) : isFirst ? (
+												<div className="origin-dot-bubble"></div>
+											) : isLast ? (
+												<div className="dest-dot-bubble">
+													<i className="bi bi-geo-alt-fill text-danger"></i>
+												</div>
+											) : (
+												<div className="pending-dot-bubble"></div>
+											)}
+										</div>
+
+										{/* Lower connecting line */}
+										{!isLast && (
+											<div
+												className={`track-segment track-lower ${
+													isPassed ? "track-passed" : "track-pending"
+												}`}
+											></div>
 										)}
 									</div>
 
-									{/* Right: Info */}
-									<div className="timeline-info-container">
+									{/* 3. Right Station Details Card */}
+									<div className="timeline-details-col flex-grow-1 ps-2 pb-2">
 										<div
-											className={`timeline-stop-info ${isActiveStop ? "active-stop-info" : ""}`}
+											className={`station-detail-card p-2 rounded-3 ${
+												isActiveStop
+													? "active-card bg-primary-subtle border border-primary border-opacity-25"
+													: "bg-light bg-opacity-50 border border-light-subtle"
+											}`}
 										>
-											<div className="d-flex align-items-center justify-content-between">
-												<span className="station-name">
+											<div className="d-flex align-items-center justify-content-between mb-1">
+												<span
+													className={`station-title-text fw-bold text-truncate ${
+														isActiveStop ? "text-primary" : "text-dark"
+													}`}
+												>
 													{node.station.name}
 												</span>
 												{isActiveStop && (
-													<span
-														className="badge bg-primary text-white rounded-pill px-2.5 py-0.5 fw-bold"
-														style={{ fontSize: "0.62rem" }}
-													>
+													<span className="badge bg-primary text-white rounded-pill px-2 py-0.5 pulse-badge">
 														ARRIVING
 													</span>
 												)}
+												{isFirst && !isActiveStop && (
+													<span
+														className="badge bg-secondary bg-opacity-10 text-secondary border rounded-pill px-1.5 py-0.5"
+														style={{ fontSize: "0.6rem" }}
+													>
+														Origin
+													</span>
+												)}
+												{isLast && !isActiveStop && (
+													<span
+														className="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill px-1.5 py-0.5"
+														style={{ fontSize: "0.6rem" }}
+													>
+														Destination
+													</span>
+												)}
 											</div>
-											<div className="station-meta-row mt-1">
-												<span className="station-meta-item">
-													<i className="bi bi-signpost-split"></i>{" "}
+
+											<div
+												className="d-flex align-items-center gap-2 text-muted"
+												style={{ fontSize: "0.68rem" }}
+											>
+												<span>
+													<i className="bi bi-signpost-split me-1 opacity-75"></i>
 													{node.distance_from_origin} km
 												</span>
-												<span className="station-meta-item">
-													<i className="bi bi-clock"></i> Dep:{" "}
-													{node.planDepartureStr}
+												<span className="opacity-50">|</span>
+												<span>
+													<i className="bi bi-clock me-1 opacity-75"></i>
+													Dep: {node.planDepartureStr}
 												</span>
 											</div>
 										</div>
