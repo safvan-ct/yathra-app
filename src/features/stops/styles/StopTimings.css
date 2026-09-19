@@ -1,9 +1,5 @@
-/* ─────────────────────────────────────────────────────────────
-   STOP TIMINGS SECTION STYLES
-   ───────────────────────────────────────────────────────────── */
-
 .stop-timings-container {
-    padding-bottom: 5rem;
+    padding-bottom: 3rem;
     animation: fadeIn 0.4s ease-out;
 }
 
@@ -16,11 +12,11 @@
 
 .stop-timings-header-glow {
     position: absolute;
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 75%);
-    top: -60px;
-    right: -60px;
+    top: -50px;
+    right: -50px;
     pointer-events: none;
 }
 
@@ -28,8 +24,8 @@
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(8px);
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -40,23 +36,21 @@
 
 .btn-back-light:hover {
     background: rgba(255, 255, 255, 0.22);
-    transform: translateX(-3px);
+    transform: translateX(-2px);
     color: white;
 }
 
 /* Glassmorphism Filters Box */
 .glass-filter-card {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.5) !important;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04) !important;
+    background: #ffffff;
+    border: 1px solid #eef2f6 !important;
 }
 
 .filter-chip-button {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 600;
-    padding: 0.5rem 1rem;
-    border-radius: 50rem;
+    padding: 3px 8px;
+    border-radius: 12px;
     transition: all 0.2s ease;
     border: 1px solid #e2e8f0;
     background: #f8fafc;
@@ -67,7 +61,7 @@
     background: #0d6efd;
     color: white;
     border-color: #0d6efd;
-    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+    box-shadow: 0 2px 8px rgba(13, 110, 253, 0.2);
 }
 
 .filter-chip-button:hover:not(.active) {

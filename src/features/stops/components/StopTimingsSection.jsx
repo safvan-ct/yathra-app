@@ -304,33 +304,34 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 	return (
 		<div className="stop-timings-container section-fade">
 			{/* Header component styled similarly to other inner sub-pages */}
-			<div className="stop-timings-header py-4 px-3 text-white rounded-bottom-4 shadow">
+			<div className="stop-timings-header py-2 px-3 text-white rounded-bottom-3 shadow-sm">
 				<div className="stop-timings-header-glow"></div>
-				<div className="d-flex align-items-center gap-3">
+				<div className="d-flex align-items-center gap-2">
 					<button
 						className="btn btn-back-light"
 						onClick={onBack}
 						aria-label="Go Back"
 					>
-						<i className="bi bi-arrow-left fs-5"></i>
+						<i className="bi bi-arrow-left" style={{ fontSize: "14px" }}></i>
 					</button>
 					<div>
-						<h5 className="fw-bolder mb-0 fs-5">{stopName || "Loading Stop..."}</h5>
-						<span className="opacity-75 small fw-semibold" style={{ letterSpacing: "0.5px" }}>
+						<h6 className="fw-bold mb-0 text-white" style={{ fontSize: "0.95rem" }}>{stopName || "Loading Stop..."}</h6>
+						<span className="opacity-75 small fw-semibold" style={{ fontSize: "0.68rem", letterSpacing: "0.3px" }}>
 							{stopDisplayName ? stopDisplayName : `Stop ID: ${stop?.id || ""}`}
 						</span>
 					</div>
 				</div>
 			</div>
 
-			<div className="dashboard-container px-3 mt-4">
+			<div className="dashboard-container px-1 px-sm-3 mt-1 pb-5 mb-4">
 				{/* Search & Shift Filters Card */}
-				<div className="card glass-filter-card border-0 rounded-4 p-3 mb-4 shadow-sm">
-					<div className="position-relative mb-3">
-						<i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted opacity-75"></i>
+				<div className="card glass-filter-card border-0 rounded-4 p-2 mb-2 shadow-sm bg-white">
+					<div className="position-relative mb-2">
+						<i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-primary opacity-75" style={{ fontSize: "13px" }}></i>
 						<input
 							type="text"
-							className="form-control bg-light border-0 rounded-pill ps-5 shadow-none py-2"
+							className="form-control bg-light border-0 rounded-3 ps-5 shadow-none"
+							style={{ fontSize: "0.85rem", minHeight: "36px" }}
 							placeholder="Search by bus name or destination..."
 							value={searchQuery}
 							onChange={(e) => setSearchQuery(e.target.value)}
@@ -374,9 +375,9 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 				</div>
 
 				{/* Bus Timings List */}
-				<div className="d-flex flex-column gap-3 mb-4">
+				<div className="d-flex flex-column gap-1 mb-4">
 					<div className="d-flex justify-content-between align-items-center px-1 mb-1">
-						<h6 className="fw-bold text-dark mb-0">
+						<h6 className="fw-bold text-dark mb-0" style={{ fontSize: "0.88rem" }}>
 							Buses Passing Through ({filteredBuses.length})
 						</h6>
 						{stationsLoading && (

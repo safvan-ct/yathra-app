@@ -1,9 +1,5 @@
-/* ─────────────────────────────────────────────────────────────
-   BUS TRIPS SECTION STYLES
-   ───────────────────────────────────────────────────────────── */
-
 .trips-container {
-    padding-bottom: 5rem;
+    padding-bottom: 3rem;
     animation: fadeIn 0.4s ease-out;
 }
 
@@ -16,11 +12,11 @@
 
 .trip-bus-header-glow {
     position: absolute;
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
-    top: -50px;
-    right: -50px;
+    top: -40px;
+    right: -40px;
     pointer-events: none;
 }
 
@@ -28,8 +24,8 @@
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(5px);
-    width: 38px;
-    height: 38px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -46,17 +42,15 @@
 
 /* Glassmorphism Filters Box */
 .glass-filter-card {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04);
+    background: #ffffff;
+    border: 1px solid #eef2f6;
 }
 
 .filter-chip-button {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 600;
-    padding: 0.5rem 1rem;
-    border-radius: 50rem;
+    padding: 3px 8px;
+    border-radius: 12px;
     transition: all 0.2s ease;
     border: 1px solid #e2e8f0;
     background: #f8fafc;
@@ -67,7 +61,7 @@
     background: #0d6efd;
     color: white;
     border-color: #0d6efd;
-    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+    box-shadow: 0 2px 8px rgba(13, 110, 253, 0.2);
 }
 
 /* Trip Cards */

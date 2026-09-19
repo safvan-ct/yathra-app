@@ -51,41 +51,60 @@ const StopsSection = ({ onStopClick }) => {
 
 	return (
 		<div id="section-stops" className="app-section active section-fade">
-			<div className="dashboard-container py-3 mb-5">
-				{/* Header */}
-				<div className="text-center mb-4">
-					<h3 className="fw-bold text-dark">Bus Stops</h3>
-					<p className="text-muted small">Search and explore available stops across the network</p>
-				</div>
-
+			<div className="dashboard-container px-1 px-sm-3 mt-1 pb-5 mb-4">
 				{/* Search Bar */}
-				<div className="card border-0 rounded-4 shadow-sm p-3 mb-4">
+				<div className="card border-0 rounded-4 shadow-sm p-2 mb-2 bg-white">
 					<div className="input-group">
-						<span className="input-group-text bg-light border-0 rounded-start-3">
-							<i className="bi bi-search text-muted"></i>
+						<span className="input-group-text bg-light border-0 rounded-start-3 py-1 px-2">
+							<i className="bi bi-search text-primary opacity-75" style={{ fontSize: "13px" }}></i>
 						</span>
 						<input
 							type="text"
-							className="form-control bg-light border-0 rounded-end-3 py-2 fs-6"
+							className="form-control bg-light border-0 rounded-end-3 py-1 px-2"
+							style={{ fontSize: "0.85rem", minHeight: "36px" }}
 							placeholder="Type stop or station name..."
 							value={searchQuery}
 							onChange={handleSearchChange}
 						/>
+						{searchQuery && (
+							<button
+								className="btn bg-light border-0 text-muted p-1"
+								onClick={() => {
+									setSearchQuery("");
+									searchStations("");
+								}}
+							>
+								<i className="bi bi-x-circle-fill opacity-50" style={{ fontSize: "13px" }}></i>
+							</button>
+						)}
 					</div>
-					{error && <div className="text-danger small mt-2 px-2">{error}</div>}
+					{error && <div className="text-danger small mt-1 px-1" style={{ fontSize: "11px" }}>{error}</div>}
+				</div>
+
+				{/* Header */}
+				<div className="d-flex justify-content-between align-items-center mb-2 px-1">
+					<div>
+						<h6 className="fw-bold text-dark mb-0" style={{ fontSize: "0.95rem" }}>Bus Stops</h6>
+						<p className="text-muted mb-0" style={{ fontSize: "0.72rem" }}>
+							Search and explore transit network stops
+						</p>
+					</div>
+					<span className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-2 py-1 rounded-pill" style={{ fontSize: "0.68rem" }}>
+						{stationResults ? `${stationResults.length} Stops` : "Stops"}
+					</span>
 				</div>
 
 				{/* Recent Stops Section */}
 				{recentStops.length > 0 && !searchQuery && (
-					<div className="mb-4">
-						<div className="d-flex justify-content-between align-items-center mb-3 px-1">
-							<h6 className="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
-								<i className="bi bi-clock-history text-primary"></i>
+					<div className="mb-2">
+						<div className="d-flex justify-content-between align-items-center mb-1 px-1">
+							<span className="fw-bold text-dark d-flex align-items-center gap-1" style={{ fontSize: "0.78rem" }}>
+								<i className="bi bi-clock-history text-primary" style={{ fontSize: "12px" }}></i>
 								Recent Stops
-							</h6>
+							</span>
 							<button 
 								className="btn btn-link btn-sm text-muted text-decoration-none p-0 fw-semibold"
-								style={{ fontSize: "0.75rem" }}
+								style={{ fontSize: "0.72rem" }}
 								onClick={() => {
 									try {
 										localStorage.removeItem("yathra_recent_stops");
@@ -98,39 +117,32 @@ const StopsSection = ({ onStopClick }) => {
 						</div>
 						
 						{/* Horizontal scrolling recent stops */}
-						<div className="d-flex gap-3 overflow-x-auto pb-2 px-1" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+						<div className="d-flex gap-2 overflow-x-auto pb-1 px-1" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
 							{recentStops.map((stop) => (
 								<div
 									key={`recent-${stop.id}`}
-									className="card border-0 rounded-4 shadow-sm p-3 recent-stop-card d-flex align-items-center gap-2 flex-shrink-0"
+									className="card border-0 rounded-3 shadow-sm p-2 recent-stop-card d-flex align-items-center gap-2 flex-shrink-0"
 									style={{
-										minWidth: "160px",
-										maxWidth: "200px",
+										minWidth: "140px",
+										maxWidth: "180px",
 										cursor: "pointer",
 										background: "white",
+										border: "1px solid #eef2f6",
 										transition: "transform 0.2s, box-shadow 0.2s"
 									}}
 									onClick={() => handleStopSelection(stop)}
-									onMouseEnter={(e) => {
-										e.currentTarget.style.transform = "translateY(-2px)";
-										e.currentTarget.style.boxShadow = "0 6px 15px rgba(0,0,0,0.05)";
-									}}
-									onMouseLeave={(e) => {
-										e.currentTarget.style.transform = "translateY(0)";
-										e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.02)";
-									}}
 								>
 									<div className="d-flex align-items-center gap-2 w-100">
 										<div
-											className="rounded-circle d-flex align-items-center justify-content-center bg-primary-subtle text-primary"
-											style={{ width: "32px", height: "32px", flexShrink: 0 }}
+											className="rounded-2 d-flex align-items-center justify-content-center bg-primary-subtle text-primary"
+											style={{ width: "28px", height: "28px", flexShrink: 0, fontSize: "0.85rem" }}
 										>
-											<i className="bi bi-geo-alt-fill" style={{ fontSize: "0.9rem" }}></i>
+											<i className="bi bi-geo-alt-fill"></i>
 										</div>
 										<div className="flex-grow-1 min-w-0">
-											<h6 className="fw-bold mb-0 text-dark fs-7 text-truncate">{stop.name}</h6>
+											<h6 className="fw-bold mb-0 text-dark text-truncate" style={{ fontSize: "0.78rem" }}>{stop.name}</h6>
 											{stop.display_name && (
-												<small className="text-muted d-block text-truncate" style={{ fontSize: "0.68rem" }}>
+												<small className="text-muted d-block text-truncate" style={{ fontSize: "0.65rem" }}>
 													{stop.display_name}
 												</small>
 											)}
@@ -144,14 +156,14 @@ const StopsSection = ({ onStopClick }) => {
 
 				{/* Available Stops Title */}
 				{!searchQuery && recentStops.length > 0 && (
-					<h6 className="fw-bold text-dark mb-3 px-1">All Stops</h6>
+					<div className="fw-bold text-secondary mb-1 px-1" style={{ fontSize: "0.75rem" }}>All Stops</div>
 				)}
 
 				{/* Stops List */}
-				<div className="stops-list d-flex flex-column gap-3">
+				<div className="stops-list d-flex flex-column gap-1">
 					{isSearching ? (
-						<div className="text-center py-5">
-							<div className="spinner-border text-primary" role="status">
+						<div className="text-center py-4">
+							<div className="spinner-border spinner-border-sm text-primary" role="status">
 								<span className="visually-hidden">Loading...</span>
 							</div>
 						</div>
@@ -159,37 +171,30 @@ const StopsSection = ({ onStopClick }) => {
 						stationResults.map((stop) => (
 							<div
 								key={stop.id}
-								className="card border-0 rounded-4 shadow-sm p-3 stop-card position-relative overflow-hidden"
+								className="card border-0 rounded-3 shadow-sm p-2 stop-card position-relative overflow-hidden mb-1"
 								style={{
-									transition: "transform 0.2s, box-shadow 0.2s",
+									transition: "transform 0.15s, box-shadow 0.15s",
 									cursor: "pointer",
-									background: "white"
+									background: "white",
+									border: "1px solid #eef2f6",
 								}}
 								onClick={() => handleStopSelection(stop)}
-								onMouseEnter={(e) => {
-									e.currentTarget.style.transform = "translateY(-2px)";
-									e.currentTarget.style.boxShadow = "0 8px 20px rgba(0,0,0,0.06)";
-								}}
-								onMouseLeave={(e) => {
-									e.currentTarget.style.transform = "translateY(0)";
-									e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.02)";
-								}}
 							>
-								<div className="d-flex align-items-center gap-3">
+								<div className="d-flex align-items-center gap-2">
 									<div
 										className="stop-icon-wrapper rounded-3 d-flex align-items-center justify-content-center bg-primary-subtle text-primary"
-										style={{ width: "48px", height: "48px", flexShrink: 0 }}
+										style={{ width: "36px", height: "36px", flexShrink: 0, fontSize: "1.05rem" }}
 									>
-										<i className="bi bi-geo-alt-fill fs-5"></i>
+										<i className="bi bi-geo-alt-fill"></i>
 									</div>
-									<div className="flex-grow-1">
-										<h5 className="fw-bold mb-1 text-dark fs-6">{stop.name}</h5>
+									<div className="flex-grow-1 min-w-0">
+										<h6 className="fw-bold mb-0 text-dark text-truncate" style={{ fontSize: "0.88rem" }}>{stop.name}</h6>
 										{stop.display_name && (
-											<p className="text-muted small mb-0">{stop.display_name}</p>
+											<p className="text-muted mb-0 text-truncate" style={{ fontSize: "0.7rem" }}>{stop.display_name}</p>
 										)}
 									</div>
-									<div className="text-end">
-										<span className="badge bg-light text-secondary rounded-pill border px-2 py-1">
+									<div className="text-end flex-shrink-0">
+										<span className="badge bg-light text-secondary rounded-pill border px-2 py-1" style={{ fontSize: "0.68rem" }}>
 											ID: {stop.id}
 										</span>
 									</div>
@@ -197,7 +202,7 @@ const StopsSection = ({ onStopClick }) => {
 							</div>
 						))
 					) : (
-						<div className="text-center py-5 card border-0 rounded-4 shadow-sm bg-white p-4">
+						<div className="text-center py-4 card border-0 rounded-4 shadow-sm bg-white p-3">
 							<i className="bi bi-geo-alt text-muted fs-1 mb-2"></i>
 							<h6 className="fw-bold text-secondary">No Stops Found</h6>
 							<p className="text-muted small mb-0">Try searching for a different stop name</p>

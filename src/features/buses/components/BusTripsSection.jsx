@@ -204,52 +204,53 @@ const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
 	return (
 		<div className="trips-container section-fade">
 			{/* 1. Header component displaying selected Bus Card Info */}
-			<div className="trip-bus-header py-4 px-3 text-white rounded-bottom-4 shadow">
+			<div className="trip-bus-header py-2 px-3 text-white rounded-bottom-3 shadow-sm">
 				<div className="trip-bus-header-glow"></div>
-				<div className="d-flex align-items-center gap-3 mb-3">
+				<div className="d-flex align-items-center gap-2 mb-2">
 					<button
 						className="btn btn-back-light"
 						onClick={onBack}
 						aria-label="Go Back"
 					>
-						<i className="bi bi-arrow-left fs-5"></i>
+						<i className="bi bi-arrow-left" style={{ fontSize: "14px" }}></i>
 					</button>
 					<div>
-						<h5 className="fw-bolder mb-0 fs-5">{activeBus.bus_name}</h5>
-						<span className="opacity-75 small fw-semibold" style={{ letterSpacing: "0.5px" }}>
+						<h6 className="fw-bold mb-0 text-white" style={{ fontSize: "0.95rem" }}>{activeBus.bus_name}</h6>
+						<span className="opacity-75 small fw-semibold" style={{ fontSize: "0.68rem", letterSpacing: "0.3px" }}>
 							{activeBus.bus_number}
 						</span>
 					</div>
 				</div>
 
 				{/* Bus summary specifications card */}
-				<div className="d-flex align-items-center justify-content-between bg-white bg-opacity-10 rounded-4 p-3 border border-white border-opacity-10 backdrop-blur">
-					<div className="d-flex align-items-center gap-3">
+				<div className="d-flex align-items-center justify-content-between bg-white bg-opacity-10 rounded-3 p-2 border border-white border-opacity-10 backdrop-blur">
+					<div className="d-flex align-items-center gap-2">
 						<div
-							className="rounded-3 d-flex align-items-center justify-content-center"
+							className="rounded-2 d-flex align-items-center justify-content-center"
 							style={{
-								width: "48px",
-								height: "48px",
+								width: "36px",
+								height: "36px",
 								background: "rgba(255, 255, 255, 0.15)",
 								border: "1px solid rgba(255, 255, 255, 0.2)",
+								fontSize: "1.1rem"
 							}}
 						>
-							<i className="bi bi-bus-front fs-4 text-white"></i>
+							<i className="bi bi-bus-front text-white"></i>
 						</div>
 						<div>
-							<h6 className="fw-bold text-white mb-0 fs-7">
+							<span className="fw-bold text-white mb-0 d-block" style={{ fontSize: "0.82rem" }}>
 								{activeBus.operator?.name || "KSRTC"}
-							</h6>
-							<small className="opacity-75 text-white-50 fw-semibold" style={{ fontSize: "0.68rem" }}>
+							</span>
+							<small className="opacity-75 text-white-50 fw-semibold" style={{ fontSize: "0.65rem" }}>
 								{activeBus.category} • {activeBus.operator?.type || "State"}
 							</small>
 						</div>
 					</div>
 					<div className="text-end">
 						<span
-							className="badge rounded-pill text-white border border-white border-opacity-20 px-3 py-1.5 fw-bold"
+							className="badge rounded-pill text-white border border-white border-opacity-20 px-2 py-1 fw-bold"
 							style={{
-								fontSize: "0.7rem",
+								fontSize: "0.68rem",
 								background: busRawColor || "#0d6efd",
 							}}
 						>
@@ -259,14 +260,15 @@ const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
 				</div>
 			</div>
 
-			<div className="dashboard-container px-3 mt-4">
+			<div className="dashboard-container px-1 px-sm-3 mt-1 pb-5 mb-4">
 				{/* 2. Interactive Search & Time Filters */}
-				<div className="card glass-filter-card border-0 rounded-4 p-3 mb-4 shadow-sm">
-					<div className="position-relative mb-3">
-						<i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted opacity-75"></i>
+				<div className="card glass-filter-card border-0 rounded-4 p-2 mb-2 shadow-sm">
+					<div className="position-relative mb-2">
+						<i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-primary opacity-75" style={{ fontSize: "13px" }}></i>
 						<input
 							type="text"
-							className="form-control form-control bg-light border-0 rounded-pill ps-5 shadow-none"
+							className="form-control bg-light border-0 rounded-3 ps-5 shadow-none"
+							style={{ fontSize: "0.85rem", minHeight: "36px" }}
 							placeholder="Search by destination or stops..."
 							value={searchQuery}
 							onChange={(e) => setSearchQuery(e.target.value)}

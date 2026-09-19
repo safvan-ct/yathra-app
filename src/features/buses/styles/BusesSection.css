@@ -1,30 +1,29 @@
-/* ─────────────────────────────────────────────────────────────
-   BUSES SECTION STYLES
-───────────────────────────────────────────────────────────── */
-
 .hover-lift {
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
-    border: 1px solid rgba(0,0,0,0.04) !important;
+    border: 1px solid #eef2f6 !important;
+    border-radius: 14px !important;
 }
 
 .hover-lift:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.15) !important;
-    border-color: rgba(0,0,0,0.08) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06) !important;
+    border-color: rgba(13, 110, 253, 0.18) !important;
 }
 
 .bus-icon-bg {
     background: linear-gradient(135deg, var(--bus-color-light), rgba(255,255,255,0.8));
     color: var(--bus-color, #0d6efd);
     box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
-    width: 65px;
-    height: 65px;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    font-size: 1.1rem;
 }
 
 .custom-badge {
-    font-size: 0.7rem;
-    letter-spacing: 0.3px;
+    font-size: 0.68rem;
+    letter-spacing: 0.2px;
 }
 
 .search-input-wrapper {
@@ -32,7 +31,7 @@
 }
 
 .search-input-wrapper:focus-within {
-    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.15);
 }
 
 .buses-sticky-search {
@@ -40,13 +39,14 @@
 }
 
 .buses-search-input {
-    padding-left: 3rem;
-    padding-right: 3rem;
-    font-size: 1rem;
+    padding-left: 2.4rem;
+    padding-right: 2.2rem;
+    font-size: 0.85rem;
+    min-height: 36px;
 }
 
 .buses-clear-btn {
-    margin-right: 0.5rem;
+    margin-right: 0.25rem;
 }
 
 .bus-card-content {
@@ -54,17 +54,21 @@
 }
 
 .bus-card-number {
-    font-size: 0.95rem;
+    font-size: 0.88rem;
+    font-weight: 700;
     word-break: break-word;
+    line-height: 1.1;
 }
 
 .bus-card-name {
-    font-size: 0.9rem;
+    font-size: 0.78rem;
+    line-height: 1.1;
 }
 
 .next-icon-box {
-    width: 36px;
-    height: 36px;
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
 }
 
 /* Sponsored Ad Card */

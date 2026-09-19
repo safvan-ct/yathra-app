@@ -62,8 +62,8 @@ const TicketsSection = ({ setActiveSection }) => {
 	if (!token && !showPreview) {
 		return (
 			<div id="section-tickets" className="app-section active section-fade">
-				<div className="dashboard-container py-4 mb-5">
-					<div className="card border-0 rounded-4 shadow-sm overflow-hidden bg-white p-4 p-md-5 text-center position-relative">
+				<div className="dashboard-container px-1 px-sm-3 mt-1 pb-5 mb-4">
+					<div className="card border-0 rounded-4 shadow-sm overflow-hidden bg-white p-3 p-md-4 text-center position-relative mb-2">
 						{/* Background decorative glowing circles */}
 						<div className="position-absolute" style={{
 							top: "-20%", left: "-10%", width: "200px", height: "200px",
@@ -183,58 +183,61 @@ const TicketsSection = ({ setActiveSection }) => {
 
 	return (
 		<div id="section-tickets" className="app-section active section-fade">
-			<div className="dashboard-container py-3 mb-5">
+			<div className="dashboard-container px-1 px-sm-3 mt-1 pb-5 mb-4">
 				{/* Preview Mode Alert */}
 				{showPreview && !token && (
-					<div className="alert alert-info rounded-4 border-0 shadow-sm d-flex justify-content-between align-items-center mb-4 p-3 bg-primary-subtle text-primary-emphasis">
+					<div className="alert alert-info rounded-3 border-0 shadow-sm d-flex justify-content-between align-items-center mb-2 p-2 bg-primary-subtle text-primary-emphasis" style={{ fontSize: "12px" }}>
 						<div className="d-flex align-items-center gap-2">
-							<i className="bi bi-info-circle-fill fs-5"></i>
+							<i className="bi bi-info-circle-fill fs-6"></i>
 							<div>
-								<h6 className="alert-heading fw-bold mb-0 small">Preview Mode</h6>
-								<small className="d-block" style={{ fontSize: "0.75rem" }}>This is a mockup of the digital ticket manager interface.</small>
+								<span className="fw-bold d-block">Preview Mode</span>
+								<small className="d-block text-muted" style={{ fontSize: "0.7rem" }}>Mockup of digital ticket manager.</small>
 							</div>
 						</div>
 						<button
-							className="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold"
+							className="btn btn-sm btn-primary rounded-pill px-2 py-1 fw-bold"
+							style={{ fontSize: "11px" }}
 							onClick={() => setShowPreview(false)}
 						>
-							<i className="bi bi-arrow-left me-1"></i> Back to Info
+							<i className="bi bi-arrow-left me-1"></i> Back
 						</button>
 					</div>
 				)}
 
 				{/* Header */}
-				<div className="text-center mb-4">
-					<h3 className="fw-bold text-dark">My Tickets</h3>
-					<p className="text-muted small">
-						Manage your active and completed trip bookings
-					</p>
+				<div className="d-flex justify-content-between align-items-center mb-2 px-1">
+					<div>
+						<h6 className="fw-bold text-dark mb-0" style={{ fontSize: "0.95rem" }}>My Tickets</h6>
+						<p className="text-muted mb-0" style={{ fontSize: "0.72rem" }}>
+							Manage active and completed bookings
+						</p>
+					</div>
 				</div>
 
 				{/* Navigation Tabs */}
-				<div className="d-flex bg-white p-1 rounded-4 shadow-sm mb-4">
+				<div className="d-flex bg-white p-1 rounded-3 shadow-sm mb-2 border" style={{ border: "1px solid #eef2f6" }}>
 					<button
-						className={`btn flex-fill rounded-3 py-2 fw-semibold border-0 ${
-							activeTab === "active" ? "bg-primary text-white" : "text-muted"
+						className={`btn flex-fill rounded-2 py-1 fw-semibold border-0 ${
+							activeTab === "active" ? "bg-primary text-white shadow-sm" : "text-muted"
 						}`}
+						style={{ fontSize: "0.78rem", transition: "all 0.15s" }}
 						onClick={() => setActiveTab("active")}
-						style={{ transition: "all 0.2s" }}
 					>
 						Active
 					</button>
 					<button
-						className={`btn flex-fill rounded-3 py-2 fw-semibold border-0 ${
-							activeTab === "completed" ? "bg-primary text-white" : "text-muted"
+						className={`btn flex-fill rounded-2 py-1 fw-semibold border-0 ${
+							activeTab === "completed" ? "bg-primary text-white shadow-sm" : "text-muted"
 						}`}
+						style={{ fontSize: "0.78rem", transition: "all 0.15s" }}
 						onClick={() => setActiveTab("completed")}
-						style={{ transition: "all 0.2s" }}
 					>
 						Completed
 					</button>
 				</div>
 
 				{/* Ticket List */}
-				<div className="d-flex flex-column gap-4">
+				<div className="d-flex flex-column gap-2">
 					{filteredTickets.length > 0 ? (
 						filteredTickets.map((t) => (
 							<div

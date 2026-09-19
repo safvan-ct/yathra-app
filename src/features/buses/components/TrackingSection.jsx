@@ -415,27 +415,28 @@ const TrackingSection = ({ bus, onBack }) => {
 	return (
 		<div className="tracking-container section-fade">
 			{/* Top sticky header bar */}
-			<div className="tracking-header py-3 px-3">
-				<div className="d-flex align-items-center gap-3">
+			<div className="tracking-header py-2 px-3">
+				<div className="d-flex align-items-center gap-2">
 					<button
-						className="btn btn-back-tracking text-white p-0 border-0 fs-4"
+						className="btn btn-back-tracking text-white p-0 border-0"
+						style={{ fontSize: "1.1rem" }}
 						onClick={onBack}
 						aria-label="Go Back"
 					>
 						<i className="bi bi-arrow-left"></i>
 					</button>
 					<div>
-						<h5 className="fw-bold text-white mb-0 fs-6">
+						<h6 className="fw-bold text-white mb-0" style={{ fontSize: "0.95rem" }}>
 							{busNumber} • {busName}
-						</h5>
-						<span className="tracking-title-meta">
+						</h6>
+						<span className="tracking-title-meta" style={{ fontSize: "0.72rem" }}>
 							{originName} &rarr; {destName}
 						</span>
 					</div>
 				</div>
 			</div>
 
-			<div className="px-3 py-2">
+			<div className="dashboard-container px-1 px-sm-3 mt-1 pb-5 mb-4">
 				{/* 1. Header Metrics Card */}
 				{/* <div className="card tracking-metrics-card p-3 mb-2">
 					<div className="d-flex align-items-center justify-content-between mb-3">
