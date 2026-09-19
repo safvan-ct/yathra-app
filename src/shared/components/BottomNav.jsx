@@ -8,10 +8,30 @@ const BottomNav = ({ activeSection, setActiveSection }) => {
 	};
 
 	const navItems = [
-		{ id: "home", label: "Home", activeIcon: "bi-house-door-fill", inactiveIcon: "bi-house-door" },
-		{ id: "buses", label: "Buses", activeIcon: "bi-bus-front-fill", inactiveIcon: "bi-bus-front" },
-		{ id: "stops", label: "Stops", activeIcon: "bi-geo-alt-fill", inactiveIcon: "bi-geo-alt" },
-		{ id: "tickets", label: "Tickets", activeIcon: "bi-ticket-perforated-fill", inactiveIcon: "bi-ticket-perforated" },
+		{
+			id: "home",
+			label: "Home",
+			activeIcon: "bi-house-door-fill",
+			inactiveIcon: "bi-house-door",
+		},
+		{
+			id: "buses",
+			label: "Buses",
+			activeIcon: "bi-bus-front-fill",
+			inactiveIcon: "bi-bus-front",
+		},
+		{
+			id: "stops",
+			label: "Stops",
+			activeIcon: "bi-geo-alt-fill",
+			inactiveIcon: "bi-geo-alt",
+		},
+		{
+			id: "tickets",
+			label: "Tickets",
+			activeIcon: "bi-ticket-perforated-fill",
+			inactiveIcon: "bi-ticket-perforated",
+		},
 	];
 
 	return (
@@ -25,9 +45,11 @@ const BottomNav = ({ activeSection, setActiveSection }) => {
 						className={`nav-item position-relative ${isActive ? "active" : ""}`}
 						onClick={(e) => handleNavClick(e, item.id)}
 					>
-						<i className={`bi ${isActive ? item.activeIcon : item.inactiveIcon}`}></i>
+						<i
+							className={`bi ${isActive ? item.activeIcon : item.inactiveIcon}`}
+						></i>
 						<span className="nav-label">{item.label}</span>
-						{isActive && <div className="active-pill-indicator"></div>}
+						{/* {isActive && <div className="active-pill-indicator"></div>} */}
 					</a>
 				);
 			})}

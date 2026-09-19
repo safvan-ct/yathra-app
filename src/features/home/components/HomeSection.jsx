@@ -528,7 +528,7 @@ const HomeSection = ({ onBusClick }) => {
 						)}
 
 						{/* Origin & Destination Inputs Full Width with Overlaid Floating Swap Button */}
-						<div className="search-inputs-container position-relative mb-2 w-100">
+						<div className="search-inputs-container position-relative mb-1 w-100">
 							{/* Origin Input (Full Width) */}
 							<div className="station-input-box from-station-box d-flex align-items-center rounded-3 px-2 py-0 bg-light w-100 mb-2">
 								<div className="station-icon-dot blue-pin flex-shrink-0 me-2 d-flex align-items-center justify-content-center">
@@ -942,16 +942,16 @@ const HomeSection = ({ onBusClick }) => {
 							elements.push(
 								<div
 									key={bus.id || idx}
-									className={`card border-0 shadow-sm rounded-3 yathra-bus-card mb-1 bg-white position-relative overflow-hidden ${
+									className={`card border-0 shadow-sm rounded-5 yathra-bus-card mb-1 bg-white position-relative overflow-hidden ${
 										isDeparted ? "yathra-card-departed" : ""
 									}`}
 									onClick={() => onBusClick && onBusClick(bus)}
 								>
-									{/* Left vertical color stripe */}
-									<div
-										className="card-left-accent"
+									{/* Bottom horizontal color stripe accent */}
+									{/* <div
+										className="card-bottom-accent"
 										style={{ backgroundColor: colorTheme.primary }}
-									></div>
+									></div> */}
 
 									<div className="card-body p-2">
 										{/* Top Header Row of Card */}
