@@ -279,7 +279,7 @@ const ContributionDetailModal = ({ item, onClose }) => {
 					<div className="mobile-drag-handle"></div>
 				</div>
 
-				<div className="p-4 pt-1 pt-md-4 pb-5">
+				<div className="p-4 pt-1 pt-md-4">
 					<div className="d-flex justify-content-between align-items-center mb-4">
 						<div className="d-flex align-items-center gap-3">
 							<div
@@ -579,7 +579,7 @@ const HistorySection = ({ setActiveSection }) => {
 
 				<AdCard index={0} onNavigate={setActiveSection} />
 
-				<div className="history-list px-3 pb-5 mb-5">
+				<div className="history-list px-3">
 					<div className="bg-white rounded-3 border shadow-sm">
 						{history.map((item, idx) => (
 							<React.Fragment key={item.id}>

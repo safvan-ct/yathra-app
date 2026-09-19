@@ -228,10 +228,15 @@ const ContributeSection = () => {
 				/>
 			)}
 
-			<div className="dashboard-container px-1 px-sm-3 mt-1 pb-5 mb-4">
+			<div className="dashboard-container px-1 px-sm-3 mt-1">
 				<div className="d-flex justify-content-between align-items-center mb-2 px-1">
 					<div>
-						<h6 className="fw-bold mb-0 text-dark" style={{ fontSize: "0.95rem" }}>Contribute Hub</h6>
+						<h6
+							className="fw-bold mb-0 text-dark"
+							style={{ fontSize: "0.95rem" }}
+						>
+							Contribute Hub
+						</h6>
 						<p className="text-muted mb-0" style={{ fontSize: "0.72rem" }}>
 							Select a category to share information
 						</p>

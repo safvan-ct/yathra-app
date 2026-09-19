@@ -122,7 +122,10 @@ const BusesSection = ({ onBusClick }) => {
 			<div className="dashboard-container px-1 px-sm-3 mt-1">
 				<div className="card border-0 rounded-4 shadow-sm bg-white p-2 mb-2">
 					<div className="position-relative search-input-wrapper">
-						<i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-primary opacity-75" style={{ fontSize: "13px" }}></i>
+						<i
+							className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-primary opacity-75"
+							style={{ fontSize: "13px" }}
+						></i>
 						<input
 							type="text"
 							className="form-control bg-light border-0 rounded-3 shadow-none buses-search-input"
@@ -136,7 +139,10 @@ const BusesSection = ({ onBusClick }) => {
 								onClick={() => setSearchTerm("")}
 								aria-label="Clear search"
 							>
-								<i className="bi bi-x-circle-fill opacity-50 hover-opacity-100" style={{ fontSize: "14px" }}></i>
+								<i
+									className="bi bi-x-circle-fill opacity-50 hover-opacity-100"
+									style={{ fontSize: "14px" }}
+								></i>
 							</button>
 						)}
 					</div>
@@ -144,7 +150,12 @@ const BusesSection = ({ onBusClick }) => {
 
 				<div className="d-flex justify-content-between align-items-center mb-2 px-1">
 					<div>
-						<h6 className="fw-bold mb-0 text-dark" style={{ fontSize: "0.95rem" }}>Explore Buses</h6>
+						<h6
+							className="fw-bold mb-0 text-dark"
+							style={{ fontSize: "0.95rem" }}
+						>
+							Explore Buses
+						</h6>
 						<p className="text-muted mb-0" style={{ fontSize: "0.72rem" }}>
 							Find your route & bus schedule
 						</p>
@@ -165,7 +176,7 @@ const BusesSection = ({ onBusClick }) => {
 					</div>
 				)}
 
-				<div className="row g-2 pb-5 mb-4">
+				<div className="row g-1">
 					{/* Bus List */}
 					{buses.map((bus, idx) => {
 						const rawColor =
@@ -176,11 +187,11 @@ const BusesSection = ({ onBusClick }) => {
 						elements.push(
 							<div key={bus.id || idx} className="col-12 col-md-6 col-lg-4">
 								<div
-									className="card border-0 shadow-sm rounded-3 h-100 hover-lift bg-white mb-1"
+									className="card border-0 shadow-sm rounded-5 h-100 hover-lift bg-white mb-1"
 									onClick={() => onBusClick && onBusClick(bus)}
 									style={{ cursor: "pointer" }}
 								>
-									<div className="card-body p-2 d-flex align-items-center gap-2">
+									<div className="card-body p-1 d-flex align-items-center gap-2">
 										{/* Left side: Colored bus icon */}
 										<div
 											className="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0 bus-icon-bg"
@@ -318,7 +329,7 @@ const BusesSection = ({ onBusClick }) => {
 
 					{/* End of List indicator */}
 					{!hasMore && buses.length > 0 && !loading && !loadingMore && (
-						<div className="col-12 text-center pt-2 pb-4 mb-3">
+						<div className="col-12 text-center pt-2">
 							<span className="text-muted small bg-light px-3 py-1 rounded-pill">
 								You've reached the end of the list
 							</span>

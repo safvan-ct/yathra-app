@@ -3,7 +3,7 @@ import { useAuth } from "../../../shared/context/AuthContext";
 
 const TicketsSection = ({ setActiveSection }) => {
 	const { token } = useAuth();
-	
+
 	const [activeTab, setActiveTab] = useState("active");
 	const [email, setEmail] = useState(() => {
 		return localStorage.getItem("yathra_subscribed_email") || "";
@@ -62,79 +62,138 @@ const TicketsSection = ({ setActiveSection }) => {
 	if (!token && !showPreview) {
 		return (
 			<div id="section-tickets" className="app-section active section-fade">
-				<div className="dashboard-container px-1 px-sm-3 mt-1 pb-5 mb-4">
+				<div className="dashboard-container px-1 px-sm-3 mt-1">
 					<div className="card border-0 rounded-4 shadow-sm overflow-hidden bg-white p-3 p-md-4 text-center position-relative mb-2">
 						{/* Background decorative glowing circles */}
-						<div className="position-absolute" style={{
-							top: "-20%", left: "-10%", width: "200px", height: "200px",
-							background: "radial-gradient(circle, rgba(13,110,253,0.15) 0%, rgba(255,255,255,0) 70%)",
-							zIndex: 0, pointerEvents: "none"
-						}}></div>
-						<div className="position-absolute" style={{
-							bottom: "-20%", right: "-10%", width: "200px", height: "200px",
-							background: "radial-gradient(circle, rgba(25,135,84,0.1) 0%, rgba(255,255,255,0) 70%)",
-							zIndex: 0, pointerEvents: "none"
-						}}></div>
+						<div
+							className="position-absolute"
+							style={{
+								top: "-20%",
+								left: "-10%",
+								width: "200px",
+								height: "200px",
+								background:
+									"radial-gradient(circle, rgba(13,110,253,0.15) 0%, rgba(255,255,255,0) 70%)",
+								zIndex: 0,
+								pointerEvents: "none",
+							}}
+						></div>
+						<div
+							className="position-absolute"
+							style={{
+								bottom: "-20%",
+								right: "-10%",
+								width: "200px",
+								height: "200px",
+								background:
+									"radial-gradient(circle, rgba(25,135,84,0.1) 0%, rgba(255,255,255,0) 70%)",
+								zIndex: 0,
+								pointerEvents: "none",
+							}}
+						></div>
 
 						<div className="position-relative" style={{ zIndex: 1 }}>
 							{/* Ticket Glowing Icon Container */}
-							<div className="d-inline-flex align-items-center justify-content-center mb-4 position-relative" style={{
-								width: "90px", height: "90px", borderRadius: "24px",
-								background: "linear-gradient(135deg, rgba(13,110,253,0.1) 0%, rgba(13,110,253,0.2) 100%)",
-								border: "1px solid rgba(13,110,253,0.2)",
-								boxShadow: "0 10px 20px rgba(13,110,253,0.05)"
-							}}>
+							<div
+								className="d-inline-flex align-items-center justify-content-center mb-4 position-relative"
+								style={{
+									width: "90px",
+									height: "90px",
+									borderRadius: "24px",
+									background:
+										"linear-gradient(135deg, rgba(13,110,253,0.1) 0%, rgba(13,110,253,0.2) 100%)",
+									border: "1px solid rgba(13,110,253,0.2)",
+									boxShadow: "0 10px 20px rgba(13,110,253,0.05)",
+								}}
+							>
 								<i className="bi bi-ticket-perforated text-primary fs-1 animate-bounce"></i>
-								<span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light" style={{ fontSize: "0.75rem", padding: "0.4em 0.6em" }}>
+								<span
+									className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light"
+									style={{ fontSize: "0.75rem", padding: "0.4em 0.6em" }}
+								>
 									Coming Soon
 								</span>
 							</div>
 
 							<h2 className="fw-bold text-dark mb-2">Online Ticket Booking</h2>
-							<p className="text-muted mx-auto mb-4" style={{ maxWidth: "500px" }}>
-								Skip the long queues at the bus station! Soon you'll be able to purchase, manage, and display all your tickets directly inside Yathra.
+							<p
+								className="text-muted mx-auto mb-4"
+								style={{ maxWidth: "500px" }}
+							>
+								Skip the long queues at the bus station! Soon you'll be able to
+								purchase, manage, and display all your tickets directly inside
+								Yathra.
 							</p>
 
 							{/* Features Grid */}
 							<div className="row g-3 justify-content-center text-start mb-5">
 								<div className="col-12 col-md-5">
 									<div className="d-flex align-items-start gap-3 p-3 rounded-3 bg-light border border-light shadow-xs h-100">
-										<div className="bg-primary-subtle text-primary rounded-circle p-2 d-flex align-items-center justify-content-center" style={{ width: "38px", height: "38px", flexShrink: 0 }}>
+										<div
+											className="bg-primary-subtle text-primary rounded-circle p-2 d-flex align-items-center justify-content-center"
+											style={{ width: "38px", height: "38px", flexShrink: 0 }}
+										>
 											<i className="bi bi-lightning-charge-fill fs-5"></i>
 										</div>
 										<div>
 											<h6 className="fw-bold mb-1">Instant Seat Booking</h6>
-											<small className="text-muted">Choose your preferred seat from interactive layouts instantly.</small>
+											<small className="text-muted">
+												Choose your preferred seat from interactive layouts
+												instantly.
+											</small>
 										</div>
 									</div>
 								</div>
 								<div className="col-12 col-md-5">
 									<div className="d-flex align-items-start gap-3 p-3 rounded-3 bg-light border border-light shadow-xs h-100">
-										<div className="bg-success-subtle text-success rounded-circle p-2 d-flex align-items-center justify-content-center" style={{ width: "38px", height: "38px", flexShrink: 0 }}>
+										<div
+											className="bg-success-subtle text-success rounded-circle p-2 d-flex align-items-center justify-content-center"
+											style={{ width: "38px", height: "38px", flexShrink: 0 }}
+										>
 											<i className="bi bi-qr-code-scan fs-5"></i>
 										</div>
 										<div>
 											<h6 className="fw-bold mb-1">Digital Boarding Passes</h6>
-											<small className="text-muted">Generate secure QR codes for boarding, available even offline.</small>
+											<small className="text-muted">
+												Generate secure QR codes for boarding, available even
+												offline.
+											</small>
 										</div>
 									</div>
 								</div>
 							</div>
 
 							{/* Notify Me Form */}
-							<div className="bg-light p-4 rounded-4 border border-light mx-auto mb-4 shadow-sm" style={{ maxWidth: "480px" }}>
+							<div
+								className="bg-light p-4 rounded-4 border border-light mx-auto mb-4 shadow-sm"
+								style={{ maxWidth: "480px" }}
+							>
 								{subscribed ? (
 									<div className="py-2 text-center">
-										<div className="d-inline-flex align-items-center justify-content-center bg-success text-white rounded-circle mb-3 animate-pulse" style={{ width: "50px", height: "50px" }}>
+										<div
+											className="d-inline-flex align-items-center justify-content-center bg-success text-white rounded-circle mb-3 animate-pulse"
+											style={{ width: "50px", height: "50px" }}
+										>
 											<i className="bi bi-check-lg fs-3"></i>
 										</div>
-										<h5 className="fw-bold text-success mb-1">You're on the list!</h5>
-										<p className="text-muted small mb-0">We will notify you at <strong className="text-dark">{email}</strong> as soon as ticket bookings go live.</p>
+										<h5 className="fw-bold text-success mb-1">
+											You're on the list!
+										</h5>
+										<p className="text-muted small mb-0">
+											We will notify you at{" "}
+											<strong className="text-dark">{email}</strong> as soon as
+											ticket bookings go live.
+										</p>
 									</div>
 								) : (
 									<form onSubmit={handleSubscribe}>
-										<h6 className="fw-bold text-dark mb-2 text-center text-md-start">Get Notified on Launch</h6>
-										<p className="text-muted small mb-3 text-center text-md-start">Be the first to know when tickets become available in your area.</p>
+										<h6 className="fw-bold text-dark mb-2 text-center text-md-start">
+											Get Notified on Launch
+										</h6>
+										<p className="text-muted small mb-3 text-center text-md-start">
+											Be the first to know when tickets become available in your
+											area.
+										</p>
 										<div className="input-group">
 											<input
 												type="email"
@@ -143,12 +202,18 @@ const TicketsSection = ({ setActiveSection }) => {
 												value={email}
 												onChange={(e) => setEmail(e.target.value)}
 												required
-												style={{ borderTopLeftRadius: "12px", borderBottomLeftRadius: "12px" }}
+												style={{
+													borderTopLeftRadius: "12px",
+													borderBottomLeftRadius: "12px",
+												}}
 											/>
 											<button
 												className="btn btn-primary px-3 fw-bold animate-pulse-btn"
 												type="submit"
-												style={{ borderTopRightRadius: "12px", borderBottomRightRadius: "12px" }}
+												style={{
+													borderTopRightRadius: "12px",
+													borderBottomRightRadius: "12px",
+												}}
 											>
 												Notify Me
 											</button>
@@ -183,15 +248,23 @@ const TicketsSection = ({ setActiveSection }) => {
 
 	return (
 		<div id="section-tickets" className="app-section active section-fade">
-			<div className="dashboard-container px-1 px-sm-3 mt-1 pb-5 mb-4">
+			<div className="dashboard-container px-1 px-sm-3 mt-1">
 				{/* Preview Mode Alert */}
 				{showPreview && !token && (
-					<div className="alert alert-info rounded-3 border-0 shadow-sm d-flex justify-content-between align-items-center mb-2 p-2 bg-primary-subtle text-primary-emphasis" style={{ fontSize: "12px" }}>
+					<div
+						className="alert alert-info rounded-3 border-0 shadow-sm d-flex justify-content-between align-items-center mb-2 p-2 bg-primary-subtle text-primary-emphasis"
+						style={{ fontSize: "12px" }}
+					>
 						<div className="d-flex align-items-center gap-2">
 							<i className="bi bi-info-circle-fill fs-6"></i>
 							<div>
 								<span className="fw-bold d-block">Preview Mode</span>
-								<small className="d-block text-muted" style={{ fontSize: "0.7rem" }}>Mockup of digital ticket manager.</small>
+								<small
+									className="d-block text-muted"
+									style={{ fontSize: "0.7rem" }}
+								>
+									Mockup of digital ticket manager.
+								</small>
 							</div>
 						</div>
 						<button
@@ -207,7 +280,12 @@ const TicketsSection = ({ setActiveSection }) => {
 				{/* Header */}
 				<div className="d-flex justify-content-between align-items-center mb-2 px-1">
 					<div>
-						<h6 className="fw-bold text-dark mb-0" style={{ fontSize: "0.95rem" }}>My Tickets</h6>
+						<h6
+							className="fw-bold text-dark mb-0"
+							style={{ fontSize: "0.95rem" }}
+						>
+							My Tickets
+						</h6>
 						<p className="text-muted mb-0" style={{ fontSize: "0.72rem" }}>
 							Manage active and completed bookings
 						</p>
@@ -215,10 +293,15 @@ const TicketsSection = ({ setActiveSection }) => {
 				</div>
 
 				{/* Navigation Tabs */}
-				<div className="d-flex bg-white p-1 rounded-3 shadow-sm mb-2 border" style={{ border: "1px solid #eef2f6" }}>
+				<div
+					className="d-flex bg-white p-1 rounded-3 shadow-sm mb-2 border"
+					style={{ border: "1px solid #eef2f6" }}
+				>
 					<button
 						className={`btn flex-fill rounded-2 py-1 fw-semibold border-0 ${
-							activeTab === "active" ? "bg-primary text-white shadow-sm" : "text-muted"
+							activeTab === "active"
+								? "bg-primary text-white shadow-sm"
+								: "text-muted"
 						}`}
 						style={{ fontSize: "0.78rem", transition: "all 0.15s" }}
 						onClick={() => setActiveTab("active")}
@@ -227,7 +310,9 @@ const TicketsSection = ({ setActiveSection }) => {
 					</button>
 					<button
 						className={`btn flex-fill rounded-2 py-1 fw-semibold border-0 ${
-							activeTab === "completed" ? "bg-primary text-white shadow-sm" : "text-muted"
+							activeTab === "completed"
+								? "bg-primary text-white shadow-sm"
+								: "text-muted"
 						}`}
 						style={{ fontSize: "0.78rem", transition: "all 0.15s" }}
 						onClick={() => setActiveTab("completed")}

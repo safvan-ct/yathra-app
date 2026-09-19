@@ -25,7 +25,7 @@ const ProfileSection = ({ navigateTo }) => {
 
 	return (
 		<div id="section-profile" className="app-section active">
-			<div className="dashboard-container px-1 px-sm-3 mt-1 pb-5 mb-4">
+			<div className="dashboard-container px-1 px-sm-3 mt-1">
 				<div className="row g-2">
 					<div className="col-md-4">
 						<div className="card border-0 rounded-4 shadow-sm p-3 text-center bg-white mb-2">
@@ -38,12 +38,23 @@ const ProfileSection = ({ navigateTo }) => {
 									<i className="bi bi-person-fill profile-avatar-icon"></i>
 								)}
 							</div>
-							<h6 className="fw-bold mb-1 text-dark" style={{ fontSize: "0.95rem" }}>{profile?.name || "User"}</h6>
-							<p className="text-muted small mb-2" style={{ fontSize: "0.72rem" }}>
+							<h6
+								className="fw-bold mb-1 text-dark"
+								style={{ fontSize: "0.95rem" }}
+							>
+								{profile?.name || "User"}
+							</h6>
+							<p
+								className="text-muted small mb-2"
+								style={{ fontSize: "0.72rem" }}
+							>
 								{profile?.phone || "Welcome to Yathra"}
 							</p>
 							{error && (
-								<div className="alert alert-danger py-1 px-2 small mb-2" style={{ fontSize: "11px" }}>
+								<div
+									className="alert alert-danger py-1 px-2 small mb-2"
+									style={{ fontSize: "11px" }}
+								>
 									{error}
 								</div>
 							)}
@@ -59,7 +70,12 @@ const ProfileSection = ({ navigateTo }) => {
 
 					<div className="col-md-8">
 						<div className="card border-0 rounded-4 shadow-sm p-3 bg-white mb-2">
-							<h6 className="fw-bold mb-2 text-dark" style={{ fontSize: "0.95rem" }}>Account Overview</h6>
+							<h6
+								className="fw-bold mb-2 text-dark"
+								style={{ fontSize: "0.95rem" }}
+							>
+								Account Overview
+							</h6>
 							{loading && (
 								<div className="text-center py-3">
 									<div className="spinner-border text-primary" role="status">

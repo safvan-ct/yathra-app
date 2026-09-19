@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import api from "../../../shared/api/api";
+import SponsoredAdCard from "../../home/components/SponsoredAdCard";
+import TrackingBurgerPosterCard from "./TrackingBurgerPosterCard";
 import "../styles/Tracking.css";
 
 // Helper to provide mock trip data and nodes if API fails or for mock trip IDs
 const getMockTripAndNodes = (busObj) => {
 	const tripId = busObj.trip_id || "T-201";
-	
+
 	const allMockTrips = {
 		"T-201": {
 			id: "T-201",
@@ -18,20 +20,44 @@ const getMockTripAndNodes = (busObj) => {
 				bus_number: busObj.bus_number || "KL-07-Y-1001",
 				category: busObj.category || "AC Multi-Axle",
 				bus_color: busObj.bus_color || "#0d6efd",
-				operator: busObj.operator || { name: "KSRTC", type: "State" }
+				operator: busObj.operator || { name: "KSRTC", type: "State" },
 			},
 			route: {
 				origin: { name: "Cochin (Vytila)" },
-				destination: { name: "Trivandrum Central" }
+				destination: { name: "Trivandrum Central" },
 			},
 			nodes: [
-				{ stop_sequence: 1, distance_from_origin: 0, station: { name: "Cochin (Vytila)" } },
-				{ stop_sequence: 2, distance_from_origin: 40, station: { name: "Cherthala Bypass" } },
-				{ stop_sequence: 3, distance_from_origin: 80, station: { name: "Alappuzha" } },
-				{ stop_sequence: 4, distance_from_origin: 130, station: { name: "Kayamkulam" } },
-				{ stop_sequence: 5, distance_from_origin: 170, station: { name: "Kollam" } },
-				{ stop_sequence: 6, distance_from_origin: 220, station: { name: "Trivandrum Central" } }
-			]
+				{
+					stop_sequence: 1,
+					distance_from_origin: 0,
+					station: { name: "Cochin (Vytila)" },
+				},
+				{
+					stop_sequence: 2,
+					distance_from_origin: 40,
+					station: { name: "Cherthala Bypass" },
+				},
+				{
+					stop_sequence: 3,
+					distance_from_origin: 80,
+					station: { name: "Alappuzha" },
+				},
+				{
+					stop_sequence: 4,
+					distance_from_origin: 130,
+					station: { name: "Kayamkulam" },
+				},
+				{
+					stop_sequence: 5,
+					distance_from_origin: 170,
+					station: { name: "Kollam" },
+				},
+				{
+					stop_sequence: 6,
+					distance_from_origin: 220,
+					station: { name: "Trivandrum Central" },
+				},
+			],
 		},
 		"T-202": {
 			id: "T-202",
@@ -44,20 +70,44 @@ const getMockTripAndNodes = (busObj) => {
 				bus_number: busObj.bus_number || "KL-07-Y-1002",
 				category: busObj.category || "AC Multi-Axle",
 				bus_color: busObj.bus_color || "#0d6efd",
-				operator: busObj.operator || { name: "KSRTC", type: "State" }
+				operator: busObj.operator || { name: "KSRTC", type: "State" },
 			},
 			route: {
 				origin: { name: "Trivandrum Central" },
-				destination: { name: "Kozhikode (Calicut)" }
+				destination: { name: "Kozhikode (Calicut)" },
 			},
 			nodes: [
-				{ stop_sequence: 1, distance_from_origin: 0, station: { name: "Trivandrum Central" } },
-				{ stop_sequence: 2, distance_from_origin: 70, station: { name: "Kollam" } },
-				{ stop_sequence: 3, distance_from_origin: 140, station: { name: "Alappuzha" } },
-				{ stop_sequence: 4, distance_from_origin: 210, station: { name: "Ernakulam" } },
-				{ stop_sequence: 5, distance_from_origin: 290, station: { name: "Thrissur" } },
-				{ stop_sequence: 6, distance_from_origin: 375, station: { name: "Kozhikode (Calicut)" } }
-			]
+				{
+					stop_sequence: 1,
+					distance_from_origin: 0,
+					station: { name: "Trivandrum Central" },
+				},
+				{
+					stop_sequence: 2,
+					distance_from_origin: 70,
+					station: { name: "Kollam" },
+				},
+				{
+					stop_sequence: 3,
+					distance_from_origin: 140,
+					station: { name: "Alappuzha" },
+				},
+				{
+					stop_sequence: 4,
+					distance_from_origin: 210,
+					station: { name: "Ernakulam" },
+				},
+				{
+					stop_sequence: 5,
+					distance_from_origin: 290,
+					station: { name: "Thrissur" },
+				},
+				{
+					stop_sequence: 6,
+					distance_from_origin: 375,
+					station: { name: "Kozhikode (Calicut)" },
+				},
+			],
 		},
 		"T-203": {
 			id: "T-203",
@@ -70,20 +120,44 @@ const getMockTripAndNodes = (busObj) => {
 				bus_number: busObj.bus_number || "KL-07-Y-1003",
 				category: busObj.category || "AC Multi-Axle",
 				bus_color: busObj.bus_color || "#0d6efd",
-				operator: busObj.operator || { name: "KSRTC", type: "State" }
+				operator: busObj.operator || { name: "KSRTC", type: "State" },
 			},
 			route: {
 				origin: { name: "Cochin (Vytila)" },
-				destination: { name: "Bangalore (Kaladipal)" }
+				destination: { name: "Bangalore (Kaladipal)" },
 			},
 			nodes: [
-				{ stop_sequence: 1, distance_from_origin: 0, station: { name: "Cochin (Vytila)" } },
-				{ stop_sequence: 2, distance_from_origin: 20, station: { name: "Aluva Bypass" } },
-				{ stop_sequence: 3, distance_from_origin: 75, station: { name: "Thrissur Bypass" } },
-				{ stop_sequence: 4, distance_from_origin: 145, station: { name: "Palakkad" } },
-				{ stop_sequence: 5, distance_from_origin: 470, station: { name: "Hosur" } },
-				{ stop_sequence: 6, distance_from_origin: 530, station: { name: "Bangalore (Kaladipal)" } }
-			]
+				{
+					stop_sequence: 1,
+					distance_from_origin: 0,
+					station: { name: "Cochin (Vytila)" },
+				},
+				{
+					stop_sequence: 2,
+					distance_from_origin: 20,
+					station: { name: "Aluva Bypass" },
+				},
+				{
+					stop_sequence: 3,
+					distance_from_origin: 75,
+					station: { name: "Thrissur Bypass" },
+				},
+				{
+					stop_sequence: 4,
+					distance_from_origin: 145,
+					station: { name: "Palakkad" },
+				},
+				{
+					stop_sequence: 5,
+					distance_from_origin: 470,
+					station: { name: "Hosur" },
+				},
+				{
+					stop_sequence: 6,
+					distance_from_origin: 530,
+					station: { name: "Bangalore (Kaladipal)" },
+				},
+			],
 		},
 		"T-204": {
 			id: "T-204",
@@ -96,25 +170,49 @@ const getMockTripAndNodes = (busObj) => {
 				bus_number: busObj.bus_number || "KL-07-Y-1004",
 				category: busObj.category || "AC Multi-Axle",
 				bus_color: busObj.bus_color || "#0d6efd",
-				operator: busObj.operator || { name: "KSRTC", type: "State" }
+				operator: busObj.operator || { name: "KSRTC", type: "State" },
 			},
 			route: {
 				origin: { name: "Bangalore (Kaladipal)" },
-				destination: { name: "Cochin (Vytila)" }
+				destination: { name: "Cochin (Vytila)" },
 			},
 			nodes: [
-				{ stop_sequence: 1, distance_from_origin: 0, station: { name: "Bangalore (Kaladipal)" } },
-				{ stop_sequence: 2, distance_from_origin: 60, station: { name: "Hosur" } },
-				{ stop_sequence: 3, distance_from_origin: 385, station: { name: "Palakkad" } },
-				{ stop_sequence: 4, distance_from_origin: 455, station: { name: "Thrissur Bypass" } },
-				{ stop_sequence: 5, distance_from_origin: 510, station: { name: "Aluva Bypass" } },
-				{ stop_sequence: 6, distance_from_origin: 530, station: { name: "Cochin (Vytila)" } }
-			]
-		}
+				{
+					stop_sequence: 1,
+					distance_from_origin: 0,
+					station: { name: "Bangalore (Kaladipal)" },
+				},
+				{
+					stop_sequence: 2,
+					distance_from_origin: 60,
+					station: { name: "Hosur" },
+				},
+				{
+					stop_sequence: 3,
+					distance_from_origin: 385,
+					station: { name: "Palakkad" },
+				},
+				{
+					stop_sequence: 4,
+					distance_from_origin: 455,
+					station: { name: "Thrissur Bypass" },
+				},
+				{
+					stop_sequence: 5,
+					distance_from_origin: 510,
+					station: { name: "Aluva Bypass" },
+				},
+				{
+					stop_sequence: 6,
+					distance_from_origin: 530,
+					station: { name: "Cochin (Vytila)" },
+				},
+			],
+		},
 	};
-	
+
 	const matchedTrip = allMockTrips[tripId] || allMockTrips["T-201"];
-	
+
 	return {
 		trip: {
 			...matchedTrip,
@@ -124,10 +222,10 @@ const getMockTripAndNodes = (busObj) => {
 				bus_number: busObj.bus_number || matchedTrip.bus.bus_number,
 				bus_color: busObj.bus_color || matchedTrip.bus.bus_color,
 				category: busObj.category || matchedTrip.bus.category,
-				operator: busObj.operator || matchedTrip.bus.operator
-			}
+				operator: busObj.operator || matchedTrip.bus.operator,
+			},
 		},
-		nodes: matchedTrip.nodes
+		nodes: matchedTrip.nodes,
 	};
 };
 
@@ -426,17 +524,23 @@ const TrackingSection = ({ bus, onBack }) => {
 						<i className="bi bi-arrow-left"></i>
 					</button>
 					<div>
-						<h6 className="fw-bold text-white mb-0" style={{ fontSize: "0.95rem" }}>
+						<h6
+							className="fw-bold text-white mb-0"
+							style={{ fontSize: "0.95rem" }}
+						>
 							{busNumber} • {busName}
 						</h6>
-						<span className="tracking-title-meta" style={{ fontSize: "0.72rem" }}>
+						<span
+							className="tracking-title-meta"
+							style={{ fontSize: "0.72rem" }}
+						>
 							{originName} &rarr; {destName}
 						</span>
 					</div>
 				</div>
 			</div>
 
-			<div className="dashboard-container px-1 px-sm-3 mt-1 pb-5 mb-4">
+			<div className="dashboard-container px-1 px-sm-3 mt-1">
 				{/* 1. Header Metrics Card */}
 				{/* <div className="card tracking-metrics-card p-3 mb-2">
 					<div className="d-flex align-items-center justify-content-between mb-3">
@@ -533,7 +637,10 @@ const TrackingSection = ({ bus, onBack }) => {
 				<div className="card tracking-timeline-card p-3 rounded-4 shadow-sm border-0 bg-white mb-2">
 					<div className="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
 						<div className="d-flex align-items-center gap-2">
-							<span className="fw-bold text-dark" style={{ fontSize: "0.88rem" }}>
+							<span
+								className="fw-bold text-dark"
+								style={{ fontSize: "0.88rem" }}
+							>
 								Live Route Timeline
 							</span>
 							<span
@@ -543,7 +650,10 @@ const TrackingSection = ({ bus, onBack }) => {
 								{processedNodes.length} Stops
 							</span>
 						</div>
-						<span className="text-muted fw-semibold" style={{ fontSize: "0.68rem" }}>
+						<span
+							className="text-muted fw-semibold"
+							style={{ fontSize: "0.68rem" }}
+						>
 							Est. {totalDistance} km
 						</span>
 					</div>
@@ -589,7 +699,9 @@ const TrackingSection = ({ bus, onBack }) => {
 										{!isFirst && (
 											<div
 												className={`track-segment track-upper ${
-													isPassed || isActiveStop ? "track-passed" : "track-pending"
+													isPassed || isActiveStop
+														? "track-passed"
+														: "track-pending"
 												}`}
 											></div>
 										)}
@@ -685,6 +797,11 @@ const TrackingSection = ({ bus, onBack }) => {
 							);
 						})}
 					</div>
+				</div>
+
+				{/* Creative Burger Ad Poster Card */}
+				<div className="mt-2 mb-3">
+					<TrackingBurgerPosterCard />
 				</div>
 			</div>
 

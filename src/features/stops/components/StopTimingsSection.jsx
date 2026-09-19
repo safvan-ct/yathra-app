@@ -22,7 +22,7 @@ const allMockTrips = [
 			{ name: "Kayamkulam", time: "09:55 AM", hour: 9.92 },
 			{ name: "Kollam", time: "11:15 AM", hour: 11.25 },
 			{ name: "Trivandrum Central", time: "01:00 PM", hour: 13.0 },
-		]
+		],
 	},
 	{
 		id: "T-202",
@@ -42,7 +42,7 @@ const allMockTrips = [
 			{ name: "Ernakulam", time: "07:20 PM", hour: 19.33 },
 			{ name: "Thrissur", time: "08:45 PM", hour: 20.75 },
 			{ name: "Kozhikode (Calicut)", time: "10:45 PM", hour: 22.75 },
-		]
+		],
 	},
 	{
 		id: "T-203",
@@ -62,7 +62,7 @@ const allMockTrips = [
 			{ name: "Palakkad", time: "11:45 PM", hour: 23.75 },
 			{ name: "Hosur", time: "05:15 AM", hour: 5.25 },
 			{ name: "Bangalore (Kaladipal)", time: "06:15 AM", hour: 6.25 },
-		]
+		],
 	},
 	{
 		id: "T-204",
@@ -82,24 +82,26 @@ const allMockTrips = [
 			{ name: "Thrissur Bypass", time: "05:30 AM", hour: 5.5 },
 			{ name: "Aluva Bypass", time: "06:45 AM", hour: 6.75 },
 			{ name: "Cochin (Vytila)", time: "07:30 AM", hour: 7.5 },
-		]
-	}
+		],
+	},
 ];
 
 const generateBusesForStop = (stopName, stopId) => {
 	const normalizedStop = (stopName || "").toLowerCase().trim();
-	
+
 	// Filter matching trips from pre-defined mock trips
-	const matchedTrips = allMockTrips.filter(trip => 
-		trip.stops.some(s => s.name.toLowerCase().includes(normalizedStop))
+	const matchedTrips = allMockTrips.filter((trip) =>
+		trip.stops.some((s) => s.name.toLowerCase().includes(normalizedStop)),
 	);
-	
+
 	// Map matched trips to bus timings at this stop
-	const results = matchedTrips.map(trip => {
-		const stopDetail = trip.stops.find(s => s.name.toLowerCase().includes(normalizedStop));
+	const results = matchedTrips.map((trip) => {
+		const stopDetail = trip.stops.find((s) =>
+			s.name.toLowerCase().includes(normalizedStop),
+		);
 		const origin = trip.stops[0];
 		const destination = trip.stops[trip.stops.length - 1];
-		
+
 		return {
 			id: trip.id.replace("T-", ""),
 			trip_id: trip.id,
@@ -110,7 +112,7 @@ const generateBusesForStop = (stopName, stopId) => {
 			operator: trip.operator,
 			speed_kmh: trip.speed_kmh,
 			is_running_today: trip.is_running_today,
-			departure_time: stopDetail.time, 
+			departure_time: stopDetail.time,
 			departure_hour: stopDetail.hour,
 			arrival_time: destination.time,
 			time_taken: trip.time_taken,
@@ -119,7 +121,7 @@ const generateBusesForStop = (stopName, stopId) => {
 			origin_station: origin.name,
 			origin_time: origin.time,
 			destination_station: destination.name,
-			destination_time: destination.time
+			destination_time: destination.time,
 		};
 	});
 
@@ -145,7 +147,7 @@ const generateBusesForStop = (stopName, stopId) => {
 				origin_station: stopName || "Current Stop",
 				origin_time: "08:15 AM",
 				destination_station: "Trivandrum Central",
-				destination_time: "01:30 PM"
+				destination_time: "01:30 PM",
 			},
 			{
 				id: `10${stopId}2`,
@@ -166,7 +168,7 @@ const generateBusesForStop = (stopName, stopId) => {
 				origin_station: "Kozhikode Bypass",
 				origin_time: "08:00 AM",
 				destination_station: stopName || "Current Stop",
-				destination_time: "11:30 AM"
+				destination_time: "11:30 AM",
 			},
 			{
 				id: `10${stopId}3`,
@@ -187,7 +189,7 @@ const generateBusesForStop = (stopName, stopId) => {
 				origin_station: "Cochin (Vytila)",
 				origin_time: "09:00 PM",
 				destination_station: "Bangalore Majestic",
-				destination_time: "06:30 AM"
+				destination_time: "06:30 AM",
 			},
 			{
 				id: `10${stopId}4`,
@@ -208,19 +210,25 @@ const generateBusesForStop = (stopName, stopId) => {
 				origin_station: stopName || "Current Stop",
 				origin_time: "04:30 PM",
 				destination_station: "Kozhikode Central",
-				destination_time: "11:55 PM"
-			}
+				destination_time: "11:55 PM",
+			},
 		];
 		return defaultBuses;
 	}
-	
+
 	return results;
 };
 
 const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
-	const { searchStations, stationResults, isSearching: stationsLoading } = useStationSearch();
+	const {
+		searchStations,
+		stationResults,
+		isSearching: stationsLoading,
+	} = useStationSearch();
 	const [stopName, setStopName] = useState(stop?.name || "");
-	const [stopDisplayName, setStopDisplayName] = useState(stop?.display_name || "");
+	const [stopDisplayName, setStopDisplayName] = useState(
+		stop?.display_name || "",
+	);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [activeTimeFilter, setActiveTimeFilter] = useState("all");
 
@@ -233,7 +241,9 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 
 	useEffect(() => {
 		if (!stopName && stationResults.length > 0 && stop?.id) {
-			const found = stationResults.find(s => String(s.id) === String(stop.id));
+			const found = stationResults.find(
+				(s) => String(s.id) === String(stop.id),
+			);
 			if (found) {
 				setStopName(found.name);
 				setStopDisplayName(found.display_name || "");
@@ -242,7 +252,10 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 	}, [stationResults, stopName, stop]);
 
 	// Retrieve buses for the stop
-	const allBuses = generateBusesForStop(stopName || `Stop #${stop?.id || ""}`, stop?.id || 1);
+	const allBuses = generateBusesForStop(
+		stopName || `Stop #${stop?.id || ""}`,
+		stop?.id || 1,
+	);
 
 	// Time formatting utilities
 	const isPastTime = (timeStr) => {
@@ -315,19 +328,30 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 						<i className="bi bi-arrow-left" style={{ fontSize: "14px" }}></i>
 					</button>
 					<div>
-						<h6 className="fw-bold mb-0 text-white" style={{ fontSize: "0.95rem" }}>{stopName || "Loading Stop..."}</h6>
-						<span className="opacity-75 small fw-semibold" style={{ fontSize: "0.68rem", letterSpacing: "0.3px" }}>
+						<h6
+							className="fw-bold mb-0 text-white"
+							style={{ fontSize: "0.95rem" }}
+						>
+							{stopName || "Loading Stop..."}
+						</h6>
+						<span
+							className="opacity-75 small fw-semibold"
+							style={{ fontSize: "0.68rem", letterSpacing: "0.3px" }}
+						>
 							{stopDisplayName ? stopDisplayName : `Stop ID: ${stop?.id || ""}`}
 						</span>
 					</div>
 				</div>
 			</div>
 
-			<div className="dashboard-container px-1 px-sm-3 mt-1 pb-5 mb-4">
+			<div className="dashboard-container px-1 px-sm-3 mt-1">
 				{/* Search & Shift Filters Card */}
 				<div className="card glass-filter-card border-0 rounded-4 p-2 mb-2 shadow-sm bg-white">
 					<div className="position-relative mb-2">
-						<i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-primary opacity-75" style={{ fontSize: "13px" }}></i>
+						<i
+							className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-primary opacity-75"
+							style={{ fontSize: "13px" }}
+						></i>
 						<input
 							type="text"
 							className="form-control bg-light border-0 rounded-3 ps-5 shadow-none"
@@ -338,7 +362,10 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 						/>
 					</div>
 
-					<div className="d-flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
+					<div
+						className="d-flex gap-2 overflow-x-auto pb-1"
+						style={{ scrollbarWidth: "none" }}
+					>
 						<button
 							className={`filter-chip-button text-nowrap ${
 								activeTimeFilter === "all" ? "active" : ""
@@ -377,11 +404,17 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 				{/* Bus Timings List */}
 				<div className="d-flex flex-column gap-1 mb-4">
 					<div className="d-flex justify-content-between align-items-center px-1 mb-1">
-						<h6 className="fw-bold text-dark mb-0" style={{ fontSize: "0.88rem" }}>
+						<h6
+							className="fw-bold text-dark mb-0"
+							style={{ fontSize: "0.88rem" }}
+						>
 							Buses Passing Through ({filteredBuses.length})
 						</h6>
 						{stationsLoading && (
-							<div className="spinner-border spinner-border-sm text-primary" role="status">
+							<div
+								className="spinner-border spinner-border-sm text-primary"
+								role="status"
+							>
 								<span className="visually-hidden">Loading stop...</span>
 							</div>
 						)}
@@ -390,8 +423,10 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 					{filteredBuses.length > 0 ? (
 						filteredBuses.map((bus) => {
 							const isRunningToday = bus.is_running_today === 1;
-							const isDeparted = isRunningToday && isPastTime(bus.departure_time);
-							const rawColor = bus.bus_color === "White" ? "#aeafb3" : bus.bus_color;
+							const isDeparted =
+								isRunningToday && isPastTime(bus.departure_time);
+							const rawColor =
+								bus.bus_color === "White" ? "#aeafb3" : bus.bus_color;
 
 							return (
 								<div
@@ -403,8 +438,8 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 										background: !isRunningToday
 											? "#f8f9fa"
 											: isDeparted
-											? "#fdfdfe"
-											: "#ffffff"
+												? "#fdfdfe"
+												: "#ffffff",
 									}}
 								>
 									{/* Vertical colored theme line */}
@@ -414,8 +449,8 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 											background: !isRunningToday
 												? "#6c757d"
 												: isDeparted
-												? "#ffc107"
-												: rawColor || "#0d6efd",
+													? "#ffc107"
+													: rawColor || "#0d6efd",
 										}}
 									></div>
 
@@ -471,11 +506,17 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 											<div className="col-12 col-md-7 mt-3 mt-md-0 border-start-md">
 												<div className="d-flex align-items-center justify-content-between px-2">
 													{/* Origin */}
-													<div className="text-start" style={{ width: "30%", minWidth: "70px" }}>
+													<div
+														className="text-start"
+														style={{ width: "30%", minWidth: "70px" }}
+													>
 														<span className="d-block fw-bold text-dark fs-7 text-truncate">
 															{bus.origin_station.split(" ")[0]}
 														</span>
-														<small className="text-muted text-uppercase fw-semibold" style={{ fontSize: "0.68rem" }}>
+														<small
+															className="text-muted text-uppercase fw-semibold"
+															style={{ fontSize: "0.68rem" }}
+														>
 															{bus.origin_time}
 														</small>
 													</div>
@@ -483,14 +524,20 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 													{/* Central visual line showing scheduled pass-through */}
 													<div className="flex-grow-1 px-2 d-flex flex-column align-items-center">
 														<div className="text-center mb-1">
-															<span className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-10 rounded-pill px-2 py-0.5 fw-bold" style={{ fontSize: "0.68rem" }}>
+															<span
+																className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-10 rounded-pill px-2 py-0.5 fw-bold"
+																style={{ fontSize: "0.68rem" }}
+															>
 																At Stop: {bus.stop_arrival_time}
 															</span>
 														</div>
 														<div className="d-flex align-items-center w-100 justify-content-center mb-1">
 															<div className="rounded-circle border border-primary journey-dot-start"></div>
 															<div className="bg-primary journey-line flex-grow-1"></div>
-															<div className="rounded-circle bg-primary journey-dot-mid shadow-sm" title={`Arrives here at ${bus.stop_arrival_time}`}></div>
+															<div
+																className="rounded-circle bg-primary journey-dot-mid shadow-sm"
+																title={`Arrives here at ${bus.stop_arrival_time}`}
+															></div>
 															<div className="bg-primary journey-line flex-grow-1"></div>
 															<div className="rounded-circle bg-success journey-dot-end"></div>
 														</div>
@@ -508,11 +555,17 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 													</div>
 
 													{/* Destination */}
-													<div className="text-end" style={{ width: "30%", minWidth: "70px" }}>
+													<div
+														className="text-end"
+														style={{ width: "30%", minWidth: "70px" }}
+													>
 														<span className="d-block fw-bold text-success fs-7 text-truncate">
 															{bus.destination_station.split(" ")[0]}
 														</span>
-														<small className="text-muted text-uppercase fw-semibold" style={{ fontSize: "0.68rem" }}>
+														<small
+															className="text-muted text-uppercase fw-semibold"
+															style={{ fontSize: "0.68rem" }}
+														>
 															{bus.destination_time}
 														</small>
 													</div>
@@ -535,10 +588,16 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 													)}
 													<button
 														className={`btn btn-primary btn-sm rounded-pill px-3 fw-bold py-1.5 ${
-															!isRunningToday ? "btn-light text-muted" : "shadow-sm"
+															!isRunningToday
+																? "btn-light text-muted"
+																: "shadow-sm"
 														}`}
 														disabled={!isRunningToday}
-														onClick={() => alert(`Seat Booking feature is only active from the search results tab.`)}
+														onClick={() =>
+															alert(
+																`Seat Booking feature is only active from the search results tab.`,
+															)
+														}
 													>
 														Book
 													</button>
@@ -553,7 +612,9 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 						<div className="text-center py-5 card border-0 rounded-4 shadow-sm bg-white p-4">
 							<i className="bi bi-bus-front text-muted fs-1 mb-2"></i>
 							<h6 className="fw-bold text-secondary">No Buses Found</h6>
-							<p className="text-muted small mb-0">Try a different search query or shift filter.</p>
+							<p className="text-muted small mb-0">
+								Try a different search query or shift filter.
+							</p>
 						</div>
 					)}
 				</div>
