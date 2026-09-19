@@ -21,7 +21,11 @@ const DesktopNav = ({ activeSection, setActiveSection, token }) => {
 					</a>
 					<a
 						href="#"
-						className={`nav-link ${activeSection === "buses" ? "active" : ""}`}
+						className={`nav-link ${
+							activeSection === "buses" || activeSection === "bus-trips"
+								? "active"
+								: ""
+						}`}
 						onClick={(e) => handleNavClick(e, "buses")}
 					>
 						Buses

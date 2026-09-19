@@ -1,23 +1,15 @@
 .trips-container {
-    padding-bottom: 3rem;
+    padding-bottom: 4rem;
     animation: fadeIn 0.4s ease-out;
 }
 
 /* Header style styling */
 .trip-bus-header {
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-    position: relative;
-    overflow: hidden;
-}
-
-.trip-bus-header-glow {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
-    top: -40px;
-    right: -40px;
-    pointer-events: none;
+    background: linear-gradient(135deg, #0d6efd 0%, #0043a8 100%);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.1);
 }
 
 .btn-back-light {
@@ -64,70 +56,129 @@
     box-shadow: 0 2px 8px rgba(13, 110, 253, 0.2);
 }
 
-/* Trip Cards */
-.trip-card {
-    border-radius: 1.25rem !important;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    border: 1px solid rgba(0, 0, 0, 0.03) !important;
+/* Bus / Trip Card (matches .yathra-bus-card) */
+.yathra-bus-card {
+    border: 1px solid #0052cc !important;
+    border-radius: 14px !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03) !important;
+    cursor: pointer;
     overflow: hidden;
 }
 
-.trip-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px -5px rgba(0, 0, 0, 0.08) !important;
+.yathra-bus-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06) !important;
+    border-color: rgba(13, 110, 253, 0.18) !important;
 }
 
-.trip-card-indicator {
-    width: 5px;
-    height: 100%;
+.card-bottom-accent {
     position: absolute;
     left: 0;
-    top: 0;
+    right: 0;
     bottom: 0;
+    height: 3px;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
 }
 
-.trip-time-badge {
-    background: #f1f5f9;
-    color: #334155;
-    padding: 0.25rem 0.6rem;
-    border-radius: 0.5rem;
+.bus-brand-icon-box {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    transition: transform 0.2s ease;
+}
+
+.yathra-bus-card:hover .bus-brand-icon-box {
+    transform: scale(1.04);
+}
+
+.bus-title-text {
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    line-height: 1.1;
+}
+
+.bus-reg-text {
     font-size: 0.72rem;
+    letter-spacing: 0.2px;
+    line-height: 1.1;
+    margin-top: 1px;
+}
+
+.status-badge {
+    font-size: 0.68rem;
     font-weight: 600;
+    letter-spacing: 0.1px;
 }
 
-.trip-duration-line-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+/* Journey Route Timings */
+.timing-col {
+    min-width: 75px;
+}
+
+.departure-time-text {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #1d4ed8;
+    line-height: 1.1;
+}
+
+.arrival-time-text {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #15803d;
+    line-height: 1.1;
+}
+
+.station-sub-text {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: #64748b;
+    max-width: 110px;
+    margin-top: 1px;
+}
+
+/* Journey Route Track Line */
+.journey-track-col {
     position: relative;
-    padding: 0 0.5rem;
 }
 
-.trip-duration-line {
-    height: 2px;
-    background: #e2e8f0;
-    width: 100%;
-    position: relative;
+.journey-track-line {
+    flex-grow: 1;
+    height: 1.5px;
+    background: #93c5fd;
 }
 
-.trip-duration-dot {
+.journey-track-arrow {
+    font-size: 0.6rem;
+    color: #16a34a;
+    margin-left: -3px;
+    margin-right: 1px;
+}
+
+.journey-dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    flex-shrink: 0;
 }
 
-.trip-duration-dot.start {
-    background: #0d6efd;
-    left: 0;
+.journey-dot.origin-dot {
+    background-color: #1d4ed8;
 }
 
-.trip-duration-dot.end {
-    background: #198754;
-    right: 0;
+.journey-dot.dest-dot {
+    background-color: #16a34a;
+}
+
+.journey-bus-marker {
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .trip-stops-collapse {
@@ -245,7 +296,7 @@
     color: #475569;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .bus-seat-btn:hover:not(:disabled) {
@@ -263,8 +314,13 @@
 }
 
 @keyframes popSeat {
-    0% { transform: scale(0.8); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(0.8);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .bus-seat-btn:disabled {
@@ -341,12 +397,12 @@
 
 .ticket-notch.left {
     left: -10px;
-    box-shadow: inset -3px 0 5px rgba(0,0,0,0.03);
+    box-shadow: inset -3px 0 5px rgba(0, 0, 0, 0.03);
 }
 
 .ticket-notch.right {
     right: -10px;
-    box-shadow: inset 3px 0 5px rgba(0,0,0,0.03);
+    box-shadow: inset 3px 0 5px rgba(0, 0, 0, 0.03);
 }
 
 .ticket-body {
@@ -356,15 +412,13 @@
 
 .barcode-mock {
     height: 50px;
-    background: repeating-linear-gradient(
-        90deg,
-        #0f172a,
-        #0f172a 2px,
-        transparent 2px,
-        transparent 6px,
-        #0f172a 6px,
-        #0f172a 10px
-    );
+    background: repeating-linear-gradient(90deg,
+            #0f172a,
+            #0f172a 2px,
+            transparent 2px,
+            transparent 6px,
+            #0f172a 6px,
+            #0f172a 10px);
     width: 100%;
     opacity: 0.85;
 }

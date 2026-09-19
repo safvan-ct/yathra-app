@@ -37,7 +37,9 @@ const BottomNav = ({ activeSection, setActiveSection }) => {
 	return (
 		<nav className="bottom-nav-dashboard d-md-none">
 			{navItems.map((item) => {
-				const isActive = activeSection === item.id;
+				const isActive =
+					activeSection === item.id ||
+					(item.id === "buses" && activeSection === "bus-trips");
 				return (
 					<a
 						key={item.id}

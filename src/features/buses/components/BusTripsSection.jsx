@@ -247,285 +247,229 @@ const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
 	return (
 		<div className="trips-container section-fade">
 			{/* 1. Header component displaying selected Bus Card Info */}
-			<div className="trip-bus-header py-2 px-3 text-white rounded-bottom-3 shadow-sm">
-				<div className="trip-bus-header-glow"></div>
-				<div className="d-flex align-items-center gap-2 mb-2">
-					<button
-						className="btn btn-back-light"
-						onClick={onBack}
-						aria-label="Go Back"
-					>
-						<i className="bi bi-arrow-left" style={{ fontSize: "14px" }}></i>
-					</button>
-					<div>
-						<h6
-							className="fw-bold mb-0 text-white"
-							style={{ fontSize: "0.95rem" }}
-						>
-							{activeBus.bus_name}
-						</h6>
-						<span
-							className="opacity-75 small fw-semibold"
-							style={{ fontSize: "0.68rem", letterSpacing: "0.3px" }}
-						>
-							{activeBus.bus_number}
-						</span>
-					</div>
-				</div>
-
-				{/* Bus summary specifications card */}
-				<div className="d-flex align-items-center justify-content-between bg-white bg-opacity-10 rounded-3 p-2 border border-white border-opacity-10 backdrop-blur">
+			<div className="trip-bus-header py-2 px-3 text-white">
+				<div className="d-flex align-items-center justify-content-between">
 					<div className="d-flex align-items-center gap-2">
-						<div
-							className="rounded-2 d-flex align-items-center justify-content-center"
-							style={{
-								width: "36px",
-								height: "36px",
-								background: "rgba(255, 255, 255, 0.15)",
-								border: "1px solid rgba(255, 255, 255, 0.2)",
-								fontSize: "1.1rem",
-							}}
+						<button
+							className="btn btn-back-light"
+							onClick={onBack}
+							aria-label="Go Back"
 						>
-							<i className="bi bi-bus-front text-white"></i>
-						</div>
+							<i className="bi bi-arrow-left" style={{ fontSize: "14px" }}></i>
+						</button>
 						<div>
+							<h6
+								className="fw-bold mb-0 text-white"
+								style={{ fontSize: "0.95rem" }}
+							>
+								{activeBus.bus_name}
+							</h6>
 							<span
-								className="fw-bold text-white mb-0 d-block"
-								style={{ fontSize: "0.82rem" }}
+								className="opacity-75 small fw-semibold"
+								style={{ fontSize: "0.68rem", letterSpacing: "0.3px" }}
 							>
-								{activeBus.operator?.name || "KSRTC"}
+								{activeBus.bus_number} • {activeBus.operator?.name || "KSRTC"}
 							</span>
-							<small
-								className="opacity-75 text-white-50 fw-semibold"
-								style={{ fontSize: "0.65rem" }}
-							>
-								{activeBus.category} • {activeBus.operator?.type || "State"}
-							</small>
 						</div>
 					</div>
-					<div className="text-end">
+					{activeBus.category && (
 						<span
-							className="badge rounded-pill text-white border border-white border-opacity-20 px-2 py-1 fw-bold"
-							style={{
-								fontSize: "0.68rem",
-								background: busRawColor || "#0d6efd",
-							}}
+							className="badge rounded-pill bg-white bg-opacity-20 text-success border border-white border-opacity-25 px-2 py-1 fw-semibold"
+							style={{ fontSize: "0.68rem" }}
 						>
 							{activeBus.category}
 						</span>
-					</div>
+					)}
 				</div>
 			</div>
 
 			<div className="dashboard-container px-1 px-sm-3 mt-1">
-				{/* 2. Interactive Search & Time Filters */}
-				<div className="card glass-filter-card border-0 rounded-4 p-2 mb-2 shadow-sm">
-					<div className="position-relative mb-2">
-						<i
-							className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-primary opacity-75"
-							style={{ fontSize: "13px" }}
-						></i>
-						<input
-							type="text"
-							className="form-control bg-light border-0 rounded-3 ps-5 shadow-none"
-							style={{ fontSize: "0.85rem", minHeight: "36px" }}
-							placeholder="Search by destination or stops..."
-							value={searchQuery}
-							onChange={(e) => setSearchQuery(e.target.value)}
-						/>
-					</div>
-
-					{/* Time filter chips */}
-					<div
-						className="d-flex gap-2 overflow-x-auto pb-1"
-						style={{ scrollbarWidth: "none" }}
-					>
-						<button
-							className={`filter-chip-button text-nowrap ${
-								activeTimeFilter === "all" ? "active" : ""
-							}`}
-							onClick={() => setActiveTimeFilter("all")}
-						>
-							All Shifts
-						</button>
-						<button
-							className={`filter-chip-button text-nowrap ${
-								activeTimeFilter === "morning" ? "active" : ""
-							}`}
-							onClick={() => setActiveTimeFilter("morning")}
-						>
-							☀️ Morning (6 AM - 12 PM)
-						</button>
-						<button
-							className={`filter-chip-button text-nowrap ${
-								activeTimeFilter === "afternoon" ? "active" : ""
-							}`}
-							onClick={() => setActiveTimeFilter("afternoon")}
-						>
-							🌤️ Afternoon (12 PM - 6 PM)
-						</button>
-						<button
-							className={`filter-chip-button text-nowrap ${
-								activeTimeFilter === "evening" ? "active" : ""
-							}`}
-							onClick={() => setActiveTimeFilter("evening")}
-						>
-							🌙 Evening (6 PM - 6 AM)
-						</button>
-					</div>
-				</div>
-
 				{/* 3. List of filtered trips */}
-				<div className="d-flex flex-column gap-3 mb-4">
-					<h6 className="fw-bold text-dark px-1 mb-1">
+				<div className="d-flex flex-column gap-1 mb-1">
+					<h6 className="fw-bold text-dark pt-2 px-1 mb-1">
 						Scheduled Trips ({filteredTrips.length})
 					</h6>
 
 					{filteredTrips.map((trip) => {
 						const isExpanded = expandedTripId === trip.id;
 						const isSoldOut = trip.available_seats === 0;
+						const originStop = trip.stops?.[0]?.name || "Origin";
+						const destStop =
+							trip.stops?.[trip.stops.length - 1]?.name || "Destination";
 
 						return (
 							<div
 								key={trip.id}
-								className="card trip-card border-0 shadow-sm position-relative bg-white"
+								className="card border-0 rounded-5 shadow-sm yathra-bus-card bg-white position-relative mb-1"
 							>
-								{/* Left vertical theme band */}
-								<div
-									className="trip-card-indicator"
-									style={{
-										background: isSoldOut
-											? "#6c757d"
-											: busRawColor || "#0d6efd",
-									}}
-								></div>
-
-								<div className="card-body p-3">
-									{/* Top route metadata & badge */}
-									<div className="d-flex justify-content-between align-items-center mb-3">
-										<span
-											className="badge bg-light text-secondary rounded-pill border px-2.5 py-1 text-uppercase fw-semibold"
-											style={{ fontSize: "0.65rem" }}
-										>
-											ID: {trip.id}
-										</span>
-										<span
-											className={`badge rounded-pill px-2.5 py-1 fw-bold ${
-												isSoldOut
-													? "bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-10"
-													: trip.available_seats < 10
-														? "bg-warning bg-opacity-10 text-warning border border-warning border-opacity-10"
-														: "bg-success bg-opacity-10 text-success border border-success border-opacity-10"
-											}`}
-											style={{ fontSize: "0.68rem" }}
-										>
-											{isSoldOut
-												? "Sold Out"
-												: `${trip.available_seats} Seats Left`}
-										</span>
-									</div>
-
-									{/* Route timeline details */}
-									<div className="row align-items-center mb-3">
-										<div className="col-4 text-center">
-											<span className="d-block fw-bold text-dark fs-6">
-												{trip.departure_time}
-											</span>
-											<small
-												className="text-muted d-block text-truncate fw-medium"
-												style={{ fontSize: "0.72rem" }}
+								<div className="card-body p-2 px-3">
+									{/* Top Header: Brand/Bus icon + Route Name + Status Badge */}
+									<div className="card-top-row d-flex align-items-center justify-content-between mb-1">
+										<div className="d-flex align-items-center gap-2">
+											<div
+												className="bus-brand-icon-box rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+												style={{
+													backgroundColor: "rgba(13, 110, 253, 0.1)",
+													color: busRawColor || "#0d6efd",
+												}}
 											>
-												{trip.stops[0].name.split(" ")[0]}
-											</small>
-										</div>
-
-										<div className="col-4">
-											<div className="trip-duration-line-wrapper">
-												<span
-													className="text-muted small fw-bold mb-1"
-													style={{ fontSize: "0.65rem" }}
-												>
-													{trip.time_taken}
-												</span>
-												<div className="trip-duration-line">
-													<div className="trip-duration-dot start"></div>
-													<div className="trip-duration-dot end"></div>
+												<i className="bi bi-bus-front"></i>
+											</div>
+											<div>
+												<h6 className="fw-bold mb-0 text-dark bus-title-text">
+													{trip.route_name || activeBus.bus_name}
+												</h6>
+												<div className="bus-reg-text text-muted">
+													{activeBus.bus_number} • ID: {trip.id}
 												</div>
-												<span
-													className="text-primary fw-semibold mt-1"
-													style={{ fontSize: "0.68rem", cursor: "pointer" }}
-													onClick={() =>
-														setExpandedTripId(isExpanded ? null : trip.id)
-													}
-												>
-													{trip.stops.length} Stops{" "}
-													<i
-														className={`bi bi-chevron-${isExpanded ? "up" : "down"} ms-0.5`}
-													></i>
-												</span>
 											</div>
 										</div>
 
-										<div className="col-4 text-center">
-											<span className="d-block fw-bold text-dark fs-6">
-												{trip.arrival_time}
-											</span>
-											<small
-												className="text-muted d-block text-truncate fw-medium"
-												style={{ fontSize: "0.72rem" }}
-											>
-												{trip.stops[trip.stops.length - 1].name.split(" ")[0]}
-											</small>
+										{/* Status Badge */}
+										<div className="d-flex align-items-center gap-1">
+											{isSoldOut ? (
+												<span className="status-badge badge rounded-pill px-2 py-1 bg-secondary bg-opacity-10 text-secondary border">
+													● Sold Out
+												</span>
+											) : trip.available_seats < 10 ? (
+												<span className="status-badge badge rounded-pill px-2 py-1 bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25">
+													● {trip.available_seats} Seats Left
+												</span>
+											) : (
+												<span className="status-badge badge rounded-pill px-2 py-1 bg-success bg-opacity-10 text-success border border-success border-opacity-25">
+													● Available
+												</span>
+											)}
 										</div>
 									</div>
 
-									{/* Bottom metrics row */}
-									<div className="d-flex align-items-center justify-content-between pt-2.5 border-top border-light mt-2">
-										<div>
-											<span
-												className="text-muted small d-block"
-												style={{ fontSize: "0.68rem" }}
-											>
-												Distance
+									{/* Middle Timings & Journey Route Line */}
+									<div className="journey-timings-row d-flex align-items-center justify-content-between my-2">
+										{/* Departure */}
+										<div className="timing-col start-col text-start">
+											<span className="d-block fw-bold departure-time-text">
+												{trip.departure_time}
 											</span>
-											<span className="fw-bold text-dark fs-7">
-												{trip.trip_distance_km} Km
+											<span className="station-sub-text d-block text-truncate">
+												{originStop}
 											</span>
 										</div>
 
-										<div>
-											<span
-												className="text-muted small d-block"
-												style={{ fontSize: "0.68rem" }}
+										{/* Connecting Journey Line with Center Bus Marker */}
+										<div className="journey-track-col flex-grow-1 px-2 d-flex align-items-center justify-content-center">
+											<div className="journey-dot origin-dot"></div>
+											<div className="journey-track-line"></div>
+											<div
+												className="journey-bus-marker mx-1"
+												style={{ color: busRawColor || "#0d6efd" }}
 											>
-												Ticket Fare
-											</span>
-											<span className="fw-extrabold text-primary fs-6">
-												₹{trip.fare}
-											</span>
+												<i className="bi bi-bus-front"></i>
+											</div>
+											<div className="journey-track-line"></div>
+											<i className="bi bi-chevron-right journey-track-arrow"></i>
+											<div className="journey-dot dest-dot ms-1"></div>
 										</div>
 
-										{/* Interactive Actions */}
-										<div className="d-flex gap-2">
-											{trip.is_active && (
-												<button
-													className="btn btn-outline-primary btn-sm rounded-pill px-3 fw-bold"
-													onClick={() =>
-														onTrackBus && onTrackBus(activeBus, trip)
-													}
-													title="Track Live Bus Location"
+										{/* Arrival */}
+										<div className="timing-col end-col text-end">
+											<span className="d-block fw-bold arrival-time-text">
+												{trip.arrival_time}
+											</span>
+											<span className="station-sub-text d-block text-truncate">
+												{destStop}
+											</span>
+										</div>
+									</div>
+
+									{/* Bottom Metadata & Action Buttons */}
+									<div className="card-footer-meta d-flex align-items-center justify-content-between pt-2 border-top border-light-subtle">
+										<div
+											className="d-flex align-items-center gap-2 text-secondary flex-wrap"
+											style={{ fontSize: "11px" }}
+										>
+											{trip.time_taken && (
+												<span className="d-flex align-items-center gap-1">
+													<i className="bi bi-clock"></i>
+													{trip.time_taken}
+												</span>
+											)}
+											{trip.time_taken && trip.trip_distance_km && (
+												<span className="meta-divider text-muted opacity-50">
+													|
+												</span>
+											)}
+											{trip.trip_distance_km && (
+												<span className="d-flex align-items-center gap-1">
+													<i className="bi bi-signpost-2"></i>
+													{trip.trip_distance_km} km
+												</span>
+											)}
+											{(trip.trip_distance_km || trip.time_taken) &&
+												trip.fare && (
+													<span className="meta-divider text-muted opacity-50">
+														|
+													</span>
+												)}
+											{trip.fare && (
+												<span
+													className="d-flex align-items-center gap-1 fw-bold"
+													style={{ color: "#0d6efd" }}
 												>
-													<i className="bi bi-geo-alt-fill me-1"></i> Track
+													₹{trip.fare}
+												</span>
+											)}
+										</div>
+
+										{/* Action Buttons */}
+										<div className="d-flex align-items-center gap-1">
+											{trip.stops?.length > 0 && (
+												<button
+													type="button"
+													className="btn text-primary text-decoration-none fw-bold d-flex align-items-center gap-1 view-stops-btn"
+													style={{
+														fontSize: "11px",
+														backgroundColor: "#eff6ff",
+														padding: "3px 9px",
+														borderRadius: "20px",
+														border: "none",
+														lineHeight: 1.2,
+													}}
+													onClick={(e) => {
+														e.stopPropagation();
+														onTrackBus && onTrackBus(activeBus, trip);
+													}}
+												>
+													{trip.stops.length} Stops{" "}
+													<i className={`bi bi-chevron-right`}></i>
 												</button>
 											)}
+											{/* {trip.is_active && (
+												<button
+													type="button"
+													className="btn btn-outline-primary btn-sm rounded-pill px-2.5 py-0.5 fw-bold"
+													style={{ fontSize: "11px", lineHeight: 1.2 }}
+													onClick={(e) => {
+														e.stopPropagation();
+														onTrackBus && onTrackBus(activeBus, trip);
+													}}
+													title="Track Live Bus Location"
+												>
+													<i className="bi bi-geo-alt-fill me-0.5"></i> Track
+												</button>
+											)} */}
 											<button
-												className={`btn btn-sm rounded-pill px-3 fw-bold ${
+												type="button"
+												className={`btn btn-sm rounded-pill px-2.5 py-0.5 fw-bold ${
 													isSoldOut
 														? "btn-light text-muted"
 														: "btn-primary shadow-sm"
 												}`}
+												style={{ fontSize: "11px", lineHeight: 1.2 }}
 												disabled={isSoldOut}
-												onClick={() => handleOpenBooking(trip)}
+												onClick={(e) => {
+													e.stopPropagation();
+													handleOpenBooking(trip);
+												}}
 											>
 												Book
 											</button>
@@ -536,9 +480,12 @@ const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
 								{/* Expanded stop schedules timeline */}
 								{isExpanded && (
 									<div className="trip-stops-collapse px-4 py-3 border-top border-light">
-										<h7 className="fw-bold text-dark d-block mb-3 fs-7">
+										<h6
+											className="fw-bold text-dark d-block mb-3"
+											style={{ fontSize: "0.78rem" }}
+										>
 											Stop Schedule Detail
-										</h7>
+										</h6>
 										<div className="position-relative ps-2">
 											{/* Timeline vertical line */}
 											<div
@@ -575,12 +522,18 @@ const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
 														}}
 													></div>
 													<div className="ps-4">
-														<span className="fw-semibold text-dark fs-7 d-block">
+														<span
+															className="fw-semibold text-dark d-block"
+															style={{ fontSize: "0.75rem" }}
+														>
 															{stop.name}
 														</span>
 													</div>
 													<div className="text-end">
-														<span className="text-muted small fw-semibold">
+														<span
+															className="text-muted small fw-semibold"
+															style={{ fontSize: "0.72rem" }}
+														>
 															{stop.time}
 														</span>
 													</div>
@@ -681,7 +634,7 @@ const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
 									</div>
 
 									{/* Summary & Proceed */}
-									<div className="card border-0 bg-light p-3 rounded-4 mb-2">
+									<div className="card border-0 bg-light p-3 rounded-4 mb-5">
 										<div className="d-flex justify-content-between align-items-center mb-2">
 											<span className="text-muted small">Selected Seats</span>
 											<span className="fw-bold text-dark fs-7">
@@ -708,7 +661,7 @@ const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
 								</>
 							) : (
 								/* Confirmation Ticket Stub Display */
-								<div className="ticket-wrapper my-2">
+								<div className="ticket-wrapper mb-5">
 									<div className="ticket-top">
 										<div
 											className="rounded-circle d-inline-flex align-items-center justify-content-center bg-white text-success mb-2"
