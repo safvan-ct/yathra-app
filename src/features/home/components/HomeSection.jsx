@@ -916,9 +916,9 @@ const HomeSection = ({ onBusClick }) => {
 											<div className="d-flex align-items-center gap-2">
 												{/* Bus icon badge */}
 												<div
-													className="bus-brand-icon-box rounded-2 d-flex align-items-center justify-content-center flex-shrink-0"
+													className="bus-brand-icon-box rounded-5 d-flex align-items-center justify-content-center flex-shrink-0"
 													style={{
-														backgroundColor: colorTheme.lightBg,
+														backgroundColor: "#cbdbec96",
 														color: colorTheme.primary,
 													}}
 												>

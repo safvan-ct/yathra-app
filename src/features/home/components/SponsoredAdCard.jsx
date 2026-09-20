@@ -9,20 +9,21 @@ const AD_BRANDS = [
 		description: "Grab your favourites before you hit the road.",
 		ctaText: "Order Now",
 		ctaColor: "#da291c",
-		cardBg: "linear-gradient(135deg, #fef8ee 0%, #faeed5 100%)",
-		borderColor: "#f9deb1",
+		cardBg: "linear-gradient(135deg, #fffbeb 0%, #fef3c7 40%, #fde68a 100%)",
+		borderColor: "#fcd34d",
 		searchQuery: "mcdonalds near me",
 		logo: (
 			<div
-				className="rounded-2 d-flex align-items-center justify-content-center flex-shrink-0 shadow-sm"
+				className="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0 shadow-sm"
 				style={{
-					width: "40px",
-					height: "40px",
+					width: "44px",
+					height: "44px",
 					background: "#da291c",
 					position: "relative",
+					border: "2px solid #ffffff",
 				}}
 			>
-				<svg width="24" height="24" viewBox="0 0 100 100" fill="none">
+				<svg width="26" height="26" viewBox="0 0 100 100" fill="none">
 					<path
 						d="M15 90 C15 50, 30 20, 50 50 C70 20, 85 50, 85 90"
 						stroke="#ffc72c"
@@ -33,16 +34,16 @@ const AD_BRANDS = [
 				</svg>
 				<span
 					className="position-absolute text-white fw-bold"
-					style={{ bottom: "1px", fontSize: "5px", letterSpacing: "-0.2px" }}
+					style={{ bottom: "1px", fontSize: "5.5px", letterSpacing: "-0.2px" }}
 				>
 					McDonald's
 				</span>
 			</div>
 		),
 		visual: (
-			<div className="ad-food-visual d-flex align-items-end gap-1 flex-shrink-0 d-none d-xs-flex">
+			<div className="ad-food-visual d-flex align-items-end gap-1 flex-shrink-0">
 				{/* Burger */}
-				<svg width="44" height="32" viewBox="0 0 100 70" fill="none">
+				<svg width="44" height="34" viewBox="0 0 100 70" fill="none">
 					<path d="M10 38 C10 15, 90 15, 90 38 Z" fill="#eab308" />
 					<circle cx="35" cy="24" r="2" fill="#fef08a" />
 					<circle cx="50" cy="20" r="2" fill="#fef08a" />
@@ -57,7 +58,7 @@ const AD_BRANDS = [
 					<rect x="12" y="56" width="76" height="10" rx="5" fill="#ca8a04" />
 				</svg>
 				{/* Fries */}
-				<svg width="22" height="32" viewBox="0 0 60 80" fill="none">
+				<svg width="22" height="34" viewBox="0 0 60 80" fill="none">
 					<rect x="10" y="10" width="7" height="45" rx="3" fill="#facc15" />
 					<rect x="19" y="4" width="7" height="50" rx="3" fill="#fbbf24" />
 					<rect x="28" y="2" width="7" height="52" rx="3" fill="#facc15" />
@@ -72,7 +73,7 @@ const AD_BRANDS = [
 					/>
 				</svg>
 				{/* Coke Cup */}
-				<svg width="18" height="32" viewBox="0 0 50 85" fill="none">
+				<svg width="18" height="34" viewBox="0 0 50 85" fill="none">
 					<path
 						d="M30 6 L 25 24"
 						stroke="#ef4444"
@@ -104,15 +105,15 @@ const AD_BRANDS = [
 		description: "Fuel your morning ride with handcrafted coffee.",
 		ctaText: "Get Coffee",
 		ctaColor: "#006241",
-		cardBg: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)",
-		borderColor: "#bbf7d0",
+		cardBg: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 40%, #bbf7d0 100%)",
+		borderColor: "#86efac",
 		searchQuery: "starbucks near me",
 		logo: (
 			<div
 				className="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 shadow-sm"
 				style={{
-					width: "40px",
-					height: "40px",
+					width: "44px",
+					height: "44px",
 					background: "#006241",
 					position: "relative",
 					border: "2px solid #ffffff",
@@ -120,14 +121,14 @@ const AD_BRANDS = [
 			>
 				<i
 					className="bi bi-cup-hot-fill text-white"
-					style={{ fontSize: "19px" }}
+					style={{ fontSize: "20px" }}
 				></i>
 			</div>
 		),
 		visual: (
-			<div className="ad-food-visual d-flex align-items-end gap-1 flex-shrink-0 d-none d-xs-flex">
+			<div className="ad-food-visual d-flex align-items-end gap-1 flex-shrink-0">
 				{/* Iced Coffee Cup */}
-				<svg width="26" height="34" viewBox="0 0 60 90" fill="none">
+				<svg width="26" height="36" viewBox="0 0 60 90" fill="none">
 					<path
 						d="M38 5 L 30 26"
 						stroke="#15803d"
@@ -166,7 +167,7 @@ const AD_BRANDS = [
 					/>
 				</svg>
 				{/* Croissant */}
-				<svg width="34" height="26" viewBox="0 0 80 60" fill="none">
+				<svg width="34" height="28" viewBox="0 0 80 60" fill="none">
 					<ellipse cx="40" cy="35" rx="32" ry="18" fill="#d97706" />
 					<path
 						d="M12 40 C 25 15, 55 15, 68 40"
@@ -192,36 +193,37 @@ const AD_BRANDS = [
 		description: "Fresh oven-baked pizza ready at your stop.",
 		ctaText: "Order Pizza",
 		ctaColor: "#005596",
-		cardBg: "linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)",
-		borderColor: "#bae6fd",
+		cardBg: "linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 40%, #bae6fd 100%)",
+		borderColor: "#7dd3fc",
 		searchQuery: "dominos pizza near me",
 		logo: (
 			<div
-				className="rounded-2 d-flex flex-column align-items-center justify-content-center flex-shrink-0 shadow-sm"
+				className="rounded-3 d-flex flex-column align-items-center justify-content-center flex-shrink-0 shadow-sm"
 				style={{
-					width: "40px",
-					height: "40px",
+					width: "44px",
+					height: "44px",
 					background: "#005596",
 					position: "relative",
 					transform: "rotate(45deg)",
-					margin: "0 2px",
+					margin: "0 4px",
+					border: "2px solid #ffffff",
 				}}
 			>
 				<div
-					style={{ transform: "rotate(-45deg)", display: "flex", gap: "2px" }}
+					style={{ transform: "rotate(-45deg)", display: "flex", gap: "3px" }}
 				>
 					<span
 						style={{
-							width: "6px",
-							height: "6px",
+							width: "7px",
+							height: "7px",
 							background: "#e31837",
 							borderRadius: "50%",
 						}}
 					></span>
 					<span
 						style={{
-							width: "6px",
-							height: "6px",
+							width: "7px",
+							height: "7px",
 							background: "#ffffff",
 							borderRadius: "50%",
 						}}
@@ -230,9 +232,9 @@ const AD_BRANDS = [
 			</div>
 		),
 		visual: (
-			<div className="ad-food-visual d-flex align-items-end gap-1 flex-shrink-0 d-none d-xs-flex">
+			<div className="ad-food-visual d-flex align-items-end gap-1 flex-shrink-0">
 				{/* Pizza Slice */}
-				<svg width="42" height="34" viewBox="0 0 100 80" fill="none">
+				<svg width="42" height="36" viewBox="0 0 100 80" fill="none">
 					{/* Pizza Crust & Cheese */}
 					<path d="M10 15 Q 50 10 90 15 L 50 75 Z" fill="#facc15" />
 					<path
@@ -248,7 +250,7 @@ const AD_BRANDS = [
 					<circle cx="40" cy="42" r="2.5" fill="#16a34a" />
 				</svg>
 				{/* Garlic Bread */}
-				<svg width="26" height="26" viewBox="0 0 60 60" fill="none">
+				<svg width="26" height="28" viewBox="0 0 60 60" fill="none">
 					<rect x="5" y="15" width="48" height="28" rx="8" fill="#d97706" />
 					<line
 						x1="16"
@@ -288,15 +290,15 @@ const AD_BRANDS = [
 		description: "Crispy chicken bucket for your journey hunger.",
 		ctaText: "Get Bucket",
 		ctaColor: "#e4002b",
-		cardBg: "linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%)",
-		borderColor: "#fecdd3",
+		cardBg: "linear-gradient(135deg, #fff1f2 0%, #ffe4e6 40%, #fecdd3 100%)",
+		borderColor: "#fda4af",
 		searchQuery: "kfc near me",
 		logo: (
 			<div
-				className="rounded-2 d-flex align-items-center justify-content-center flex-shrink-0 shadow-sm"
+				className="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0 shadow-sm"
 				style={{
-					width: "40px",
-					height: "40px",
+					width: "44px",
+					height: "44px",
 					background: "#e4002b",
 					position: "relative",
 					border: "2px solid #ffffff",
@@ -304,16 +306,16 @@ const AD_BRANDS = [
 			>
 				<span
 					className="text-white fw-bold"
-					style={{ fontSize: "13px", letterSpacing: "1px" }}
+					style={{ fontSize: "14px", letterSpacing: "1px" }}
 				>
 					KFC
 				</span>
 			</div>
 		),
 		visual: (
-			<div className="ad-food-visual d-flex align-items-end gap-1 flex-shrink-0 d-none d-xs-flex">
+			<div className="ad-food-visual d-flex align-items-end gap-1 flex-shrink-0">
 				{/* KFC Bucket */}
-				<svg width="36" height="34" viewBox="0 0 70 80" fill="none">
+				<svg width="36" height="36" viewBox="0 0 70 80" fill="none">
 					{/* Chicken pieces sticking out */}
 					<circle cx="26" cy="22" r="10" fill="#d97706" />
 					<circle cx="44" cy="20" r="11" fill="#b45309" />
@@ -329,7 +331,7 @@ const AD_BRANDS = [
 					<rect x="40" y="30" width="8" height="44" fill="#e4002b" />
 				</svg>
 				{/* Dip */}
-				<svg width="22" height="22" viewBox="0 0 50 50" fill="none">
+				<svg width="22" height="24" viewBox="0 0 50 50" fill="none">
 					<ellipse cx="25" cy="28" rx="20" ry="12" fill="#ef4444" />
 					<ellipse cx="25" cy="24" rx="20" ry="8" fill="#fee2e2" />
 					<ellipse cx="25" cy="24" rx="16" ry="6" fill="#dc2626" />
@@ -345,29 +347,30 @@ const AD_BRANDS = [
 		description: "Order fresh meals delivered to your nearby stop.",
 		ctaText: "Order Now",
 		ctaColor: "#fc8019",
-		cardBg: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)",
-		borderColor: "#fed7aa",
+		cardBg: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 40%, #fed7aa 100%)",
+		borderColor: "#fdba74",
 		searchQuery: "swiggy food order",
 		logo: (
 			<div
-				className="rounded-2 d-flex align-items-center justify-content-center flex-shrink-0 shadow-sm"
+				className="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0 shadow-sm"
 				style={{
-					width: "40px",
-					height: "40px",
+					width: "44px",
+					height: "44px",
 					background: "#fc8019",
 					position: "relative",
+					border: "2px solid #ffffff",
 				}}
 			>
 				<i
 					className="bi bi-bag-heart-fill text-white"
-					style={{ fontSize: "18px" }}
+					style={{ fontSize: "20px" }}
 				></i>
 			</div>
 		),
 		visual: (
-			<div className="ad-food-visual d-flex align-items-end gap-1 flex-shrink-0 d-none d-xs-flex">
+			<div className="ad-food-visual d-flex align-items-end gap-1 flex-shrink-0">
 				{/* Food Platter with Discount Badge */}
-				<svg width="44" height="34" viewBox="0 0 90 70" fill="none">
+				<svg width="46" height="36" viewBox="0 0 90 70" fill="none">
 					{/* Plate */}
 					<ellipse cx="45" cy="48" rx="38" ry="14" fill="#e2e8f0" />
 					<ellipse cx="45" cy="46" rx="34" ry="11" fill="#ffffff" />
@@ -422,67 +425,98 @@ const SponsoredAdCard = ({ index = 0 }) => {
 	const brand = AD_BRANDS[index % AD_BRANDS.length] || AD_BRANDS[0];
 
 	return (
-		<div className="sponsored-ad-banner card border-0 shadow-sm rounded-3 mb-1 overflow-hidden position-relative">
-			<div className="card-body p-2 px-3 d-flex align-items-center justify-content-between gap-2">
-				{/* Left content with Logo */}
-				<div className="d-flex align-items-center gap-2">
+		<div
+			className="sponsored-ad-banner card border-0 shadow-sm rounded-3 mb-2 overflow-hidden position-relative"
+			style={{
+				height: "100px",
+				minHeight: "100px",
+				maxHeight: "100px",
+				background: brand.cardBg,
+				borderColor: brand.borderColor,
+				borderWidth: "1px",
+				borderStyle: "solid",
+				boxSizing: "border-box",
+			}}
+		>
+			<div className="card-body p-2 px-3 h-100 d-flex align-items-center justify-content-between gap-2 position-relative">
+				{/* Left Section: Logo + Taglines + Description */}
+				<div
+					className="d-flex align-items-center gap-2 overflow-hidden me-auto"
+					style={{ minWidth: 0 }}
+				>
 					{brand.logo}
 
-					<div>
-						<div
-							className="fw-bold text-dark lh-1"
-							style={{ fontSize: "0.82rem" }}
-						>
-							{brand.tagline1}
+					<div
+						className="d-flex flex-column justify-content-center overflow-hidden"
+						style={{ minWidth: 0 }}
+					>
+						<div className="d-flex align-items-center gap-1 flex-wrap">
+							<span
+								className="fw-bold text-dark text-truncate"
+								style={{ fontSize: "0.86rem", lineHeight: "1.2" }}
+							>
+								{brand.tagline1}
+							</span>
+							<span
+								className="fw-bold text-truncate"
+								style={{
+									color: brand.ctaColor,
+									fontSize: "0.86rem",
+									lineHeight: "1.2",
+								}}
+							>
+								• {brand.tagline2}
+							</span>
 						</div>
 						<div
-							className="fw-bold text-dark lh-1 mt-1"
-							style={{ fontSize: "0.82rem" }}
-						>
-							{brand.tagline2}
-						</div>
-						<div
-							className="text-secondary small mb-0 mt-1"
-							style={{ fontSize: "0.66rem", lineHeight: "1.2" }}
+							className="text-secondary text-truncate mt-1"
+							style={{ fontSize: "0.72rem", lineHeight: "1.2", maxWidth: "260px" }}
 						>
 							{brand.description}
 						</div>
 					</div>
 				</div>
 
-				{/* Middle Illustration */}
-				<div className="d-flex align-items-center justify-content-end gap-2 flex-shrink-0">
+				{/* Middle Illustration (Food / Drink Vector) */}
+				<div className="d-none d-sm-flex align-items-center justify-content-center flex-shrink-0 px-2">
 					{brand.visual}
+				</div>
 
-					{/* Right CTA and Sponsored Label */}
-					<div className="d-flex flex-column align-items-end flex-shrink-0 ms-1">
-						<span
-							className="text-muted fw-semibold mb-1"
-							style={{ fontSize: "0.58rem", letterSpacing: "0.4px" }}
-						>
-							Sponsored
-						</span>
-						<button
-							className="btn btn-sm rounded-pill px-2 py-1 fw-bold shadow-sm d-flex align-items-center gap-1 text-white"
-							style={{
-								background: brand.ctaColor,
-								border: "none",
-								fontSize: "0.68rem",
-							}}
-							onClick={() =>
-								window.open(
-									`https://www.google.com/search?q=${encodeURIComponent(brand.searchQuery)}`,
-									"_blank",
-								)
-							}
-						>
-							{brand.ctaText}{" "}
-							<i
-								className="bi bi-arrow-right"
-								style={{ fontSize: "0.65rem" }}
-							></i>
-						</button>
-					</div>
+				{/* Right CTA and Sponsored Label */}
+				<div className="d-flex flex-column align-items-end justify-content-center flex-shrink-0 gap-1">
+					<span
+						className="text-muted fw-bold"
+						style={{
+							fontSize: "0.58rem",
+							letterSpacing: "0.6px",
+							textTransform: "uppercase",
+						}}
+					>
+						Sponsored
+					</span>
+					<button
+						type="button"
+						className="btn btn-sm rounded-pill px-3 py-1 fw-bold shadow-sm d-flex align-items-center gap-1 text-white border-0"
+						style={{
+							background: brand.ctaColor,
+							fontSize: "0.74rem",
+							whiteSpace: "nowrap",
+							transition: "transform 0.15s ease",
+						}}
+						onClick={() =>
+							window.open(
+								`https://www.google.com/search?q=${encodeURIComponent(brand.searchQuery)}`,
+								"_blank",
+								"noopener,noreferrer",
+							)
+						}
+					>
+						<span>{brand.ctaText}</span>
+						<i
+							className="bi bi-arrow-right"
+							style={{ fontSize: "0.7rem" }}
+						></i>
+					</button>
 				</div>
 			</div>
 		</div>

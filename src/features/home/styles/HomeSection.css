@@ -460,9 +460,12 @@
    SPONSORED AD BANNER (COMPACT EXACT DESIGN)
    ========================================================================== */
 .sponsored-ad-banner {
-    background: linear-gradient(135deg, #fef8ee 0%, #faeed5 100%) !important;
-    border: 1px solid #f9deb1 !important;
-    /* border-radius: 14px !important; */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sponsored-ad-banner:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08) !important;
 }
 
 /* ==========================================================================
