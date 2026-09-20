@@ -110,31 +110,31 @@
 .yathra-ticket-card {
     background: #ffffff;
     border: 1px solid #0052cc !important;
-    border-radius: 16px !important;
+    border-radius: 14px !important;
     position: relative;
-    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04) !important;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04) !important;
     transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     overflow: hidden;
 }
 
 .yathra-ticket-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(13, 110, 253, 0.08) !important;
-    border-color: rgba(13, 110, 253, 0.3) !important;
+    box-shadow: 0 6px 18px rgba(13, 110, 253, 0.08) !important;
+    border-color: #0052cc !important;
 }
 
 /* Card Top Section */
 .ticket-card-header {
-    padding: 12px 14px 10px;
+    padding: 8px 12px 6px;
     border-bottom: 1px dashed #e2e8f0;
     position: relative;
 }
 
 .ticket-brand-icon-box {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    font-size: 1.1rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-size: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -142,43 +142,44 @@
 }
 
 .ticket-title-text {
-    font-size: 0.88rem;
+    font-size: 0.84rem;
     font-weight: 700;
     color: #0f172a;
     line-height: 1.15;
 }
 
 .ticket-sub-text {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     color: #64748b;
     font-weight: 500;
 }
 
 /* Journey Route Row */
 .ticket-journey-row {
-    padding: 12px 14px;
+    padding: 6px 12px;
     position: relative;
 }
 
 .ticket-time-bold {
-    font-size: 1.05rem;
+    font-size: 0.96rem;
     font-weight: 800;
     color: #0f172a;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.2px;
     line-height: 1.1;
 }
 
 .ticket-station-name {
-    font-size: 0.75rem;
+    font-size: 0.74rem;
     font-weight: 600;
     color: #475569;
-    max-width: 110px;
-    line-height: 1.2;
+    max-width: 115px;
+    line-height: 1.15;
 }
 
 .ticket-station-sub {
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     color: #94a3b8;
+    line-height: 1.1;
 }
 
 /* Central Journey Track */
@@ -190,28 +191,28 @@
 }
 
 .ticket-track-dot {
-    width: 7px;
-    height: 7px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: #0d6efd;
-    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.2);
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.15);
 }
 
 .ticket-track-bus-marker {
     background: #f8fafc;
     border: 1px solid #cbd5e1;
     border-radius: 50%;
-    width: 26px;
-    height: 26px;
+    width: 22px;
+    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+    font-size: 0.72rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 .ticket-duration-pill {
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     font-weight: 700;
     color: #64748b;
     background: #f1f5f9;
@@ -223,7 +224,7 @@
 /* Perforation Divider with Notch Cutouts */
 .ticket-perforation {
     position: relative;
-    height: 16px;
+    height: 10px;
     background: #f8fafc;
     border-top: 1px dashed #cbd5e1;
     border-bottom: 1px dashed #cbd5e1;
@@ -233,10 +234,10 @@
 .ticket-cutout-left {
     position: absolute;
     top: 50%;
-    left: -10px;
+    left: -8px;
     transform: translateY(-50%);
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
     background: #f8fafc;
     border: 1px solid #0052cc;
     border-radius: 50%;
@@ -246,10 +247,10 @@
 .ticket-cutout-right {
     position: absolute;
     top: 50%;
-    right: -10px;
+    right: -8px;
     transform: translateY(-50%);
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
     background: #f8fafc;
     border: 1px solid #0052cc;
     border-radius: 50%;
@@ -258,31 +259,32 @@
 
 /* Card Passenger & Meta Details */
 .ticket-meta-grid {
-    padding: 12px 14px;
+    padding: 6px 12px;
     background: #ffffff;
 }
 
 .ticket-meta-label {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     text-transform: uppercase;
     letter-spacing: 0.4px;
     color: #94a3b8;
     font-weight: 700;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 }
 
 .ticket-meta-value {
-    font-size: 0.82rem;
+    font-size: 0.76rem;
     font-weight: 700;
     color: #1e293b;
+    line-height: 1.15;
 }
 
 .ticket-seat-badge {
     background: rgba(13, 110, 253, 0.1);
     color: #0d6efd;
     font-weight: 700;
-    font-size: 0.72rem;
-    padding: 2px 8px;
+    font-size: 0.68rem;
+    padding: 1px 6px;
     border-radius: 6px;
     display: inline-block;
     border: 1px solid rgba(13, 110, 253, 0.2);
@@ -290,13 +292,13 @@
 
 /* Card Action Buttons */
 .ticket-card-actions {
-    padding: 10px 14px 12px;
+    padding: 6px 12px 8px;
     border-top: 1px solid #f1f5f9;
     background: #fafbfc;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
+    gap: 6px;
 }
 
 .btn-ticket-primary {
@@ -304,15 +306,15 @@
     color: #ffffff;
     border: none;
     font-weight: 700;
-    font-size: 0.75rem;
-    padding: 6px 14px;
-    border-radius: 20px;
-    box-shadow: 0 2px 8px rgba(13, 110, 253, 0.25);
+    font-size: 0.72rem;
+    padding: 4px 12px;
+    border-radius: 16px;
+    box-shadow: 0 2px 6px rgba(13, 110, 253, 0.2);
     transition: all 0.2s ease;
 }
 
 .btn-ticket-primary:hover {
-    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.35);
+    box-shadow: 0 3px 10px rgba(13, 110, 253, 0.3);
     transform: translateY(-1px);
     color: #ffffff;
 }
@@ -322,9 +324,9 @@
     border: 1px solid #cbd5e1;
     color: #334155;
     font-weight: 600;
-    font-size: 0.75rem;
-    padding: 6px 12px;
-    border-radius: 20px;
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    border-radius: 16px;
     transition: all 0.2s ease;
 }
 

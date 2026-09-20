@@ -420,18 +420,18 @@ const TicketsSection = ({ setActiveSection }) => {
 										</div>
 
 										{/* Amenities Pills */}
-										<div className="d-flex align-items-center gap-1.5 flex-wrap mt-2 pt-2 border-top border-light-subtle">
+										<div className="d-flex align-items-center gap-1 flex-wrap mt-1 pt-1 border-top border-light-subtle">
 											<span
 												className="badge bg-light text-secondary border rounded-pill px-2 py-0.5"
-												style={{ fontSize: "0.65rem" }}
+												style={{ fontSize: "0.62rem" }}
 											>
 												PNR: {t.pnr}
 											</span>
 											{t.amenities?.map((amenity, aIdx) => (
 												<span
 													key={aIdx}
-													className="badge bg-light text-muted border rounded-pill px-1.5 py-0.5"
-													style={{ fontSize: "0.62rem" }}
+													className="badge bg-light text-muted border rounded-pill px-1 py-0.5"
+													style={{ fontSize: "0.6rem" }}
 												>
 													<i className="bi bi-check2 text-success me-0.5"></i>
 													{amenity}
@@ -461,7 +461,7 @@ const TicketsSection = ({ setActiveSection }) => {
 											</button>
 										</div>
 
-										<div className="d-flex align-items-center gap-1.5">
+										<div className="d-flex align-items-center gap-1">
 											{t.status === "active" && (
 												<button
 													type="button"
@@ -521,7 +521,7 @@ const TicketsSection = ({ setActiveSection }) => {
 								className="btn btn-primary rounded-pill px-4 py-2 fw-bold small mx-auto shadow-sm"
 								onClick={handleBookNew}
 							>
-								<i className="bi bi-search me-1.5"></i> Find & Book Bus
+								<i className="bi bi-search me-1"></i> Find & Book Bus
 							</button>
 						</div>
 					)}
