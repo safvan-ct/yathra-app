@@ -346,7 +346,7 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 
 			<div className="dashboard-container px-1 px-sm-3 mt-1">
 				{/* Bus Timings List */}
-				<div className="d-flex flex-column gap-1 mb-2">
+				<div className="d-flex flex-column gap-0 mb-2">
 					<div className="d-flex justify-content-between align-items-center px-1 mb-1">
 						<h6
 							className="fw-bold text-dark mb-0 pt-2"
@@ -375,9 +375,9 @@ const StopTimingsSection = ({ stop, onBack, onBusClick }) => {
 							const elements = [
 								<div
 									key={bus.id}
-									className={`card border-0 rounded-5 shadow-sm yathra-bus-card bg-white position-relative mb-1 ${
+									className={`card border-0 rounded-3 shadow-sm yathra-bus-card bg-white position-relative mb-1 ${
 										!isRunningToday ? "opacity-75 grayscale" : ""
-									} ${isDeparted ? "bus-card-departed" : ""}`}
+									} ${isDeparted ? "" : ""}`}
 								>
 									<div className="card-body p-2 px-3">
 										{/* Top Header: Brand/Bus icon + Name & Number + Status Badge */}

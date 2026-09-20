@@ -52,10 +52,10 @@ const StopsSection = ({ onStopClick }) => {
 	};
 
 	return (
-		<div id="section-stops" className="app-section active section-fade">
+		<div id="section-stops" className="app-section active section-fade mb-5">
 			<div className="dashboard-container px-1 px-sm-3 mt-1">
 				{/* Search Bar */}
-				<div className="card border-0 rounded-4 shadow-sm p-2 mb-2 bg-white">
+				<div className="card border-0 rounded-3 shadow-sm p-2 mb-2 bg-white">
 					<div className="input-group">
 						<span className="input-group-text bg-light border-0 rounded-start-3 py-1 px-2">
 							<i
