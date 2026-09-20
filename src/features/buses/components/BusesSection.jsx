@@ -117,11 +117,29 @@ const BusesSection = ({ onBusClick }) => {
 		);
 	};
 
+	const getCategoryBadgeClass = (category) => {
+		const cat = (category || "").toLowerCase();
+		if (cat.includes("super fast") || cat.includes("super express")) {
+			return "bg-danger bg-opacity-10 text-danger border-danger border-opacity-25";
+		}
+		if (cat.includes("fast") || cat.includes("express")) {
+			return "bg-primary bg-opacity-10 text-primary border-primary border-opacity-25";
+		}
+		if (
+			cat.includes("ac") ||
+			cat.includes("low floor") ||
+			cat.includes("deluxe")
+		) {
+			return "bg-success bg-opacity-10 text-success border-success border-opacity-25";
+		}
+		return "bg-secondary bg-opacity-10 text-secondary border-secondary border-opacity-25";
+	};
+
 	return (
-		<div id="section-buses" className="app-section active">
+		<div id="section-buses" className="app-section active mb-6">
 			{/* Sticky Search Bar */}
 			<div className="dashboard-container px-1 px-sm-3 mt-1">
-				<div className="card border-0 rounded-4 shadow-sm bg-white p-2 mb-2">
+				<div className="card border-0 rounded-3 shadow-sm bg-white p-2 mb-1">
 					<div className="position-relative search-input-wrapper">
 						<i
 							className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-primary opacity-75"
@@ -136,42 +154,41 @@ const BusesSection = ({ onBusClick }) => {
 						/>
 						{searchTerm && (
 							<button
-								className="btn position-absolute top-50 end-0 translate-middle-y text-muted border-0 shadow-none p-1 buses-clear-btn"
+								className="btn position-absolute top-50 end-0 translate-middle-y border-0 text-muted p-1 buses-clear-btn"
 								onClick={() => setSearchTerm("")}
-								aria-label="Clear search"
 							>
 								<i
-									className="bi bi-x-circle-fill opacity-50 hover-opacity-100"
-									style={{ fontSize: "14px" }}
+									className="bi bi-x-circle-fill opacity-50"
+									style={{ fontSize: "13px" }}
 								></i>
 							</button>
 						)}
 					</div>
 				</div>
 
-				<div className="d-flex justify-content-between align-items-center mb-2 px-1">
+				<div className="d-flex justify-content-between align-items-center mb-1 px-1">
 					<div>
 						<h6
 							className="fw-bold mb-0 text-dark"
 							style={{ fontSize: "0.95rem" }}
 						>
-							Explore Buses
+							Bus Schedules
 						</h6>
 						<p className="text-muted mb-0" style={{ fontSize: "0.72rem" }}>
-							Find your route & bus schedule
+							Explore real-time bus timings & routes
 						</p>
 					</div>
-					<span className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-2 py-1 rounded-pill custom-badge">
-						{buses.length > 0 ? `${buses.length} Buses` : `Search Buses`}
+					<span
+						className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-2 py-1 rounded-pill"
+						style={{ fontSize: "0.68rem" }}
+					>
+						{buses.length} Buses
 					</span>
 				</div>
 
+				{/* Error state */}
 				{error && (
-					<div
-						className="alert alert-danger d-flex align-items-center rounded-3 border-0 shadow-sm py-2 px-3 mb-2"
-						role="alert"
-						style={{ fontSize: "12px" }}
-					>
+					<div className="alert alert-danger rounded-4 py-2 px-3 small d-flex align-items-center mb-3">
 						<i className="bi bi-exclamation-triangle-fill fs-5 me-2"></i>
 						<div>{error}</div>
 					</div>
@@ -188,64 +205,110 @@ const BusesSection = ({ onBusClick }) => {
 						elements.push(
 							<div key={bus.id || idx} className="col-12 col-md-6 col-lg-4">
 								<div
-									className="card border-0 shadow-sm rounded-5 h-100 hover-lift bg-white mb-1"
+									className="card border-0 shadow-sm rounded-3 h-100 hover-lift bg-white mb-1 overflow-hidden position-relative"
 									onClick={() => onBusClick && onBusClick(bus)}
 									style={{ cursor: "pointer" }}
 								>
-									<div className="card-body p-1 d-flex align-items-center gap-2">
-										{/* Left side: Colored bus icon */}
-										<div
-											className="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0 bus-icon-bg"
-											style={{
-												"--bus-color": rawColor || "#0d6efd",
-												"--bus-color-light": rawColor
-													? `${rawColor}20`
-													: "rgba(13, 110, 253, 0.15)",
-											}}
-										>
-											<i className="bi bi-bus-front"></i>
+									<div className="card-body p-2 d-flex flex-column justify-content-between gap-2">
+										{/* Top Header Row: Bus Icon + Name/Reg + Category Badge */}
+										<div className="d-flex align-items-center justify-content-between gap-2">
+											<div
+												className="d-flex align-items-center gap-2 overflow-hidden"
+												style={{ minWidth: 0 }}
+											>
+												{/* Glowing Bus Icon */}
+												<div
+													className="bus-brand-icon-box rounded-5 d-flex align-items-center justify-content-center flex-shrink-0"
+													style={{
+														backgroundColor: "#cbdbec96",
+														color: rawColor || "#0d6efd",
+														border: `1px solid ${
+															rawColor
+																? `${rawColor}35`
+																: "rgba(13, 110, 253, 0.25)"
+														}`,
+													}}
+												>
+													<i className="bi bi-bus-front fs-6"></i>
+												</div>
+
+												{/* Bus Title & Registration */}
+												<div
+													className="overflow-hidden"
+													style={{ minWidth: 0 }}
+												>
+													<h6 className="fw-bold mb-0 text-dark text-truncate bus-card-title">
+														{highlightText(
+															bus.bus_name || "Bus Service",
+															searchTerm,
+														)}
+													</h6>
+													<span className="bus-reg-badge text-muted fw-semibold">
+														{highlightText(
+															bus.bus_number || "XX-00",
+															searchTerm,
+														)}
+													</span>
+												</div>
+											</div>
+
+											{/* Category Badge */}
+											{bus.category && (
+												<span
+													className={`badge rounded-pill px-2 py-1 border custom-badge flex-shrink-0 ${getCategoryBadgeClass(
+														bus.category,
+													)}`}
+												>
+													{bus.category}
+												</span>
+											)}
 										</div>
 
-										{/* Main content */}
-										<div className="flex-grow-1 bus-card-content">
-											<div className="d-flex justify-content-between align-items-end gap-2 mb-1">
-												<h5 className="fw-bold mb-0 text-dark bus-card-number">
-													{highlightText(bus.bus_number || "XX-00", searchTerm)}
-												</h5>
-												{bus.category && (
-													<span className="badge bg-light text-dark border rounded-pill custom-badge fw-medium flex-shrink-0 mt-1">
-														{bus.category}
+										{/* Bottom Info Bar: Operator + Details + View Route Action */}
+										<div className="d-flex align-items-center justify-content-between pt-1 border-top border-light-subtle gap-2">
+											{/* Left metadata tags */}
+											<div
+												className="d-flex align-items-center gap-1 overflow-hidden flex-wrap"
+												style={{ minWidth: 0 }}
+											>
+												{bus.operator?.name && (
+													<span className="badge bg-light text-secondary border rounded-pill px-2 py-0.5 custom-badge text-truncate d-flex align-items-center gap-1">
+														<i
+															className="bi bi-building opacity-75"
+															style={{ fontSize: "10px" }}
+														></i>
+														<span className="text-truncate">
+															{highlightText(bus.operator.name, searchTerm)}
+														</span>
 													</span>
 												)}
-											</div>
-											<h6 className="text-secondary fw-semibold mb-1 text-truncate bus-card-name">
-												{highlightText(
-													bus.bus_name || "Unknown Bus",
-													searchTerm,
-												)}
-											</h6>
-
-											{/* Operator details with subtle badge */}
-											<div className="d-flex align-items-center mt-2 gap-1 overflow-hidden">
-												<span className="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 rounded-pill custom-badge text-truncate pb-1">
-													<i className="bi bi-building me-1 opacity-75"></i>
-													{highlightText(
-														bus.operator?.name || "Unknown",
-														searchTerm,
-													)}
-												</span>
 												{bus.operator?.type && (
-													<span className="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 rounded-pill custom-badge pb-1">
+													<span className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-20 rounded-pill px-2 py-0.5 custom-badge">
 														{bus.operator.type}
 													</span>
 												)}
+												{bus.bus_color && bus.bus_color !== "White" && (
+													<span className="badge bg-light text-muted border rounded-pill px-2 py-0.5 custom-badge d-flex align-items-center gap-1">
+														<span
+															className="rounded-circle d-inline-block"
+															style={{
+																width: "6px",
+																height: "6px",
+																backgroundColor: rawColor,
+															}}
+														></span>
+														<span>{bus.bus_color}</span>
+													</span>
+												)}
 											</div>
-										</div>
 
-										{/* Right side: Next icon indicator */}
-										<div className="d-flex flex-column align-items-end justify-content-center ps-2 flex-shrink-0 opacity-75">
-											<div className="bg-light rounded-circle d-flex align-items-center justify-content-center transition-all next-icon-box">
-												<i className="bi bi-arrow-right text-primary"></i>
+											{/* Right Action Cue */}
+											<div
+												className="d-flex align-items-center gap-1 text-primary fw-bold flex-shrink-0 view-stops-cta"
+												style={{ fontSize: "0.74rem" }}
+											>
+												<span>Stops</span>
+												<i className="bi bi-chevron-right transition-transform"></i>
 											</div>
 										</div>
 									</div>
@@ -257,7 +320,7 @@ const BusesSection = ({ onBusClick }) => {
 						if ((idx + 1) % 2 === 0) {
 							const adIndex = Math.floor(idx / 2);
 							elements.push(
-								<div key={`sponsored-ad-${idx}`} className="col-12">
+								<div key={`sponsored-ad-${idx}`} className="col-12 mb-0">
 									<SponsoredAdCard index={adIndex} />
 								</div>,
 							);

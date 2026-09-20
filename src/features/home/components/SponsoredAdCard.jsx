@@ -426,7 +426,7 @@ const SponsoredAdCard = ({ index = 0 }) => {
 
 	return (
 		<div
-			className="sponsored-ad-banner card border-0 shadow-sm rounded-3 mb-2 overflow-hidden position-relative"
+			className="sponsored-ad-banner card border-0 shadow-sm rounded-3 mb-1 overflow-hidden position-relative"
 			style={{
 				height: "100px",
 				minHeight: "100px",
@@ -470,7 +470,11 @@ const SponsoredAdCard = ({ index = 0 }) => {
 						</div>
 						<div
 							className="text-secondary text-truncate mt-1"
-							style={{ fontSize: "0.72rem", lineHeight: "1.2", maxWidth: "260px" }}
+							style={{
+								fontSize: "0.72rem",
+								lineHeight: "1.2",
+								maxWidth: "260px",
+							}}
 						>
 							{brand.description}
 						</div>
@@ -512,10 +516,7 @@ const SponsoredAdCard = ({ index = 0 }) => {
 						}
 					>
 						<span>{brand.ctaText}</span>
-						<i
-							className="bi bi-arrow-right"
-							style={{ fontSize: "0.7rem" }}
-						></i>
+						<i className="bi bi-arrow-right" style={{ fontSize: "0.7rem" }}></i>
 					</button>
 				</div>
 			</div>

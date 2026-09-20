@@ -1,29 +1,55 @@
 .hover-lift {
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
     cursor: pointer;
     border: 1px solid #0d6efd !important;
-    border-radius: 14px !important;
 }
 
 .hover-lift:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06) !important;
-    border-color: rgba(13, 110, 253, 0.18) !important;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08) !important;
+    border-color: #0d6efd !important;
 }
 
-.bus-icon-bg {
-    background: linear-gradient(135deg, var(--bus-color-light), rgba(255, 255, 255, 0.8));
-    color: var(--bus-color, #0d6efd);
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    font-size: 1.1rem;
+.hover-lift:hover .view-stops-cta i {
+    transform: translateX(3px);
+}
+
+.bus-brand-icon-box {
+    width: 38px;
+    height: 38px;
+    font-size: 1.15rem;
+    transition: transform 0.2s ease;
+}
+
+.hover-lift:hover .bus-brand-icon-box {
+    transform: scale(1.06);
+}
+
+.bus-card-title {
+    font-size: 0.88rem;
+    letter-spacing: -0.1px;
+}
+
+.bus-reg-badge {
+    font-size: 0.72rem;
+    font-family: monospace, sans-serif;
+    letter-spacing: 0.3px;
 }
 
 .custom-badge {
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     letter-spacing: 0.2px;
+    font-weight: 600;
+}
+
+.view-stops-cta {
+    color: #0d6efd;
+    transition: opacity 0.2s ease;
+}
+
+.view-stops-cta i {
+    transition: transform 0.2s ease;
+    font-size: 0.7rem;
 }
 
 .search-input-wrapper {
