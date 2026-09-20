@@ -284,9 +284,9 @@ const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
 				</div>
 			</div>
 
-			<div className="dashboard-container px-1 px-sm-3 mt-1">
+			<div className="dashboard-container px-2 px-sm-3 mt-1">
 				{/* 3. List of filtered trips */}
-				<div className="d-flex flex-column gap-1 mb-1">
+				<div className="d-flex flex-column gap-0 mb-1">
 					<h6 className="fw-bold text-dark pt-2 px-1 mb-1">
 						Scheduled Trips ({filteredTrips.length})
 					</h6>
@@ -302,7 +302,7 @@ const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
 						elements.push(
 							<div
 								key={trip.id}
-								className="card border-0 rounded-5 shadow-sm yathra-bus-card bg-white position-relative mb-1"
+								className="card border-0 rounded-3 shadow-sm yathra-bus-card bg-white position-relative mb-1"
 							>
 								<div className="card-body p-2 px-3">
 									{/* Top Header: Brand/Bus icon + Route Name + Status Badge */}
@@ -346,7 +346,7 @@ const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
 									</div>
 
 									{/* Middle Timings & Journey Route Line */}
-									<div className="journey-timings-row d-flex align-items-center justify-content-between my-2">
+									<div className="journey-timings-row d-flex align-items-center justify-content-between my-1">
 										{/* Departure */}
 										<div className="timing-col start-col text-start">
 											<span className="d-block fw-bold departure-time-text">
@@ -384,7 +384,7 @@ const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
 									</div>
 
 									{/* Bottom Metadata & Action Buttons */}
-									<div className="card-footer-meta d-flex align-items-center justify-content-between pt-2 border-top border-light-subtle">
+									<div className="card-footer-meta d-flex align-items-center justify-content-between pt-1 border-top border-light-subtle">
 										<div
 											className="d-flex align-items-center gap-2 text-secondary flex-wrap"
 											style={{ fontSize: "11px" }}
@@ -464,72 +464,6 @@ const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
 										</div>
 									</div>
 								</div>
-
-								{/* Expanded stop schedules timeline */}
-								{isExpanded && (
-									<div className="trip-stops-collapse px-4 py-3 border-top border-light">
-										<h6
-											className="fw-bold text-dark d-block mb-3"
-											style={{ fontSize: "0.78rem" }}
-										>
-											Stop Schedule Detail
-										</h6>
-										<div className="position-relative ps-2">
-											{/* Timeline vertical line */}
-											<div
-												className="position-absolute bg-light-subtle"
-												style={{
-													width: "2px",
-													top: "4px",
-													bottom: "4px",
-													left: "5px",
-													background: "#e2e8f0",
-												}}
-											></div>
-
-											{trip.stops.map((stop, sIdx) => (
-												<div
-													key={sIdx}
-													className="position-relative d-flex justify-content-between mb-3 last-mb-0"
-												>
-													<div
-														className="rounded-circle position-absolute"
-														style={{
-															width: "8px",
-															height: "8px",
-															left: "2px",
-															top: "5px",
-															background:
-																sIdx === 0
-																	? "#0d6efd"
-																	: sIdx === trip.stops.length - 1
-																		? "#198754"
-																		: "#cbd5e1",
-															border: "1.5px solid white",
-															boxShadow: "0 0 0 2px rgba(0,0,0,0.03)",
-														}}
-													></div>
-													<div className="ps-4">
-														<span
-															className="fw-semibold text-dark d-block"
-															style={{ fontSize: "0.75rem" }}
-														>
-															{stop.name}
-														</span>
-													</div>
-													<div className="text-end">
-														<span
-															className="text-muted small fw-semibold"
-															style={{ fontSize: "0.72rem" }}
-														>
-															{stop.time}
-														</span>
-													</div>
-												</div>
-											))}
-										</div>
-									</div>
-								)}
 							</div>,
 						);
 
@@ -537,10 +471,7 @@ const BusTripsSection = ({ bus, onBack, onTrackBus }) => {
 						if ((idx + 1) % 2 === 0) {
 							const adIndex = Math.floor(idx / 2);
 							elements.push(
-								<SponsoredAdCard
-									key={`sponsored-ad-${idx}`}
-									index={adIndex}
-								/>,
+								<SponsoredAdCard key={`sponsored-ad-${idx}`} index={adIndex} />,
 							);
 						}
 

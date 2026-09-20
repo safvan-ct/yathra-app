@@ -117,7 +117,6 @@
 .tracking-timeline-card {
     background: #ffffff;
     border: 1px solid #eef2f6 !important;
-    border-radius: 16px !important;
     box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04) !important;
 }
 
@@ -315,4 +314,3 @@
     color: #212529;
     transform: rotate(30deg);
 }
-

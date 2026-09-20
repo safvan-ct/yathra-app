@@ -138,7 +138,7 @@ const BusesSection = ({ onBusClick }) => {
 	return (
 		<div id="section-buses" className="app-section active mb-6">
 			{/* Sticky Search Bar */}
-			<div className="dashboard-container px-1 px-sm-3 mt-1">
+			<div className="dashboard-container px-2 px-sm-3 mt-1">
 				<div className="card border-0 rounded-3 shadow-sm bg-white p-2 mb-1">
 					<div className="position-relative search-input-wrapper">
 						<i
@@ -209,7 +209,7 @@ const BusesSection = ({ onBusClick }) => {
 									onClick={() => onBusClick && onBusClick(bus)}
 									style={{ cursor: "pointer" }}
 								>
-									<div className="card-body p-2 d-flex flex-column justify-content-between gap-2">
+									<div className="card-body p-2 d-flex flex-column justify-content-between gap-0">
 										{/* Top Header Row: Bus Icon + Name/Reg + Category Badge */}
 										<div className="d-flex align-items-center justify-content-between gap-2">
 											<div

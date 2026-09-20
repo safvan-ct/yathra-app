@@ -541,76 +541,8 @@ const TrackingSection = ({ bus, onBack }) => {
 			</div>
 
 			<div className="dashboard-container px-1 px-sm-3 mt-1">
-				{/* 1. Header Metrics Card */}
-				{/* <div className="card tracking-metrics-card p-3 mb-2">
-					<div className="d-flex align-items-center justify-content-between mb-3">
-						<div className="d-flex align-items-center gap-2">
-							<div
-								className="d-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-3"
-								style={{ width: "42px", height: "42px" }}
-							>
-								<i className="bi bi-bus-front-fill fs-5"></i>
-							</div>
-							<div>
-								<h6 className="fw-bold text-dark mb-0 fs-7">{operatorName}</h6>
-								<small
-									className="text-muted fw-semibold"
-									style={{ fontSize: "0.7rem" }}
-								>
-									{busCategory} • {busColor}
-								</small>
-							</div>
-						</div>
-						<div className="text-end">
-							<span
-								className={`badge rounded-pill px-2.5 py-1 fw-bold ${isDelayed ? "bg-danger bg-opacity-10 text-danger border border-danger border-opacity-10" : "bg-success bg-opacity-10 text-success border border-success border-opacity-10"}`}
-							>
-								{delayStatus}
-							</span>
-						</div>
-					</div>
-
-					<div className="row g-2 align-items-center pt-2 border-top border-light">
-						<div className="col-8">
-							<div className="lh-1 mb-1">
-								<small
-									className="text-muted fw-bold uppercase"
-									style={{ fontSize: "0.65rem", letterSpacing: "0.5px" }}
-								>
-									Journey Progress
-								</small>
-							</div>
-							<span
-								className="fw-bold text-dark"
-								style={{ fontSize: "0.85rem" }}
-							>
-								{distanceCovered} km / {totalDistance} km
-							</span>
-							<div className="progress mt-2" style={{ height: "6px" }}>
-								<div
-									className="progress-bar bg-primary"
-									role="progressbar"
-									style={{
-										width: `${busPositionPercent}%`,
-										borderRadius: "3px",
-									}}
-									aria-valuenow={busPositionPercent}
-									aria-valuemin="0"
-									aria-valuemax="100"
-								></div>
-							</div>
-						</div>
-						<div className="col-4 d-flex justify-content-end">
-							<div className="metric-speed-box">
-								<span className="metric-speed-value">{currentSpeed}</span>
-								<span className="metric-speed-unit">km/h</span>
-							</div>
-						</div>
-					</div>
-				</div> */}
-
-				{/* 2. Active Segment Info Banner */}
-				<div className="card segment-progress-banner border-0 p-2 mb-2">
+				{/* 1. Active Segment Info Banner */}
+				<div className="card segment-progress-banner border-0 p-2 mb-1">
 					<div className="d-flex justify-content-between align-items-center mb-1">
 						<span className="segment-title">Current Location</span>
 						{currentSpeed > 0 && (
@@ -622,7 +554,7 @@ const TrackingSection = ({ bus, onBack }) => {
 							</span>
 						)}
 					</div>
-					<div className="segment-stations mb-2">{currentSegmentMessage}</div>
+					<div className="segment-stations mb-1">{currentSegmentMessage}</div>
 					{currentSpeed > 0 && (
 						<div className="segment-progress-bar-container">
 							<div
@@ -634,7 +566,7 @@ const TrackingSection = ({ bus, onBack }) => {
 				</div>
 
 				{/* 3. Creative Simple Timeline Card */}
-				<div className="card tracking-timeline-card p-3 rounded-4 shadow-sm border-0 bg-white mb-2">
+				<div className="card tracking-timeline-card p-3 rounded-3 shadow-sm border-0 bg-white mb-1">
 					<div className="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
 						<div className="d-flex align-items-center gap-2">
 							<span
@@ -800,7 +732,7 @@ const TrackingSection = ({ bus, onBack }) => {
 				</div>
 
 				{/* Creative Burger Ad Poster Card */}
-				<div className="mt-2 mb-3">
+				<div className="">
 					<TrackingBurgerPosterCard />
 				</div>
 			</div>
