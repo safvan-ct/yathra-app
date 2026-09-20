@@ -7,6 +7,7 @@ import HeaderIllustration from "./HeaderIllustration";
 import SponsoredAdCard from "./SponsoredAdCard";
 import ViewStopsModal from "./ViewStopsModal";
 import "../styles/HomeSection.css";
+import TrackingBurgerPosterCard from "../../buses/components/TrackingBurgerPosterCard";
 
 const LS_KEY = "yathra_stops";
 
@@ -464,7 +465,7 @@ const HomeSection = ({ onBusClick }) => {
 	const stations = getStationNames();
 
 	return (
-		<div id="section-home" className="app-section active">
+		<div id="section-home" className="app-section active mb-6">
 			{/* Top Header Section with Illustration */}
 			<div className="yathra-top-header position-relative overflow-hidden">
 				<HeaderIllustration />
@@ -472,7 +473,7 @@ const HomeSection = ({ onBusClick }) => {
 				<div className="dashboard-container position-relative z-2">
 					<div className="d-flex align-items-center pt-2 pb-1 px-1">
 						{/* Brand Logo & Subtitle */}
-						<div className="d-flex flex-column me-5">
+						<div className="d-flex flex-column me-5 text-center">
 							<h1 className="yathra-header-brand mb-0">YATHRA</h1>
 							<span className="yathra-header-sub">Bus Finder</span>
 						</div>
@@ -486,28 +487,11 @@ const HomeSection = ({ onBusClick }) => {
 				</div>
 			</div>
 
-			{/* Notification Toast */}
-			{notificationMessage && (
-				<div className="dashboard-container mt-1">
-					<div className="alert alert-info py-1 px-3 small rounded-3 shadow-sm d-flex align-items-center justify-content-between mb-0">
-						<span style={{ fontSize: "12px" }}>
-							<i className="bi bi-info-circle-fill me-2"></i>
-							{notificationMessage}
-						</span>
-						<button
-							type="button"
-							className="btn-close btn-close-sm"
-							onClick={() => setNotificationMessage("")}
-						></button>
-					</div>
-				</div>
-			)}
-
 			{/* Main Content Area */}
-			<div className="dashboard-container px-1 px-sm-3 mt-1">
+			<div className="dashboard-container px-2 px-sm-3 mt-1">
 				{/* Search & Filter Card */}
 				<div className="search-card-wrapper mb-1">
-					<div className="card border-0 rounded-4 shadow-sm yathra-search-card bg-white p-1">
+					<div className="card border-0 rounded-3 shadow-sm yathra-search-card bg-white p-1">
 						{/* Validation error if any */}
 						{(busesError || stationsError || validationError) && (
 							<div
@@ -530,8 +514,8 @@ const HomeSection = ({ onBusClick }) => {
 						{/* Origin & Destination Inputs Full Width with Overlaid Floating Swap Button */}
 						<div className="search-inputs-container position-relative mb-1 w-100">
 							{/* Origin Input (Full Width) */}
-							<div className="station-input-box from-station-box d-flex align-items-center rounded-3 px-2 py-0 bg-light w-100 mb-2">
-								<div className="station-icon-dot blue-pin flex-shrink-0 me-2 d-flex align-items-center justify-content-center">
+							<div className="station-input-box from-station-box d-flex align-items-center rounded-3 px-1 py-0 bg-light w-100 mb-1">
+								<div className="station-icon-dot blue-pin flex-shrink-0 me-1 d-flex align-items-center justify-content-center">
 									<i
 										className="bi bi-geo-alt-fill text-primary"
 										style={{ fontSize: "15px" }}
@@ -564,8 +548,8 @@ const HomeSection = ({ onBusClick }) => {
 							</div>
 
 							{/* Destination Input (Full Width) */}
-							<div className="station-input-box to-station-box d-flex align-items-center rounded-3 px-2 py-0 bg-light w-100">
-								<div className="station-icon-dot green-pin flex-shrink-0 me-2 d-flex align-items-center justify-content-center">
+							<div className="station-input-box to-station-box d-flex align-items-center rounded-3 px-1 py-0 bg-light w-100">
+								<div className="station-icon-dot green-pin flex-shrink-0 me-1 d-flex align-items-center justify-content-center">
 									<i
 										className="bi bi-geo-alt-fill text-success"
 										style={{ fontSize: "15px" }}
@@ -612,7 +596,7 @@ const HomeSection = ({ onBusClick }) => {
 						</div>
 
 						{/* Single Row: Date Picker Pill + Find Buses Button */}
-						<div className="d-flex align-items-center gap-2 pt-1">
+						<div className="d-flex align-items-center gap-2">
 							{/* Date Selector Pill */}
 							<div
 								className="position-relative flex-grow-1"
@@ -775,40 +759,62 @@ const HomeSection = ({ onBusClick }) => {
 
 					{/* Empty State (API returned 0 buses) */}
 					{!busesLoading && buses !== null && buses.length === 0 && (
-						<div className="card border-0 rounded-4 shadow-sm p-4 text-center bg-white my-3">
-							<div
-								className="rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-2"
-								style={{ width: "54px", height: "54px", background: "#f1f5f9" }}
-							>
-								<i className="bi bi-bus-front text-muted fs-3"></i>
+						<>
+							<div className="card border-1 border-danger rounded-3 shadow-sm p-2 text-center bg-white my-2">
+								<div
+									className="rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-2"
+									style={{
+										width: "54px",
+										height: "54px",
+										background: "#f9f2f1ff",
+									}}
+								>
+									<i className="bi bi-bus-front text-danger fs-3"></i>
+								</div>
+								<h6 className="fw-bold text-dark mb-1">No Buses Found</h6>
+								<p
+									className="text-muted small mb-0"
+									style={{ fontSize: "12px" }}
+								>
+									We couldn't find any direct buses between the selected stops.
+								</p>
 							</div>
-							<h6 className="fw-bold text-dark mb-1">No Buses Found</h6>
-							<p className="text-muted small mb-0" style={{ fontSize: "12px" }}>
-								We couldn't find any direct buses between the selected stops.
-							</p>
-						</div>
+
+							<>
+								<TrackingBurgerPosterCard />
+							</>
+						</>
 					)}
 
 					{/* Initial Prompt (Before Searching) */}
 					{!busesLoading && buses === null && (
-						<div className="card border-0 rounded-4 shadow-sm p-4 text-center bg-white my-3">
-							<div
-								className="rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-2"
-								style={{
-									width: "54px",
-									height: "54px",
-									background: "#eff6ff",
-									color: "#0d6efd",
-								}}
-							>
-								<i className="bi bi-geo-alt fs-3"></i>
+						<>
+							<div className="card border-1 border-success rounded-3 shadow-sm p-2 text-center bg-white my-2">
+								<div
+									className="rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-2"
+									style={{
+										width: "54px",
+										height: "54px",
+										background: "#eff6ff",
+										color: "#0d6efd",
+									}}
+								>
+									<i className="bi bi-geo-alt fs-3"></i>
+								</div>
+								<h6 className="fw-bold text-dark mb-1">Search Bus Routes</h6>
+								<p
+									className="text-muted small mb-0"
+									style={{ fontSize: "12px" }}
+								>
+									Select origin and destination stations above and tap{" "}
+									<strong>Find Buses</strong> to view live schedules.
+								</p>
 							</div>
-							<h6 className="fw-bold text-dark mb-1">Search Bus Routes</h6>
-							<p className="text-muted small mb-0" style={{ fontSize: "12px" }}>
-								Select origin and destination stations above and tap{" "}
-								<strong>Find Buses</strong> to view live schedules.
-							</p>
-						</div>
+
+							<>
+								<TrackingBurgerPosterCard />
+							</>
+						</>
 					)}
 
 					{/* Real Bus Listing Cards from API */}
@@ -942,7 +948,7 @@ const HomeSection = ({ onBusClick }) => {
 							elements.push(
 								<div
 									key={bus.id || idx}
-									className={`card border-0 shadow-sm rounded-5 yathra-bus-card mb-1 bg-white position-relative overflow-hidden ${
+									className={`card border-0 shadow-sm rounded-3 yathra-bus-card mb-1 bg-white position-relative overflow-hidden ${
 										isDeparted ? "yathra-card-departed" : ""
 									}`}
 									onClick={() => onBusClick && onBusClick(bus)}
@@ -955,7 +961,7 @@ const HomeSection = ({ onBusClick }) => {
 
 									<div className="card-body p-2">
 										{/* Top Header Row of Card */}
-										<div className="d-flex align-items-center justify-content-between mb-2">
+										<div className="d-flex align-items-center justify-content-between mb-1">
 											<div className="d-flex align-items-center gap-2">
 												{/* Bus icon badge */}
 												<div
@@ -982,19 +988,19 @@ const HomeSection = ({ onBusClick }) => {
 											<div className="d-flex align-items-center gap-1">
 												{!isRunningToday ? (
 													<span className="status-badge badge rounded-pill px-2 py-1 bg-secondary bg-opacity-10 text-secondary border">
-														● Not Running
+														Not Running
 													</span>
 												) : isDeparted ? (
 													<span className="status-badge badge rounded-pill px-2 py-1 bg-secondary bg-opacity-10 text-secondary border">
-														● Departed
+														Departed
 													</span>
 												) : bus.status === "Slight Delay" ? (
 													<span className="status-badge badge rounded-pill px-2 py-1 bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25">
-														● Slight Delay
+														Slight Delay
 													</span>
 												) : (
 													<span className="status-badge badge rounded-pill px-2 py-1 bg-success bg-opacity-10 text-success border border-success border-opacity-25">
-														● On Time
+														On Time
 													</span>
 												)}
 												{/* <i
@@ -1005,7 +1011,7 @@ const HomeSection = ({ onBusClick }) => {
 										</div>
 
 										{/* Middle Timings & Journey Route Line */}
-										<div className="journey-timings-row d-flex align-items-center justify-content-between my-2">
+										<div className="journey-timings-row d-flex align-items-center justify-content-between my-1">
 											{/* Departure */}
 											<div className="timing-col start-col">
 												<span className="d-block fw-bold departure-time-text">
@@ -1043,7 +1049,7 @@ const HomeSection = ({ onBusClick }) => {
 										</div>
 
 										{/* Bottom Metadata & View Stops Action */}
-										<div className="card-footer-meta d-flex align-items-center justify-content-between pt-2 border-top border-light-subtle">
+										<div className="card-footer-meta d-flex align-items-center justify-content-between pt-1 border-top border-light-subtle">
 											<div
 												className="d-flex align-items-center gap-2 text-secondary flex-wrap"
 												style={{ fontSize: "11px" }}

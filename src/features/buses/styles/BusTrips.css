@@ -59,7 +59,6 @@
 /* Bus / Trip Card (matches .yathra-bus-card) */
 .yathra-bus-card {
     border: 1px solid #0052cc !important;
-    border-radius: 14px !important;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03) !important;
     cursor: pointer;

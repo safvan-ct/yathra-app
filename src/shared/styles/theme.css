@@ -130,5 +130,9 @@
 .tracking-metrics-card,
 .segment-progress-banner,
 .tracking-timeline-card {
-    border-radius: 0px !important;
+    /* border-radius: 0px !important; */
+}
+
+.mb-6 {
+    margin-bottom: 4.5rem !important;
 }
