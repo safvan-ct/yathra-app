@@ -6,8 +6,6 @@ export const useStationSearch = () => {
 	const [isSearching, setIsSearching] = useState(false);
 	const [error, setError] = useState("");
 
-	// In-memory cache to skip redundant API requests
-	const cache = useRef({});
 	// Reference to the active AbortController to cancel pending promises
 	const activeRequest = useRef(null);
 	// Search debounce timeout reference
@@ -30,14 +28,7 @@ export const useStationSearch = () => {
 			clearTimeout(debounceTimeout.current);
 		}
 
-		// 2. CHECK CACHE FIRST (instant render, no debounce needed)
-		if (cache.current[trimmedQuery]) {
-			setStationResults(cache.current[trimmedQuery]);
-			setError("");
-			return;
-		}
-
-		// 3. APPLY DEBOUNCE (delay API spam)
+		// 2. APPLY DEBOUNCE (delay API spam)
 		debounceTimeout.current = setTimeout(async () => {
 			// Cancelling heavily stacked pending requests immediately
 			if (activeRequest.current) {
@@ -63,9 +54,6 @@ export const useStationSearch = () => {
 				const rawData = Array.isArray(response)
 					? response
 					: response?.data || [];
-
-				// Storing to ephemeral ram-cache
-				cache.current[trimmedQuery] = rawData;
 
 				setStationResults(rawData);
 			} catch (err) {

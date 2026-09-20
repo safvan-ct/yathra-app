@@ -9,8 +9,6 @@ import ViewStopsModal from "./ViewStopsModal";
 import "../styles/HomeSection.css";
 import TrackingBurgerPosterCard from "../../buses/components/TrackingBurgerPosterCard";
 
-const LS_KEY = "yathra_stops";
-
 const HomeSection = ({ onBusClick }) => {
 	const desktopFromRef = useRef(null);
 	const desktopToRef = useRef(null);
@@ -47,16 +45,8 @@ const HomeSection = ({ onBusClick }) => {
 		searchStations("");
 	}, [searchStations]);
 
-	// Initialize choices.js instances from localStorage if available
+	// Initialize choices.js instances
 	useEffect(() => {
-		const saved = (() => {
-			try {
-				return JSON.parse(localStorage.getItem(LS_KEY)) || {};
-			} catch {
-				return {};
-			}
-		})();
-
 		const attachInstance = (ref, id) => {
 			if (!ref.current || choicesInstances.current[id]) return;
 
@@ -68,22 +58,6 @@ const HomeSection = ({ onBusClick }) => {
 				allowHTML: true,
 				itemSelectText: "",
 			});
-
-			const role = id.startsWith("from") ? "from" : "to";
-			if (saved[role]) {
-				instance.setChoices(
-					[
-						{
-							value: saved[role].value,
-							label: saved[role].label,
-							selected: true,
-						},
-					],
-					"value",
-					"label",
-					true,
-				);
-			}
 
 			instance.passedElement.element.addEventListener("search", (e) => {
 				searchStations(e.detail?.value || "");
@@ -229,16 +203,6 @@ const HomeSection = ({ onBusClick }) => {
 
 		setValidationError("");
 
-		try {
-			localStorage.setItem(
-				LS_KEY,
-				JSON.stringify({
-					from: fromChoice ? { value: from, label: fromChoice.label } : null,
-					to: toChoice ? { value: to, label: toChoice.label } : null,
-				}),
-			);
-		} catch (_) {}
-
 		await searchBuses(from, to);
 	};
 
@@ -263,9 +227,6 @@ const HomeSection = ({ onBusClick }) => {
 					} catch (_) {}
 				},
 			);
-			try {
-				localStorage.removeItem(LS_KEY);
-			} catch (_) {}
 			clearBuses();
 		}
 	};
@@ -334,16 +295,6 @@ const HomeSection = ({ onBusClick }) => {
 
 		const newFrom = tChoice?.value ? String(tChoice.value) : "";
 		const newTo = fChoice?.value ? String(fChoice.value) : "";
-
-		try {
-			localStorage.setItem(
-				LS_KEY,
-				JSON.stringify({
-					from: tChoice ? { value: newFrom, label: tChoice.label } : null,
-					to: fChoice ? { value: newTo, label: fChoice.label } : null,
-				}),
-			);
-		} catch (_) {}
 
 		if (newFrom && newTo) {
 			searchBuses(newFrom, newTo);
@@ -806,8 +757,8 @@ const HomeSection = ({ onBusClick }) => {
 									className="text-muted small mb-0"
 									style={{ fontSize: "12px" }}
 								>
-									Select origin and destination stations above and tap{" "}
-									<strong>Find Buses</strong> to view live schedules.
+									Select origin and destination and tap{" "}
+									<strong>Find Buses</strong> to view schedules.
 								</p>
 							</div>
 
