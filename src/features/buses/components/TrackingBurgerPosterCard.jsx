@@ -16,7 +16,7 @@ const TrackingBurgerPosterCard = ({
 	};
 
 	return (
-		<div className="burger-poster-card shadow-lg rounded-4 overflow-hidden position-relative mb-5">
+		<div className="burger-poster-card shadow-lg rounded-4 overflow-hidden position-relative mb-4">
 			{/* Background Decorative Rings / Watermarks */}
 			<div className="poster-bg-rings" aria-hidden="true">
 				<div className="bg-ring ring-1"></div>
@@ -26,7 +26,7 @@ const TrackingBurgerPosterCard = ({
 			</div>
 
 			{/* Poster Header */}
-			<div className="poster-header d-flex justify-content-between align-items-center p-3 pb-1 position-relative z-2">
+			<div className="poster-header d-flex justify-content-between align-items-center position-relative z-2">
 				{/* Brand Badge */}
 				<div className="brand-badge-seal d-flex align-items-center justify-content-center">
 					<span className="brand-badge-text">{brandName}</span>
@@ -62,13 +62,13 @@ const TrackingBurgerPosterCard = ({
 			</div>
 
 			{/* Main Headline */}
-			<div className="poster-headline-wrap text-center px-3 pt-1 position-relative z-2">
+			<div className="poster-headline-wrap text-center px-3 position-relative z-2">
 				<div className="poster-script-yummy">{subHeadline}</div>
 				<h2 className="poster-title-burger mb-0">{headline}</h2>
 			</div>
 
 			{/* Hero Visual Area with Burger and Discount Badge */}
-			<div className="poster-visual-container position-relative text-center my-2">
+			<div className="poster-visual-container position-relative text-center">
 				{/* Discount Pebble Badge */}
 				<div className="discount-pebble-badge">
 					<div className="pebble-inner">
@@ -96,7 +96,7 @@ const TrackingBurgerPosterCard = ({
 			</div>
 
 			{/* Poster Footer Bar */}
-			<div className="poster-footer p-3 pt-2 d-flex align-items-center justify-content-between position-relative z-2">
+			<div className="poster-footer d-flex align-items-center justify-content-between position-relative z-2">
 				{/* Phone / Delivery Info */}
 				<div className="delivery-contact-block">
 					<div className="delivery-label">For Delivery</div>

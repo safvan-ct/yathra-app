@@ -6,18 +6,25 @@
 .burger-poster-card {
     background: radial-gradient(ellipse at 50% 38%, #661803 0%, #3e0b02 52%, #190400 100%);
     border: 1px solid rgba(255, 120, 50, 0.25);
-    border-radius: 22px;
+    border-radius: 18px;
     color: #ffffff;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), inset 0 0 60px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35), inset 0 0 50px rgba(0, 0, 0, 0.5);
     overflow: hidden;
     position: relative;
     user-select: none;
+    height: 375px;
+    max-height: 375px;
+    min-height: 375px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .burger-poster-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), 0 0 20px rgba(255, 87, 34, 0.2);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45), 0 0 18px rgba(255, 87, 34, 0.2);
 }
 
 /* Background Watermark Rings */
@@ -32,52 +39,53 @@
 .bg-ring {
     position: absolute;
     border-radius: 50%;
-    border: 10px solid rgba(255, 140, 50, 0.08);
-    box-shadow: inset 0 0 12px rgba(255, 100, 20, 0.06);
+    border: 8px solid rgba(255, 140, 50, 0.08);
+    box-shadow: inset 0 0 10px rgba(255, 100, 20, 0.06);
 }
 
 .bg-ring.ring-1 {
-    width: 140px;
-    height: 140px;
-    top: 35%;
-    left: -30px;
-    border-width: 14px;
+    width: 110px;
+    height: 110px;
+    top: 30%;
+    left: -25px;
+    border-width: 10px;
     transform: rotate(25deg);
 }
 
 .bg-ring.ring-2 {
-    width: 160px;
-    height: 160px;
-    top: 10%;
-    right: -40px;
-    border-width: 18px;
+    width: 120px;
+    height: 120px;
+    top: 8%;
+    right: -30px;
+    border-width: 12px;
     transform: rotate(-15deg);
 }
 
 .bg-ring.ring-3 {
-    width: 120px;
-    height: 120px;
-    bottom: -20px;
+    width: 90px;
+    height: 90px;
+    bottom: -15px;
     left: 20%;
-    border-width: 12px;
+    border-width: 9px;
 }
 
 .bg-ring.ring-4 {
-    width: 130px;
-    height: 130px;
-    bottom: 20px;
+    width: 100px;
+    height: 100px;
+    bottom: 15px;
     right: 15%;
-    border-width: 14px;
+    border-width: 10px;
 }
 
 /* Poster Header */
 .poster-header {
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 10px 14px 2px !important;
 }
 
 .brand-badge-seal {
-    width: 52px;
-    height: 52px;
+    width: 44px;
+    height: 44px;
     background: #240802;
     border: 2px dashed rgba(255, 180, 100, 0.4);
     outline: 2px solid #3d0e04;
@@ -89,7 +97,7 @@
 
 .brand-badge-text {
     font-family: 'Outfit', sans-serif;
-    font-size: 0.68rem;
+    font-size: 0.6rem;
     font-weight: 900;
     color: #ffedd5;
     text-transform: uppercase;
@@ -101,21 +109,21 @@
 /* Social Icon Buttons */
 .social-icons-group {
     background: rgba(0, 0, 0, 0.25);
-    padding: 4px 8px;
+    padding: 3px 6px;
     border-radius: 50px;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .social-icon-btn {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #ffffff;
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     transition: transform 0.2s, filter 0.2s;
 }
 
@@ -141,54 +149,63 @@
 
 /* Headline Typography */
 .poster-headline-wrap {
-    transform: rotate(-3deg);
-    margin-top: 2px;
-    margin-bottom: 4px;
+    transform: rotate(-2deg);
+    margin-top: 0px;
+    margin-bottom: 2px;
+    padding-top: 0px !important;
 }
 
 .poster-script-yummy {
     font-family: 'Caveat', cursive;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     font-weight: 700;
     color: #ffffff;
     line-height: 1;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-    letter-spacing: 0.5px;
+    letter-spacing: 0.4px;
 }
 
 .poster-title-burger {
     font-family: 'Permanent Marker', 'Outfit', sans-serif;
-    font-size: 2.1rem;
+    font-size: 1.7rem;
     font-weight: 900;
     color: #ffffff;
-    line-height: 1;
-    text-shadow: 0 4px 14px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 87, 34, 0.5);
-    letter-spacing: 1px;
+    line-height: 1.05;
+    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 87, 34, 0.5);
+    letter-spacing: 0.8px;
 }
 
 /* Hero Center Visual */
 .poster-visual-container {
     position: relative;
-    min-height: 200px;
+    height: 140px;
+    min-height: 130px;
+    max-height: 145px;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0 10px;
+    margin-top: 2px !important;
+    margin-bottom: 2px !important;
 }
 
 .burger-image-wrapper {
     position: relative;
-    max-width: 290px;
+    max-width: 230px;
     width: 100%;
     z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .burger-hero-img {
     width: 100%;
-    height: 190px;
+    max-width: 230px;
+    height: 130px;
     object-fit: cover;
-    border-radius: 18px;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.12);
     transition: transform 0.3s ease;
 }
@@ -199,10 +216,10 @@
 
 .burger-glow-shadow {
     position: absolute;
-    bottom: -15px;
+    bottom: -8px;
     left: 10%;
     right: 10%;
-    height: 30px;
+    height: 20px;
     background: radial-gradient(ellipse at center, rgba(255, 110, 0, 0.35) 0%, rgba(0, 0, 0, 0) 70%);
     pointer-events: none;
     z-index: 2;
@@ -211,15 +228,15 @@
 /* Skewed Pebble Discount Badge */
 .discount-pebble-badge {
     position: absolute;
-    left: 14px;
+    left: 10px;
     top: 50%;
     transform: translateY(-50%) rotate(-12deg);
     z-index: 6;
     background: linear-gradient(135deg, #ff5722 0%, #d84315 100%);
-    border: 3px solid #2d0801;
+    border: 2px solid #2d0801;
     border-radius: 48% 52% 44% 56% / 55% 46% 54% 45%;
-    padding: 10px 14px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 0 12px rgba(255, 87, 34, 0.4);
+    padding: 5px 9px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6), 0 0 10px rgba(255, 87, 34, 0.4);
     animation: pebbleFloat 3s infinite ease-in-out;
 }
 
@@ -237,7 +254,7 @@
 }
 
 .pebble-line-1 {
-    font-size: 0.62rem;
+    font-size: 0.52rem;
     font-weight: 700;
     color: #ffedd5;
     text-transform: uppercase;
@@ -246,7 +263,7 @@
 
 .pebble-line-2 {
     font-family: 'Outfit', sans-serif;
-    font-size: 0.88rem;
+    font-size: 0.75rem;
     font-weight: 900;
     color: #ffffff;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
@@ -254,7 +271,7 @@
 }
 
 .pebble-line-3 {
-    font-size: 0.58rem;
+    font-size: 0.48rem;
     font-weight: 700;
     color: #fff3e0;
     opacity: 0.95;
@@ -262,12 +279,12 @@
 
 /* Offer Terms */
 .poster-terms {
-    margin-top: -4px;
+    margin-top: -2px;
     margin-bottom: 2px;
 }
 
 .terms-text {
-    font-size: 0.72rem;
+    font-size: 0.64rem;
     font-style: italic;
     color: rgba(255, 220, 180, 0.8);
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
@@ -278,10 +295,11 @@
     background: rgba(15, 3, 0, 0.5);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(4px);
+    padding: 8px 14px !important;
 }
 
 .delivery-contact-block .delivery-label {
-    font-size: 0.72rem;
+    font-size: 0.62rem;
     font-weight: 800;
     text-transform: uppercase;
     color: #ffffff;
@@ -291,12 +309,12 @@
 
 .delivery-contact-block .delivery-phone {
     font-family: 'Outfit', sans-serif;
-    font-size: 1.02rem;
+    font-size: 0.92rem;
     font-weight: 900;
     color: #ff9800;
     letter-spacing: 0.2px;
     display: block;
-    line-height: 1.2;
+    line-height: 1.15;
     transition: color 0.2s;
 }
 
@@ -305,14 +323,14 @@
 }
 
 .poster-web-tagline .call-now-sub {
-    font-size: 0.62rem;
+    font-size: 0.54rem;
     color: rgba(255, 255, 255, 0.6);
     display: block;
     line-height: 1;
 }
 
 .poster-web-tagline .web-url {
-    font-size: 0.66rem;
+    font-size: 0.58rem;
     color: #ffcc80;
     font-weight: 600;
     letter-spacing: 0.2px;
@@ -323,13 +341,13 @@
     background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);
     color: #ffffff;
     font-family: 'Outfit', sans-serif;
-    font-size: 0.84rem;
+    font-size: 0.76rem;
     font-weight: 900;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.4px;
     border: 1.5px solid rgba(255, 255, 255, 0.25);
     border-radius: 50px;
-    padding: 8px 20px;
-    box-shadow: 0 4px 16px rgba(230, 74, 25, 0.6);
+    padding: 6px 14px;
+    box-shadow: 0 3px 12px rgba(230, 74, 25, 0.6);
     cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap;
@@ -338,7 +356,7 @@
 .btn-order-now-pill:hover {
     background: linear-gradient(135deg, #ff6e40 0%, #f4511e 100%);
     transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(230, 74, 25, 0.8);
+    box-shadow: 0 5px 16px rgba(230, 74, 25, 0.8);
     color: #ffffff;
 }
 
@@ -347,27 +365,35 @@
 }
 
 @media (max-width: 420px) {
-    .poster-title-burger {
-        font-size: 1.75rem;
+    .burger-poster-card {
+        height: 375px;
+        max-height: 375px;
+        min-height: 375px;
     }
-    .poster-script-yummy {
+    .poster-title-burger {
         font-size: 1.45rem;
     }
+    .poster-script-yummy {
+        font-size: 1.25rem;
+    }
     .burger-hero-img {
-        height: 160px;
+        height: 118px;
+    }
+    .poster-visual-container {
+        height: 125px;
     }
     .discount-pebble-badge {
-        padding: 6px 10px;
+        padding: 4px 7px;
         left: 6px;
     }
     .pebble-line-2 {
-        font-size: 0.78rem;
+        font-size: 0.68rem;
     }
     .delivery-contact-block .delivery-phone {
-        font-size: 0.9rem;
+        font-size: 0.82rem;
     }
     .btn-order-now-pill {
-        padding: 6px 14px;
-        font-size: 0.78rem;
+        padding: 5px 12px;
+        font-size: 0.7rem;
     }
 }
