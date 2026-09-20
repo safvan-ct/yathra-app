@@ -9,6 +9,8 @@ import ViewStopsModal from "./ViewStopsModal";
 import "../styles/HomeSection.css";
 import TrackingBurgerPosterCard from "../../buses/components/TrackingBurgerPosterCard";
 
+const SESSION_STATIONS_KEY = "yathra_selected_stations_session";
+
 const HomeSection = ({ onBusClick }) => {
 	const desktopFromRef = useRef(null);
 	const desktopToRef = useRef(null);
@@ -45,8 +47,16 @@ const HomeSection = ({ onBusClick }) => {
 		searchStations("");
 	}, [searchStations]);
 
-	// Initialize choices.js instances
+	// Initialize choices.js instances (hydrate from current session if available)
 	useEffect(() => {
+		const saved = (() => {
+			try {
+				return JSON.parse(sessionStorage.getItem(SESSION_STATIONS_KEY)) || {};
+			} catch {
+				return {};
+			}
+		})();
+
 		const attachInstance = (ref, id) => {
 			if (!ref.current || choicesInstances.current[id]) return;
 
@@ -58,6 +68,22 @@ const HomeSection = ({ onBusClick }) => {
 				allowHTML: true,
 				itemSelectText: "",
 			});
+
+			const role = id.startsWith("from") ? "from" : "to";
+			if (saved[role] && saved[role].value) {
+				instance.setChoices(
+					[
+						{
+							value: String(saved[role].value),
+							label: saved[role].label,
+							selected: true,
+						},
+					],
+					"value",
+					"label",
+					true,
+				);
+			}
 
 			instance.passedElement.element.addEventListener("search", (e) => {
 				searchStations(e.detail?.value || "");
@@ -203,6 +229,16 @@ const HomeSection = ({ onBusClick }) => {
 
 		setValidationError("");
 
+		try {
+			sessionStorage.setItem(
+				SESSION_STATIONS_KEY,
+				JSON.stringify({
+					from: fromChoice ? { value: from, label: fromChoice.label } : null,
+					to: toChoice ? { value: to, label: toChoice.label } : null,
+				}),
+			);
+		} catch (_) {}
+
 		await searchBuses(from, to);
 	};
 
@@ -213,12 +249,24 @@ const HomeSection = ({ onBusClick }) => {
 					choicesInstances.current[id]?.removeActiveItems();
 				} catch (_) {}
 			});
+			try {
+				const saved =
+					JSON.parse(sessionStorage.getItem(SESSION_STATIONS_KEY)) || {};
+				saved.from = null;
+				sessionStorage.setItem(SESSION_STATIONS_KEY, JSON.stringify(saved));
+			} catch (_) {}
 		} else if (role === "to") {
 			["to-desktop", "to-mobile"].forEach((id) => {
 				try {
 					choicesInstances.current[id]?.removeActiveItems();
 				} catch (_) {}
 			});
+			try {
+				const saved =
+					JSON.parse(sessionStorage.getItem(SESSION_STATIONS_KEY)) || {};
+				saved.to = null;
+				sessionStorage.setItem(SESSION_STATIONS_KEY, JSON.stringify(saved));
+			} catch (_) {}
 		} else {
 			["from-desktop", "to-desktop", "from-mobile", "to-mobile"].forEach(
 				(id) => {
@@ -227,6 +275,9 @@ const HomeSection = ({ onBusClick }) => {
 					} catch (_) {}
 				},
 			);
+			try {
+				sessionStorage.removeItem(SESSION_STATIONS_KEY);
+			} catch (_) {}
 			clearBuses();
 		}
 	};
@@ -295,6 +346,16 @@ const HomeSection = ({ onBusClick }) => {
 
 		const newFrom = tChoice?.value ? String(tChoice.value) : "";
 		const newTo = fChoice?.value ? String(fChoice.value) : "";
+
+		try {
+			sessionStorage.setItem(
+				SESSION_STATIONS_KEY,
+				JSON.stringify({
+					from: tChoice ? { value: newFrom, label: tChoice.label } : null,
+					to: fChoice ? { value: newTo, label: fChoice.label } : null,
+				}),
+			);
+		} catch (_) {}
 
 		if (newFrom && newTo) {
 			searchBuses(newFrom, newTo);
@@ -758,7 +819,7 @@ const HomeSection = ({ onBusClick }) => {
 									style={{ fontSize: "12px" }}
 								>
 									Select origin and destination and tap{" "}
-									<strong>Find Buses</strong> to view schedules.
+									<strong>Find Buses</strong>.
 								</p>
 							</div>
 
